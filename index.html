@@ -4,28 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doceria Niquinho - Doces Artesanais</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
     <header>
-        <img src="Imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo Doceria Niquinho" class="logo"> <p>Os doces mais saborosos e artesanais!</p>
+        <div class="menu-icon">
+            <i class="fa fa-bars"></i>
+        </div>
+        <img src="imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo Doceria Niquinho" class="logo">
+        <div class="header-direita">
+            <div id="user-info">
+                </div>
+            <div id="icone-carrinho" class="icone-carrinho">
+                <i class="fa fa-shopping-cart"></i>
+                <span id="contador-carrinho" class="contador-carrinho">0</span>
+            </div>
+        </div>
     </header>
 
     <main>
-        <h2>Nosso Cardápio</h2>
         <div id="filtros-categoria" class="filtros-container">
-    <button class="filtro-btn active" data-categoria="todos">Todos</button>
-    <button class="filtro-btn" data-categoria="promocao">Promoção do dia</button>
-    <button class="filtro-btn" data-categoria="combo">Combos</button>
-    <button class="filtro-btn" data-categoria="doce">Doces</button>
-    <button class="filtro-btn" data-categoria="salgado">Salgados</button>
-    <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
-</div>
+            <button class="filtro-btn active" data-categoria="todos">Todos</button>
+            <button class="filtro-btn" data-categoria="promocao">Promoção do dia</button>
+            <button class="filtro-btn" data-categoria="combo">Combos</button>
+            <button class="filtro-btn" data-categoria="doce">Doces</button>
+            <button class="filtro-btn" data-categoria="salgado">Salgados</button>
+            <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
+        </div>
+        
+        <h2 id="titulo-categoria">Todos</h2> 
+
         <div id="lista-doces" class="lista-doces">
             </div>
     </main>
-     <div id="modal-produto" class="modal">
+    
+    <div id="modal-produto" class="modal">
         <div class="modal-overlay"></div>
         <div class="modal-content">
             <span class="modal-fechar">&times;</span>
@@ -42,25 +56,64 @@
     </div>
 
     <aside class="carrinho">
-        <h2><i class="fa fa-shopping-cart"></i> Meu Carrinho</h2>
+        <div class="carrinho-header">
+            <h2><i class="fa fa-shopping-cart"></i> Meu Carrinho</h2>
+            <span class="carrinho-fechar">&times;</span>
+        </div>
         <div id="itens-carrinho">
             <p>Seu carrinho está vazio.</p>
         </div>
         <div class="total-carrinho">
             <h3>Total: R$ <span id="total-preco">0.00</span></h3>
         </div>
+         <div id="checkout-options">
+        <hr>
+        <div class="checkout-section">
+            <h4>Opção de Entrega</h4>
+            <div class="delivery-options">
+                <label>
+                    <input type="radio" name="entrega" value="retirar" checked> Retirar no local
+                </label>
+                <label>
+                    <input type="radio" name="entrega" value="delivery"> Entrega
+                </label>
+            </div>
+            <div id="display-endereco" class="endereco-box">
+                </div>
+        </div>
+
+        <div class="checkout-section">
+            <h4>Forma de Pagamento</h4>
+            <div class="payment-options">
+                <label>
+                    <input type="radio" name="pagamento" value="Pix" checked> Pix
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="Cartão"> Cartão
+                </label>
+                <label>
+                    <input type="radio" name="pagamento" value="Dinheiro"> Dinheiro
+                </label>
+            </div>
+        </div>
+    </div>
         <button id="esvaziar-carrinho" class="btn-esvaziar">Esvaziar Carrinho</button>
         <button id="finalizar-pedido" class="btn-finalizar">Finalizar Pedido via WhatsApp</button>
     </aside>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    
+    <div id="overlay-geral" class="overlay"></div>
 
-<script src="firebase-config.js"></script> <script src="admin.js"></script> ```
+    <footer>
+        <a href="admin/login.html" class="admin-login-link">Acesso do Administrador</a>
+    </footer>
 
-<footer>
-    <a href="login.html" class="admin-login-link">Acesso do Administrador</a>
-</footer>
-    <script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/script.js"></script>
     
 </body>
 </html>

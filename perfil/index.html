@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Doceria Niquinho</title>
+    <link rel="stylesheet" href="../css/style.css"> </head>
+<body class="body-perfil">
+
+    <header>
+        <a href="../index.html" class="voltar-link"><i class="fa fa-arrow-left"></i> Voltar para a Loja</a>
+        <img src="../imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo Doceria Niquinho" class="logo">
+    </header>
+
+    <main class="main-perfil">
+        <h1>Meu Perfil</h1>
+        <div class="perfil-container">
+            <section class="info-pessoais">
+                <h2>Meus Dados</h2>
+                <p><strong>Nome:</strong> <span id="perfil-nome">Carregando...</span></p>
+                <p><strong>Email:</strong> <span id="perfil-email">Carregando...</span></p>
+            </section>
+
+            <section class="info-endereco">
+                <h2>Meu Endereço</h2>
+                <form id="form-endereco">
+                    <div class="form-grupo">
+                        <label for="end-cep">CEP</label>
+                        <input type="text" id="end-cep" placeholder="00000-000">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="end-rua">Rua / Avenida</label>
+                        <input type="text" id="end-rua" placeholder="Nome da sua rua">
+                    </div>
+                    <div class="form-grupo form-grupo-flex">
+                        <div style="flex: 2;">
+                            <label for="end-numero">Número</label>
+                            <input type="text" id="end-numero" placeholder="123">
+                        </div>
+                        <div style="flex: 3;">
+                            <label for="end-bairro">Bairro</label>
+                            <input type="text" id="end-bairro" placeholder="Seu bairro">
+                        </div>
+                    </div>
+                    <div class="form-grupo">
+                        <label for="end-complemento">Complemento (opcional)</label>
+                        <input type="text" id="end-complemento" placeholder="Apto, casa, etc.">
+                    </div>
+                    <div class="form-grupo">
+                        <label for="end-cidade">Cidade</label>
+                        <input type="text" id="end-cidade" placeholder="Sua cidade">
+                    </div>
+                    <button type="submit" class="btn-salvar-perfil">Salvar Endereço</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script> ```
+    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+</html>

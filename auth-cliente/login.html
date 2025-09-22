@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Doceria Niquinho</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css"> </head>
+<body class="auth-body">
+    <div class="form-section auth-container">
+        <img src="imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
+        <h2>Acesse sua Conta</h2>
+        <form id="form-login">
+            <input type="email" id="login-email" placeholder="E-mail" required>
+            <input type="password" id="login-senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p class="auth-switch">Não tem uma conta? <a href="cadastro-cliente.html">Cadastre-se</a></p>
+        <p id="auth-mensagem"></p>
+    </div>
+
+   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script> ```
+    <script src="firebase-config.js"></script> 
+    <script src="../js/auth.js"></script>
+</body>
+</html>

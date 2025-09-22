@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Doceria Niquinho</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css"> </head>
+<body class="auth-body">
+    <div class="form-section auth-container">
+        <img src="imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
+        <h2>Crie sua Conta</h2>
+        <form id="form-cadastro">
+            <input type="text" id="cadastro-nome" placeholder="Seu nome completo" required>
+            <input type="email" id="cadastro-email" placeholder="Seu melhor e-mail" required>
+            <input type="password" id="cadastro-senha" placeholder="Crie uma senha" required>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p class="auth-switch">Já tem uma conta? <a href="login-cliente.html">Faça login</a></p>
+        <p id="auth-mensagem"></p>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script> ``` 
+    <script src="firebase-config.js"></script> 
+    <script src="../js/auth.js"></script>
+</body>
+</html>
