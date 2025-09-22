@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     displayName: nome
                 });
                 alert(`Bem-vindo(a), ${nome}! Cadastro realizado com sucesso.`);
-                window.location.href = 'index.html'; // Redireciona para a loja
+                window.location.href = '../index.html'; // Redireciona para a loja
             } catch (error) {
                 console.error("Erro no cadastro:", error);
                 mensagem.textContent = `Erro: ${error.message}`;
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await auth.signInWithEmailAndPassword(email, senha);
                 alert("Login realizado com sucesso!");
-                window.location.href = 'index.html'; // Redireciona para a loja
+                window.location.href = '../index.html'; // Redireciona para a loja
             } catch (error) {
                 console.error("Erro no login:", error);
                 mensagem.textContent = `Erro: ${error.message}`;
