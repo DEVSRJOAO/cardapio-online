@@ -172,3 +172,76 @@ footer {
 .admin-login-link:hover {
     color: #343a40; /* Escurece um pouco ao passar o mouse */
 }
+
+.btn-esvaziar {
+    width: 100%;
+    background-color: #6c757d; /* Cinza */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-esvaziar:hover {
+    background-color: #5a6268;
+}
+
+/* style.css */
+
+.carrinho-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.carrinho-item-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.btn-remover {
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: 5px;
+
+    /* style.css */
+
+.carrinho-item-info span {
+    display: block; /* Faz o preço ficar embaixo do nome */
+}
+
+.preco-item {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.carrinho-item-quantidade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-qtd {
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    user-select: none; /* Impede que o texto seja selecionado ao clicar rápido */
+}
+.btn-qtd:hover {
+    background-color: #f0f0f0;
+}
+
+.quantidade {
+    font-weight: 500;
+}
+}

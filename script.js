@@ -1,12 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // --- DADOS DOS DOCES (AGORA VINDOS DO FIREBASE) ---
+    // --- ELEMENTOS DO DOM (adicionamos o novo botão) ---
+    const listaDoces = document.getElementById('lista-doces');
+    const itensCarrinho = document.getElementById('itens-carrinho');
+    const totalPreco = document.getElementById('total-preco');
+    const btnFinalizar = document.getElementById('finalizar-pedido');
+    const btnEsvaziar = document.getElementById('esvaziar-carrinho'); // NOVO
+
+    // --- DADOS E VARIÁVEIS GLOBAIS ---
     const docesCollection = db.collection('doces');
     let doces = [];
+    let carrinho = [];
+    const numeroWhatsApp = '559999863486';
 
+    // --- FUNÇÕES DE CARREGAMENTO ---
     async function carregarDocesDoFirebase() {
         try {
-            const snapshot = await docesCollection.where('disponivel', '==', true).get();
+            const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('nome').get();
             snapshot.forEach(doc => {
                 doces.push({ id: doc.id, ...doc.data() });
             });
@@ -15,20 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error("Erro ao carregar doces: ", error);
         }
     }
-    
-    // --- VARIÁVEIS GLOBAIS ---
-    let carrinho = []; // Array que vai armazenar os itens do carrinho
-    const numeroWhatsApp = '559999863486';
 
-    // --- ELEMENTOS DO DOM ---
-    const listaDoces = document.getElementById('lista-doces');
-    const itensCarrinho = document.getElementById('itens-carrinho');
-    const totalPreco = document.getElementById('total-preco');
-    const btnFinalizar = document.getElementById('finalizar-pedido');
-
-    // --- FUNÇÕES ---
-
-    // Função para renderizar/mostrar os doces na página
     function renderizarDoces() {
         listaDoces.innerHTML = '';
         doces.forEach(doce => {
@@ -45,35 +42,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // --- FUNÇÕES DO CARRINHO (AQUI ESTÃO AS MUDANÇAS) ---
 
-    // VERSÃO CORRETA PARA USAR COM FIREBASE
-function adicionarAoCarrinho(evento) {
-    if (evento.target.classList.contains('btn-adicionar')) {
-        // Pega o ID do doce clicado (ele já é uma string, que é o correto)
-        const doceId = evento.target.getAttribute('data-id');
-
-        // Procura na nossa lista de 'doces' qual item tem esse mesmo ID
-        const doceSelecionado = doces.find(doce => doce.id === doceId);
-
-        // Se não encontrar o doce por algum motivo, não faz nada
-        if (!doceSelecionado) {
-            console.error('Doce não encontrado com o ID:', doceId);
-            return;
-        }
-
-        // Verifica se o item já está no carrinho
-        const itemExistente = carrinho.find(item => item.id === doceId);
-        if (itemExistente) {
-            itemExistente.quantidade++; // Se já existe, só aumenta a quantidade
-        } else {
-            carrinho.push({ ...doceSelecionado, quantidade: 1 }); // Se não, adiciona com quantidade 1
-        }
-
-        renderizarCarrinho(); // Atualiza a exibição do carrinho
-    }
-}
-
-    // Função para renderizar/mostrar os itens no carrinho
+    // ATUALIZAÇÃO 1: A função de renderizar agora inclui o botão de remover
     function renderizarCarrinho() {
         if (carrinho.length === 0) {
             itensCarrinho.innerHTML = '<p>Seu carrinho está vazio.</p>';
@@ -81,54 +52,127 @@ function adicionarAoCarrinho(evento) {
             return;
         }
 
-        itensCarrinho.innerHTML = ''; // Limpa o carrinho antes de adicionar os itens atualizados
+        itensCarrinho.innerHTML = '';
         let total = 0;
 
         carrinho.forEach(item => {
             const itemElement = document.createElement('div');
             itemElement.classList.add('carrinho-item');
-            itemElement.innerHTML = `
-                <span>${item.nome} (x${item.quantidade})</span>
-                <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
-            `;
+             itemElement.innerHTML = `
+        <div class="carrinho-item-info">
+            <span>${item.nome}</span>
+            <span class="preco-item">R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+        </div>
+        <div class="carrinho-item-quantidade">
+            <span class="btn-qtd" data-id="${item.id}" data-acao="diminuir">-</span>
+            <span class="quantidade">${item.quantidade}</span>
+            <span class="btn-qtd" data-id="${item.id}" data-acao="aumentar">+</span>
+        </div>
+        <span class="btn-remover" data-id="${item.id}">🗑️</span>
+    `;
             itensCarrinho.appendChild(itemElement);
             total += item.preco * item.quantidade;
         });
 
         totalPreco.textContent = total.toFixed(2);
     }
+    
+    function adicionarAoCarrinho(evento) {
+        if (evento.target.classList.contains('btn-adicionar')) {
+            const doceId = evento.target.getAttribute('data-id');
+            const doceSelecionado = doces.find(doce => doce.id === doceId);
+            
+            if (!doceSelecionado) return;
 
-    // Função para finalizar o pedido e enviar para o WhatsApp
+            const itemExistente = carrinho.find(item => item.id === doceId);
+            if (itemExistente) {
+                itemExistente.quantidade++;
+            } else {
+                carrinho.push({ ...doceSelecionado, quantidade: 1 });
+            }
+            renderizarCarrinho();
+        }
+    }
+
+  // script.js -> SUBSTITUIR A FUNÇÃO manipularCarrinho
+
+function manipularCarrinho(evento) {
+    const target = evento.target;
+
+    // Se o clique foi no botão de remover
+    if (target.classList.contains('btn-remover')) {
+        const doceId = target.getAttribute('data-id');
+        removerDoCarrinho(doceId);
+    }
+
+    // Se o clique foi em um botão de quantidade (+ ou -)
+    if (target.classList.contains('btn-qtd')) {
+        const doceId = target.getAttribute('data-id');
+        const acao = target.getAttribute('data-acao');
+        alterarQuantidade(doceId, acao);
+    }
+}
+
+// script.js -> ADICIONAR ESTA NOVA FUNÇÃO
+
+function alterarQuantidade(idDoce, acao) {
+    // Encontra o item no carrinho
+    const item = carrinho.find(item => item.id === idDoce);
+    if (!item) return; // Se não encontrar, não faz nada
+
+    if (acao === 'aumentar') {
+        item.quantidade++;
+    } else if (acao === 'diminuir') {
+        // Se a quantidade for maior que 1, apenas diminui
+        if (item.quantidade > 1) {
+            item.quantidade--;
+        } else {
+            // Se for 1, remove o item do carrinho
+            removerDoCarrinho(idDoce);
+        }
+    }
+
+    // Re-renderiza o carrinho para mostrar a nova quantidade e o novo total
+    renderizarCarrinho();
+}
+
+    function removerDoCarrinho(idDoce) {
+        // Filtra o array, criando um novo array com todos os itens, EXCETO aquele com o ID que queremos remover
+        carrinho = carrinho.filter(item => item.id !== idDoce);
+        // Re-renderiza o carrinho para mostrar a mudança
+        renderizarCarrinho();
+    }
+
+    // ATUALIZAÇÃO 3: Nova função para esvaziar o carrinho
+    function esvaziarCarrinho() {
+        if (confirm("Tem certeza que deseja esvaziar o carrinho?")) {
+            carrinho = []; // Define o carrinho como um array vazio
+            renderizarCarrinho(); // Re-renderiza para mostrar que está vazio
+        }
+    }
+
     function finalizarPedido() {
         if (carrinho.length === 0) {
-            alert('Seu carrinho está vazio! Adicione alguns doces antes de finalizar.');
+            alert('Seu carrinho está vazio!');
             return;
         }
-
         let mensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n';
         let totalPedido = 0;
-
         carrinho.forEach(item => {
             mensagem += `*${item.quantidade}x* ${item.nome} - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
             totalPedido += item.preco * item.quantidade;
         });
-
         mensagem += `\n*Total do Pedido: R$ ${totalPedido.toFixed(2)}*`;
-
-        // Codifica a mensagem para ser usada em uma URL
         const mensagemCodificada = encodeURIComponent(mensagem);
-
-        // Cria o link do WhatsApp e abre em uma nova aba
         const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
         window.open(urlWhatsApp, '_blank');
     }
 
-    // --- EVENT LISTENERS ---
-    // Adiciona o listener para cliques na lista de doces (para o botão "Adicionar")
+    // --- EVENT LISTENERS (adicionamos os novos) ---
     listaDoces.addEventListener('click', adicionarAoCarrinho);
-
-    // Adiciona o listener para o botão de finalizar pedido
     btnFinalizar.addEventListener('click', finalizarPedido);
+    itensCarrinho.addEventListener('click', manipularCarrinho); // NOVO
+    btnEsvaziar.addEventListener('click', esvaziarCarrinho);   // NOVO
 
     // --- INICIALIZAÇÃO ---
     await carregarDocesDoFirebase();
