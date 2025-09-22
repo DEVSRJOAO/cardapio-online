@@ -14,6 +14,14 @@
 
     <main>
         <h2>Nosso Cardápio</h2>
+        <div id="filtros-categoria" class="filtros-container">
+    <button class="filtro-btn active" data-categoria="todos">Todos</button>
+    <button class="filtro-btn" data-categoria="promocao">Promoção do dia</button>
+    <button class="filtro-btn" data-categoria="combo">Combos</button>
+    <button class="filtro-btn" data-categoria="doce">Doces</button>
+    <button class="filtro-btn" data-categoria="salgado">Salgados</button>
+    <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
+</div>
         <div id="lista-doces" class="lista-doces">
             </div>
     </main>
@@ -31,11 +39,8 @@
     </aside>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
 
-<script src="script.js"></script>
-
-<script src="firebase-config.js"></script>
+<script src="firebase-config.js"></script> <script src="admin.js"></script> ```
 
 <footer>
     <a href="login.html" class="admin-login-link">Acesso do Administrador</a>
@@ -43,6 +48,4 @@
     <script src="script.js"></script>
     
 </body>
-
 </html>
-

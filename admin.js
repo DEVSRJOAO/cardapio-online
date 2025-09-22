@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const doceImagemInput = document.getElementById('doce-imagem');
     const doceDescricaoInput = document.getElementById('doce-descricao');
     const doceDisponivelInput = document.getElementById('doce-disponivel');
+    const doceCategoriaInput = document.getElementById('doce-categoria'); // Variável para o campo de categoria
     const btnSalvar = document.getElementById('btn-salvar');
     const btnCancelar = document.getElementById('btn-cancelar');
     const listaDocesAdmin = document.getElementById('lista-doces-admin');
@@ -76,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         doceIdInput.value = id;
         doceNomeInput.value = doce.nome;
         docePrecoInput.value = doce.preco;
+        doceCategoriaInput.value = doce.categoria; // Preenche a categoria ao editar
         doceImagemInput.value = ''; 
         doceImagemInput.dataset.existingUrl = doce.imagem;
         doceDescricaoInput.value = doce.descricao;
@@ -118,7 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 preco: parseFloat(docePrecoInput.value),
                 imagem: urlImagem,
                 descricao: doceDescricaoInput.value,
-                disponivel: doceDisponivelInput.checked
+                disponivel: doceDisponivelInput.checked,
+                categoria: doceCategoriaInput.value // **CORREÇÃO AQUI**
             };
 
             if (id) {

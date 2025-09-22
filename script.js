@@ -1,34 +1,47 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // --- ELEMENTOS DO DOM (adicionamos o novo botão) ---
+    // --- ELEMENTOS DO DOM ---
     const listaDoces = document.getElementById('lista-doces');
     const itensCarrinho = document.getElementById('itens-carrinho');
     const totalPreco = document.getElementById('total-preco');
     const btnFinalizar = document.getElementById('finalizar-pedido');
-    const btnEsvaziar = document.getElementById('esvaziar-carrinho'); // NOVO
+    const btnEsvaziar = document.getElementById('esvaziar-carrinho');
+    const filtrosContainer = document.getElementById('filtros-categoria'); // NOVO
 
     // --- DADOS E VARIÁVEIS GLOBAIS ---
     const docesCollection = db.collection('doces');
-    let doces = [];
+    let doces = []; // Armazenará TODOS os doces do Firebase
     let carrinho = [];
     const numeroWhatsApp = '559999863486';
 
-    // --- FUNÇÕES DE CARREGAMENTO ---
+    // --- FUNÇÕES DE CARREGAMENTO E RENDERIZAÇÃO ---
     async function carregarDocesDoFirebase() {
         try {
-            const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('nome').get();
+            // Agora, a ordenação principal será pela categoria e depois pelo nome
+            const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('categoria').orderBy('nome').get();
             snapshot.forEach(doc => {
                 doces.push({ id: doc.id, ...doc.data() });
             });
-            renderizarDoces();
+            renderizarDoces(); // Renderiza todos os doces inicialmente
         } catch (error) {
             console.error("Erro ao carregar doces: ", error);
+            // Se o erro for de índice, fornece o link para criar
+             if (error.code === 'failed-precondition') {
+                alert("O banco de dados precisa de um índice. Por favor, clique no link no console (F12) para criá-lo.");
+            }
         }
     }
 
-    function renderizarDoces() {
+    // ATUALIZADO: renderizarDoces agora aceita uma categoria para filtrar
+    function renderizarDoces(categoria = 'todos') {
         listaDoces.innerHTML = '';
-        doces.forEach(doce => {
+
+        // Filtra os doces baseado na categoria selecionada
+        const docesFiltrados = (categoria === 'todos') 
+            ? doces 
+            : doces.filter(doce => doce.categoria === categoria);
+
+        docesFiltrados.forEach(doce => {
             const doceElement = document.createElement('div');
             doceElement.classList.add('doce-item');
             doceElement.innerHTML = `
@@ -42,38 +55,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- FUNÇÕES DO CARRINHO (AQUI ESTÃO AS MUDANÇAS) ---
-
-    // ATUALIZAÇÃO 1: A função de renderizar agora inclui o botão de remover
+    // --- FUNÇÕES DO CARRINHO (sem alterações) ---
     function renderizarCarrinho() {
         if (carrinho.length === 0) {
             itensCarrinho.innerHTML = '<p>Seu carrinho está vazio.</p>';
             totalPreco.textContent = '0.00';
             return;
         }
-
         itensCarrinho.innerHTML = '';
         let total = 0;
-
         carrinho.forEach(item => {
             const itemElement = document.createElement('div');
             itemElement.classList.add('carrinho-item');
-             itemElement.innerHTML = `
-        <div class="carrinho-item-info">
-            <span>${item.nome}</span>
-            <span class="preco-item">R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
-        </div>
-        <div class="carrinho-item-quantidade">
-            <span class="btn-qtd" data-id="${item.id}" data-acao="diminuir">-</span>
-            <span class="quantidade">${item.quantidade}</span>
-            <span class="btn-qtd" data-id="${item.id}" data-acao="aumentar">+</span>
-        </div>
-        <span class="btn-remover" data-id="${item.id}">🗑️</span>
-    `;
+            itemElement.innerHTML = `
+                <div class="carrinho-item-info">
+                    <span>${item.nome}</span>
+                    <span class="preco-item">R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                </div>
+                <div class="carrinho-item-quantidade">
+                    <span class="btn-qtd" data-id="${item.id}" data-acao="diminuir">-</span>
+                    <span class="quantidade">${item.quantidade}</span>
+                    <span class="btn-qtd" data-id="${item.id}" data-acao="aumentar">+</span>
+                </div>
+                <span class="btn-remover" data-id="${item.id}">🗑️</span>
+            `;
             itensCarrinho.appendChild(itemElement);
             total += item.preco * item.quantidade;
         });
-
         totalPreco.textContent = total.toFixed(2);
     }
     
@@ -81,9 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (evento.target.classList.contains('btn-adicionar')) {
             const doceId = evento.target.getAttribute('data-id');
             const doceSelecionado = doces.find(doce => doce.id === doceId);
-            
             if (!doceSelecionado) return;
-
             const itemExistente = carrinho.find(item => item.id === doceId);
             if (itemExistente) {
                 itemExistente.quantidade++;
@@ -94,67 +100,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-  // script.js -> SUBSTITUIR A FUNÇÃO manipularCarrinho
-
-function manipularCarrinho(evento) {
-    const target = evento.target;
-
-    // Se o clique foi no botão de remover
-    if (target.classList.contains('btn-remover')) {
-        const doceId = target.getAttribute('data-id');
-        removerDoCarrinho(doceId);
-    }
-
-    // Se o clique foi em um botão de quantidade (+ ou -)
-    if (target.classList.contains('btn-qtd')) {
-        const doceId = target.getAttribute('data-id');
-        const acao = target.getAttribute('data-acao');
-        alterarQuantidade(doceId, acao);
-    }
-}
-
-// script.js -> ADICIONAR ESTA NOVA FUNÇÃO
-
-function alterarQuantidade(idDoce, acao) {
-    // Encontra o item no carrinho
-    const item = carrinho.find(item => item.id === idDoce);
-    if (!item) return; // Se não encontrar, não faz nada
-
-    if (acao === 'aumentar') {
-        item.quantidade++;
-    } else if (acao === 'diminuir') {
-        // Se a quantidade for maior que 1, apenas diminui
-        if (item.quantidade > 1) {
-            item.quantidade--;
-        } else {
-            // Se for 1, remove o item do carrinho
-            removerDoCarrinho(idDoce);
+    function manipularCarrinho(evento) {
+        const target = evento.target;
+        if (target.classList.contains('btn-remover')) {
+            removerDoCarrinho(target.getAttribute('data-id'));
+        }
+        if (target.classList.contains('btn-qtd')) {
+            alterarQuantidade(target.getAttribute('data-id'), target.getAttribute('data-acao'));
         }
     }
 
-    // Re-renderiza o carrinho para mostrar a nova quantidade e o novo total
-    renderizarCarrinho();
-}
-
     function removerDoCarrinho(idDoce) {
-        // Filtra o array, criando um novo array com todos os itens, EXCETO aquele com o ID que queremos remover
         carrinho = carrinho.filter(item => item.id !== idDoce);
-        // Re-renderiza o carrinho para mostrar a mudança
+        renderizarCarrinho();
+    }
+    
+    function alterarQuantidade(idDoce, acao) {
+        const item = carrinho.find(item => item.id === idDoce);
+        if (!item) return;
+        if (acao === 'aumentar') {
+            item.quantidade++;
+        } else if (acao === 'diminuir') {
+            if (item.quantidade > 1) {
+                item.quantidade--;
+            } else {
+                removerDoCarrinho(idDoce);
+            }
+        }
         renderizarCarrinho();
     }
 
-    // ATUALIZAÇÃO 3: Nova função para esvaziar o carrinho
     function esvaziarCarrinho() {
         if (confirm("Tem certeza que deseja esvaziar o carrinho?")) {
-            carrinho = []; // Define o carrinho como um array vazio
-            renderizarCarrinho(); // Re-renderiza para mostrar que está vazio
+            carrinho = [];
+            renderizarCarrinho();
         }
     }
 
     function finalizarPedido() {
         if (carrinho.length === 0) {
-            alert('Seu carrinho está vazio!');
-            return;
+            alert('Seu carrinho está vazio!'); return;
         }
         let mensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n';
         let totalPedido = 0;
@@ -168,11 +153,24 @@ function alterarQuantidade(idDoce, acao) {
         window.open(urlWhatsApp, '_blank');
     }
 
-    // --- EVENT LISTENERS (adicionamos os novos) ---
+    // --- EVENT LISTENERS ---
     listaDoces.addEventListener('click', adicionarAoCarrinho);
     btnFinalizar.addEventListener('click', finalizarPedido);
-    itensCarrinho.addEventListener('click', manipularCarrinho); // NOVO
-    btnEsvaziar.addEventListener('click', esvaziarCarrinho);   // NOVO
+    itensCarrinho.addEventListener('click', manipularCarrinho);
+    btnEsvaziar.addEventListener('click', esvaziarCarrinho);
+    
+    // NOVO: Event listener para os botões de filtro
+    filtrosContainer.addEventListener('click', (evento) => {
+        if (evento.target.classList.contains('filtro-btn')) {
+            // Remove a classe 'active' de todos os botões
+            filtrosContainer.querySelector('.active').classList.remove('active');
+            // Adiciona a classe 'active' ao botão clicado
+            evento.target.classList.add('active');
+            
+            const categoriaSelecionada = evento.target.dataset.categoria;
+            renderizarDoces(categoriaSelecionada);
+        }
+    });
 
     // --- INICIALIZAÇÃO ---
     await carregarDocesDoFirebase();

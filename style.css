@@ -245,3 +245,33 @@ footer {
     font-weight: 500;
 }
 }
+
+.filtros-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.filtro-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--cor-secundaria);
+    border-radius: 20px;
+    background-color: transparent;
+    color: var(--cor-secundaria);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filtro-btn:hover {
+    background-color: var(--cor-secundaria);
+    color: white;
+}
+
+.filtro-btn.active {
+    background-color: var(--cor-secundaria);
+    color: white;
+    font-weight: bold;
+}

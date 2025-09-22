@@ -19,6 +19,14 @@
                 <input type="hidden" id="doce-id">
                 <input type="text" id="doce-nome" placeholder="Nome do doce" required>
                 <input type="number" id="doce-preco" placeholder="Preço (ex: 3.50)" step="0.01" required>
+                <select id="doce-categoria" required>
+    <option value="" disabled selected>-- Selecione uma Categoria --</option>
+    <option value="promocao">Promoção do dia</option>
+    <option value="combo">Combos</option>
+    <option value="doce">Doces</option>
+    <option value="salgado">Salgados</option>
+    <option value="bebida">Bebidas</option>
+</select>
                 <input type="file" id="doce-imagem" accept="image/*">
                 <textarea id="doce-descricao" placeholder="Descrição do doce"></textarea>
                 <div class="disponivel-container">
