@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doceria Niquinho - Doces Artesanais</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="Imagens/Logo para confeitaria delicado rosa.PNG" alt="Logo Doceria Niquinho" class="logo"> <p>Os doces mais saborosos e artesanais!</p>
+    </header>
+
+    <main>
+        <h2>Nosso Cardápio</h2>
+        <div id="lista-doces" class="lista-doces">
+            </div>
+    </main>
+
+    <aside class="carrinho">
+        <h2><i class="fa fa-shopping-cart"></i> Meu Carrinho</h2>
+        <div id="itens-carrinho">
+            <p>Seu carrinho está vazio.</p>
+        </div>
+        <div class="total-carrinho">
+            <h3>Total: R$ <span id="total-preco">0.00</span></h3>
+        </div>
+        <button id="finalizar-pedido" class="btn-finalizar">Finalizar Pedido via WhatsApp</button>
+    </aside>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+
+<script src="firebase-config.js"></script> <script src="admin.js"></script> ```
+
+<footer>
+    <a href="login.html" class="admin-login-link">Acesso do Administrador</a>
+</footer>
+    <script src="script.js"></script>
+    
+</body>
+</html>

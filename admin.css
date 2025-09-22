@@ -1,0 +1,122 @@
+.admin-main {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+}
+
+.form-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.lista-section {
+    flex: 2;
+    min-width: 400px;
+}
+
+#form-doce {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#form-doce input[type="text"],
+#form-doce input[type="number"],
+#form-doce textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+#form-doce textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.disponivel-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#form-doce button {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background-color: var(--cor-primaria);
+}
+
+#form-doce .btn-cancelar {
+    background-color: #777;
+}
+
+.doce-item-admin {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.doce-item-admin img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.doce-info {
+    flex-grow: 1;
+}
+
+.doce-info h4 {
+    margin: 0 0 5px 0;
+}
+
+.doce-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.doce-status {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    color: white;
+}
+
+.status-disponivel {
+    background-color: #28a745;
+}
+
+.status-indisponivel {
+    background-color: #dc3545;
+}
+
+.doce-acoes button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 5px;
+    margin-left: 5px;
+}
+
+.btn-editar { color: var(--cor-primaria); }
+.btn-deletar { color: #dc3545; }

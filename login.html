@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - Doceria Niquinho</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a página de login */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--cor-fundo-claro);
+        }
+        .login-container {
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .login-container h2 {
+            color: var(--cor-primaria);
+            margin-bottom: 20px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: var(--cor-primaria);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .login-container #mensagem-erro {
+            color: red;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Área do Administrador</h2>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+        <button onclick="fazerLogin()">Entrar</button>
+        <p id="mensagem-erro"></p>
+    </div>
+
+    <script>
+        function fazerLogin() {
+            // !! ATENÇÃO: Senha insegura, apenas para demonstração !!
+            const senhaCorreta = "niquinho123"; 
+            const senhaDigitada = document.getElementById('senha').value;
+            const mensagemErro = document.getElementById('mensagem-erro');
+
+            if (senhaDigitada === senhaCorreta) {
+                // Se a senha estiver correta, redireciona para o painel de admin
+                window.location.href = 'admin.html';
+            } else {
+                mensagemErro.textContent = "Senha incorreta!";
+            }
+        }
+        
+        // Permite apertar Enter para logar
+        document.getElementById('senha').addEventListener('keyup', function(event) {
+            if (event.key === "Enter") {
+                fazerLogin();
+            }
+        });
+    </script>
+</body>
+</html>

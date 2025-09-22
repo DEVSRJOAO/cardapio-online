@@ -1,0 +1,174 @@
+/* Cores da Logo */
+:root {
+    --cor-primaria: #5bc0de; /* Azul Turquesa da logo */
+    --cor-secundaria: #ff99cc; /* Rosa da logo */
+    --cor-texto-escuro: #4a4a4a;
+    --cor-texto-claro: #ffffff;
+    --cor-fundo-claro: #f0f8ff; /* Um azul bem clarinho para o fundo */
+}
+
+
+/* Importando uma fonte bonita do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--cor-fundo-claro);
+    color: var(--cor-texto-escuro);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+header {
+    width: 100%;
+    background-color: var(--cor-primaria); /* Azul da logo */
+    color: var(--cor-texto-claro);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo { /* Estilo para a imagem da logo */
+    max-width: 200px; /* Ajuste o tamanho conforme desejar */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+main {
+    flex: 3; /* Ocupa 3/4 do espaço */
+    padding: 20px;
+}
+
+main h2 {
+    color: var(--cor-primaria); /* Azul da logo */
+}
+
+.lista-doces {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.doce-item {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.doce-item:hover {
+    transform: translateY(-5px);
+}
+
+.doce-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.doce-item h3 {
+    margin: 15px 0 5px 0;
+    color: var(--cor-texto-escuro);
+}
+
+.doce-item .preco {
+    font-weight: 600;
+    color: var(--cor-secundaria); /* Rosa da logo */
+    font-size: 1.1em;
+}
+
+.btn-adicionar {
+    background-color: var(--cor-secundaria); /* Rosa da logo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-adicionar:hover {
+    background-color: #e084b9; /* Um tom um pouco mais escuro do rosa */
+}
+
+.carrinho {
+    flex: 1; /* Ocupa 1/4 do espaço */
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    min-width: 300px;
+    height: 100vh; /* Ocupa a altura toda da tela */
+    position: sticky;
+    top: 0;
+}
+
+.carrinho-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.total-carrinho {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.btn-finalizar {
+    width: 100%;
+    background-color: #25d366; /* Cor do WhatsApp (mantive essa padrão) */
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-finalizar:hover {
+    background-color: #128c7e;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .carrinho {
+        position: relative;
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+}
+
+/* Estilo para o link do admin no rodapé */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+.admin-login-link {
+    color: #6c757d; /* Um cinza discreto */
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.admin-login-link:hover {
+    color: #343a40; /* Escurece um pouco ao passar o mouse */
+}
