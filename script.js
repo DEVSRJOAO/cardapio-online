@@ -6,7 +6,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const totalPreco = document.getElementById('total-preco');
     const btnFinalizar = document.getElementById('finalizar-pedido');
     const btnEsvaziar = document.getElementById('esvaziar-carrinho');
-    const filtrosContainer = document.getElementById('filtros-categoria'); // NOVO
+    const filtrosContainer = document.getElementById('filtros-categoria');
+
+    // --- ELEMENTOS DO MODAL (NOVO) ---
+    const modal = document.getElementById('modal-produto');
+    const modalOverlay = document.querySelector('.modal-overlay');
+    const modalFechar = document.querySelector('.modal-fechar');
+    const modalImagem = document.getElementById('modal-imagem');
+    const modalNome = document.getElementById('modal-nome');
+    const modalDescricao = document.getElementById('modal-descricao');
+    const modalPreco = document.getElementById('modal-preco');
+    const btnModalAdicionar = document.getElementById('btn-modal-adicionar');
 
     // --- DADOS E VARIÁVEIS GLOBAIS ---
     const docesCollection = db.collection('doces');
@@ -17,7 +27,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- FUNÇÕES DE CARREGAMENTO E RENDERIZAÇÃO ---
     async function carregarDocesDoFirebase() {
         try {
-            // Agora, a ordenação principal será pela categoria e depois pelo nome
             const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('categoria').orderBy('nome').get();
             snapshot.forEach(doc => {
                 doces.push({ id: doc.id, ...doc.data() });
@@ -25,18 +34,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderizarDoces(); // Renderiza todos os doces inicialmente
         } catch (error) {
             console.error("Erro ao carregar doces: ", error);
-            // Se o erro for de índice, fornece o link para criar
-             if (error.code === 'failed-precondition') {
+            if (error.code === 'failed-precondition') {
                 alert("O banco de dados precisa de um índice. Por favor, clique no link no console (F12) para criá-lo.");
             }
         }
     }
-
-    // ATUALIZADO: renderizarDoces agora aceita uma categoria para filtrar
+    
+    // ATUALIZADO: O botão agora é "Ver Detalhes" e tem a classe 'btn-detalhes'
     function renderizarDoces(categoria = 'todos') {
         listaDoces.innerHTML = '';
-
-        // Filtra os doces baseado na categoria selecionada
         const docesFiltrados = (categoria === 'todos') 
             ? doces 
             : doces.filter(doce => doce.categoria === categoria);
@@ -49,13 +55,50 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <h3>${doce.nome}</h3>
                 <p class="descricao">${doce.descricao || ''}</p>
                 <p class="preco">R$ ${Number(doce.preco).toFixed(2)}</p>
-                <button class="btn-adicionar" data-id="${doce.id}">Adicionar ao Carrinho</button>
+                <button class="btn-detalhes" data-id="${doce.id}">Ver Detalhes</button>
             `;
             listaDoces.appendChild(doceElement);
         });
     }
 
-    // --- FUNÇÕES DO CARRINHO (sem alterações) ---
+    // --- FUNÇÕES DO MODAL (NOVO) ---
+    function abrirModal(idDoce) {
+        const doce = doces.find(d => d.id === idDoce);
+        if (!doce) return;
+
+        // Preenche o modal com as informações do doce
+        modalImagem.src = doce.imagem;
+        modalNome.textContent = doce.nome;
+        modalDescricao.textContent = doce.descricao;
+        modalPreco.textContent = `R$ ${Number(doce.preco).toFixed(2)}`;
+        
+        // Passa o ID do doce para o botão de adicionar do modal
+        btnModalAdicionar.dataset.id = doce.id;
+
+        // Mostra o modal
+        modal.classList.add('active');
+    }
+
+    function fecharModal() {
+        modal.classList.remove('active');
+    }
+
+    // --- FUNÇÕES DO CARRINHO ---
+    // ATUALIZADO: A função agora recebe o ID do doce diretamente, em vez de um evento
+    function adicionarAoCarrinho(idDoce) {
+        const doceSelecionado = doces.find(doce => doce.id === idDoce);
+        if (!doceSelecionado) return;
+
+        const itemExistente = carrinho.find(item => item.id === idDoce);
+        if (itemExistente) {
+            itemExistente.quantidade++;
+        } else {
+            carrinho.push({ ...doceSelecionado, quantidade: 1 });
+        }
+        renderizarCarrinho();
+        alert(`${doceSelecionado.nome} foi adicionado ao carrinho!`);
+    }
+
     function renderizarCarrinho() {
         if (carrinho.length === 0) {
             itensCarrinho.innerHTML = '<p>Seu carrinho está vazio.</p>';
@@ -85,21 +128,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         totalPreco.textContent = total.toFixed(2);
     }
     
-    function adicionarAoCarrinho(evento) {
-        if (evento.target.classList.contains('btn-adicionar')) {
-            const doceId = evento.target.getAttribute('data-id');
-            const doceSelecionado = doces.find(doce => doce.id === doceId);
-            if (!doceSelecionado) return;
-            const itemExistente = carrinho.find(item => item.id === doceId);
-            if (itemExistente) {
-                itemExistente.quantidade++;
-            } else {
-                carrinho.push({ ...doceSelecionado, quantidade: 1 });
-            }
-            renderizarCarrinho();
-        }
-    }
-
     function manipularCarrinho(evento) {
         const target = evento.target;
         if (target.classList.contains('btn-remover')) {
@@ -154,22 +182,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- EVENT LISTENERS ---
-    listaDoces.addEventListener('click', adicionarAoCarrinho);
+    // ATUALIZADO: O listener da lista de doces agora procura pelo 'btn-detalhes' para abrir o modal
+    listaDoces.addEventListener('click', (evento) => {
+        if (evento.target.classList.contains('btn-detalhes')) {
+            const doceId = evento.target.dataset.id;
+            abrirModal(doceId);
+        }
+    });
+
+    // Listeners que não mudam
     btnFinalizar.addEventListener('click', finalizarPedido);
     itensCarrinho.addEventListener('click', manipularCarrinho);
     btnEsvaziar.addEventListener('click', esvaziarCarrinho);
-    
-    // NOVO: Event listener para os botões de filtro
     filtrosContainer.addEventListener('click', (evento) => {
         if (evento.target.classList.contains('filtro-btn')) {
-            // Remove a classe 'active' de todos os botões
             filtrosContainer.querySelector('.active').classList.remove('active');
-            // Adiciona a classe 'active' ao botão clicado
             evento.target.classList.add('active');
-            
             const categoriaSelecionada = evento.target.dataset.categoria;
             renderizarDoces(categoriaSelecionada);
         }
+    });
+
+    // NOVOS LISTENERS PARA O MODAL
+    modalFechar.addEventListener('click', fecharModal);
+    modalOverlay.addEventListener('click', fecharModal);
+    btnModalAdicionar.addEventListener('click', () => {
+        const doceId = btnModalAdicionar.dataset.id;
+        adicionarAoCarrinho(doceId);
+        fecharModal(); // Fecha o modal após adicionar
     });
 
     // --- INICIALIZAÇÃO ---

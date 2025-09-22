@@ -275,3 +275,109 @@ footer {
     color: white;
     font-weight: bold;
 }
+
+/* ================================= */
+/* ESTILOS DO MODAL DE PRODUTO       */
+/* ================================= */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active {
+    display: flex; /* Mostra o modal quando a classe 'active' é adicionada */
+}
+
+.modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Fundo escuro semi-transparente */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1001;
+    width: 90%;
+    max-width: 700px;
+    position: relative;
+    animation: slide-down 0.3s ease-out;
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-fechar {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-fechar:hover,
+.modal-fechar:focus {
+    color: black;
+}
+
+#modal-corpo {
+    display: flex;
+    gap: 20px;
+}
+
+#modal-imagem {
+    width: 50%;
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.modal-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-info .preco {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--cor-secundaria);
+    margin-top: auto; /* Empurra o preço e o botão para baixo */
+}
+
+#btn-modal-adicionar {
+    margin: 15px 0 0 0; /* Remove a margem lateral */
+}
+
+/* Responsividade para o modal em telas pequenas */
+@media (max-width: 600px) {
+    #modal-corpo {
+        flex-direction: column;
+    }
+    #modal-imagem, .modal-info {
+        width: 100%;
+    }
+}
