@@ -9,54 +9,57 @@
 </head>
 <body class="body-perfil">
 
-    <header>
-        <a href="../index.html" class="voltar-link"><i class="fa fa-arrow-left"></i> Voltar para a Loja</a>
-        <img src="../imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo">
-    </header>
-
-    <main class="main-perfil">
-        <h1>Meu Perfil</h1>
-        <div class="perfil-container">
-            <section class="info-pessoais">
-                <h2>Meus Dados</h2>
-                <p><strong>Nome:</strong> <span id="perfil-nome">Carregando...</span></p>
-                <p><strong>Email:</strong> <span id="perfil-email">Carregando...</span></p>
-            </section>
-
-            <section class="info-endereco">
-                <h2>Meu Endereço</h2>
-                <form id="form-endereco">
-                    <div class="form-grupo">
-                        <label for="end-cep">CEP</label>
-                        <input type="text" id="end-cep" placeholder="00000-000">
-                    </div>
-                    <div class="form-grupo">
-                        <label for="end-rua">Rua / Avenida</label>
-                        <input type="text" id="end-rua" placeholder="Nome da sua rua">
-                    </div>
-                    <div class="form-grupo form-grupo-flex">
-                        <div style="flex: 2;">
-                            <label for="end-numero">Número</label>
-                            <input type="text" id="end-numero" placeholder="123">
-                        </div>
-                        <div style="flex: 3;">
-                            <label for="end-bairro">Bairro</label>
-                            <input type="text" id="end-bairro" placeholder="Seu bairro">
-                        </div>
-                    </div>
-                    <div class="form-grupo">
-                        <label for="end-complemento">Complemento (opcional)</label>
-                        <input type="text" id="end-complemento" placeholder="Apto, casa, etc.">
-                    </div>
-                    <div class="form-grupo">
-                        <label for="end-cidade">Cidade</label>
-                        <input type="text" id="end-cidade" placeholder="Sua cidade">
-                    </div>
-                    <button type="submit" class="btn-salvar-perfil">Salvar Endereço</button>
-                </form>
-            </section>
+    <main class="main-perfil-novo">
+        <div class="perfil-header">
+            <a href="../index.html" class="voltar-link-perfil"><i class="fa fa-arrow-left"></i></a>
+            <div class="perfil-avatar">
+    <img id="perfil-foto" src="../imagens/avatar-placeholder.png" alt="Foto do Perfil">
+    <div class="avatar-edit-icon">
+        <i class="fa fa-camera"></i>
+    </div>
+    <input type="file" id="upload-foto" accept="image/*" style="display: none;">
+</div>
+            </div>
         </div>
-    </main>
+
+        <div class="perfil-info">
+            <h2 id="perfil-nome">Carregando...</h2>
+              <div id="telefone-container" class="perfil-campo-editavel">
+        <i class="fa fa-phone"></i>
+        <span id="perfil-telefone">Adicionar telefone</span>
+        <i id="btn-editar-telefone" class="fa fa-pencil-alt edit-icon"></i>
+    </div>
+        </div>
+
+        <div class="perfil-menu">
+            <a href="endereco.html" class="perfil-menu-item">
+                <i class="fa fa-map-marker-alt"></i>
+                <span>Endereços</span>
+            </a>
+            <a href="#" class="perfil-menu-item" id="btn-alterar-senha">
+                <i class="fa fa-key"></i>
+                <span>Alterar minha senha</span>
+            </a>
+            <div class="perfil-menu-item">
+                <i class="fa fa-bell"></i>
+                <span>Notificações</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="notificacoes-toggle">
+                    <label for="notificacoes-toggle"></label>
+                </div>
+            </div>
+            <a href="https://wa.me/559999863486?text=Olá! Preciso de ajuda com meu pedido." target="_blank" class="perfil-menu-item">
+    <i class="fa fa-comment-dots"></i>
+    <span>Meus chats</span>
+</a>
+<a href="https://wa.me/559999863486?text=Olá! Preciso de suporte." target="_blank" class="perfil-menu-item">
+    <i class="fa fa-question-circle"></i>
+    <span>Nosso suporte</span>
+</a>
+        </div>
+   </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>

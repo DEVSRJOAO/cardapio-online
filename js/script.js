@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modalPreco = document.getElementById('modal-preco');
     const btnModalAdicionar = document.getElementById('btn-modal-adicionar');
     const displayEndereco = document.getElementById('display-endereco');
+    const navCarrinhoBtn = document.getElementById('nav-carrinho-btn');
 
     // --- DADOS E VARIÁVEIS GLOBAIS ---
     const db = firebase.firestore();
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             userInfoDiv.innerHTML = `
                 <a href="auth-cliente/login.html" class="auth-link" title="Login / Cadastrar"><i class="fa fa-user"></i></a>
             `;
+            document.querySelector('input[name="entrega"][value="retirar"]').checked = true;
             displayEndereco.classList.remove('visible');
         }
     });
@@ -153,7 +155,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             carrinho.push({ ...doceSelecionado, quantidade: 1 });
         }
         renderizarCarrinho();
-        alert(`${doceSelecionado.nome} foi adicionado ao carrinho!`);
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Adicionado!',
+            text: `${doceSelecionado.nome} foi colocado no carrinho.`,
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        });
     }
 
     function renderizarCarrinho() {
@@ -223,37 +235,76 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function esvaziarCarrinho() {
         if (carrinho.length === 0) { return; }
-        if (confirm("Tem certeza que deseja esvaziar o carrinho?")) {
-            carrinho = [];
-            renderizarCarrinho();
-        }
+        
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Todos os itens serão removidos do seu carrinho.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, esvaziar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                carrinho = [];
+                renderizarCarrinho();
+                Swal.fire(
+                    'Carrinho Vazio!',
+                    'Seus itens foram removidos.',
+                    'success'
+                );
+            }
+        });
     }
 
-    function finalizarPedido() {
+    async function finalizarPedido() {
         if (carrinho.length === 0) {
-            alert('Seu carrinho está vazio!');
+            Swal.fire('Carrinho Vazio', 'Adicione alguns itens antes de finalizar.', 'warning');
             return;
         }
 
-        const tipoEntrega = document.querySelector('input[name="entrega"]:checked').value;
-        const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
-        let detalhesEntrega = 'Retirar no local';
+        const { value: formaPagamento } = await Swal.fire({
+            title: 'Forma de Pagamento',
+            input: 'radio',
+            inputOptions: { 'Pix': 'Pix', 'Cartão': 'Cartão', 'Dinheiro': 'Dinheiro' },
+            inputValidator: (value) => !value && 'Você precisa escolher uma opção!',
+            confirmButtonText: 'Próximo &rarr;',
+        });
 
-        if (tipoEntrega === 'delivery') {
-            if (usuarioLogado) {
+        if (!formaPagamento) return;
+
+        const { value: tipoEntrega } = await Swal.fire({
+            title: 'Opção de Entrega',
+            text: 'Você gostaria de receber em casa ou retirar no local?',
+            showDenyButton: true,
+            confirmButtonText: 'Receber em casa',
+            denyButtonText: `Retirar no local`,
+            icon: 'question'
+        });
+        
+        let detalhesEntrega = '';
+
+        if (tipoEntrega === true) {
+             if (usuarioLogado) {
                 if (enderecoUsuario && enderecoUsuario.rua) {
                     const { rua, numero, bairro, cidade, complemento } = enderecoUsuario;
-                    detalhesEntrega = `ENTREGA:\n${rua}, ${numero} - ${bairro}, ${cidade}. ${complemento || ''}`;
+                    const enderecoCompleto = `${rua}, ${numero} - ${bairro}, ${cidade}. ${complemento || ''}`;
+                    detalhesEntrega = `ENTREGA:\n${enderecoCompleto}`;
                 } else {
-                    alert("Você escolheu entrega, mas não tem um endereço cadastrado. Por favor, cadastre seu endereço no seu perfil.");
+                    Swal.fire('Endereço Faltando', 'Vimos que você não tem um endereço cadastrado. Por favor, vá ao seu perfil para cadastrar.', 'info');
                     window.location.href = "perfil/";
                     return;
                 }
             } else {
-                alert("Você precisa estar logado para pedir entrega. Por favor, faça o login ou cadastre-se.");
+                Swal.fire('Login Necessário', 'Para pedir entrega, você precisa estar logado. Vamos te levar para a página de login.', 'info');
                 window.location.href = "auth-cliente/login.html";
                 return;
             }
+        } else if (tipoEntrega === false) {
+            detalhesEntrega = 'Retirar no local';
+        } else {
+            return;
         }
 
         let mensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n';
@@ -278,26 +329,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- EVENT LISTENERS ---
-    auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            usuarioLogado = user;
-            userInfoDiv.innerHTML = `
-                <a href="perfil/" class="auth-link" title="Meu Perfil"><i class="fa fa-user-circle"></i></a>
-                <button id="btn-logout" class="btn-logout" title="Sair"><i class="fa fa-sign-out-alt"></i></button>
-            `;
-            document.getElementById('btn-logout').addEventListener('click', () => { auth.signOut(); });
-            await carregarEnderecoDoUsuario(user.uid);
-        } else {
-            usuarioLogado = null;
-            enderecoUsuario = null;
-            userInfoDiv.innerHTML = `
-                <a href="auth-cliente/login.html" class="auth-link" title="Login / Cadastrar"><i class="fa fa-user"></i></a>
-            `;
-            document.querySelector('input[name="entrega"][value="retirar"]').checked = true;
-            displayEndereco.classList.remove('visible');
-        }
-    });
-
     listaDoces.addEventListener('click', (e) => {
         const doceClicado = e.target.closest('.doce-clicavel');
         if (doceClicado) {
@@ -340,6 +371,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     });
+
+    // Listener para o novo botão de carrinho na barra de navegação
+if (navCarrinhoBtn) {
+    navCarrinhoBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Impede o link de navegar
+        abrirCarrinho();
+    });
+}
 
     // --- INICIALIZAÇÃO ---
     await carregarDocesDoFirebase();

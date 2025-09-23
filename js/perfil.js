@@ -1,84 +1,145 @@
 document.addEventListener('DOMContentLoaded', () => {
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const storage = firebase.storage();
 
     // Elementos da página
     const perfilNome = document.getElementById('perfil-nome');
-    const perfilEmail = document.getElementById('perfil-email');
-    const formEndereco = document.getElementById('form-endereco');
-    const inputCep = document.getElementById('end-cep');
-    const inputRua = document.getElementById('end-rua');
-    const inputNumero = document.getElementById('end-numero');
-    const inputBairro = document.getElementById('end-bairro');
-    const inputComplemento = document.getElementById('end-complemento');
-    const inputCidade = document.getElementById('end-cidade');
+    const perfilFoto = document.getElementById('perfil-foto');
+    const avatarEditIcon = document.querySelector('.avatar-edit-icon');
+    const uploadFotoInput = document.getElementById('upload-foto');
+    const btnAlterarSenha = document.getElementById('btn-alterar-senha');
+    const perfilTelefone = document.getElementById('perfil-telefone');
+    const btnEditarTelefone = document.getElementById('btn-editar-telefone');
 
     let currentUser = null;
 
-    // Proteção da página: verifica se o usuário está logado
-    auth.onAuthStateChanged(async (user) => {
+    // Função principal que roda quando o status de login muda
+    auth.onAuthStateChanged((user) => {
         if (user) {
-            // Se o usuário está logado, armazena seus dados e carrega o endereço
             currentUser = user;
-            perfilNome.textContent = user.displayName || 'Não informado';
-            perfilEmail.textContent = user.email;
-            await carregarEndereco(user.uid);
+            carregarDadosDoUsuario(user);
         } else {
-            // Se não está logado, redireciona para a página de login
             alert("Você precisa estar logado para acessar esta página.");
             window.location.href = '../auth-cliente/login.html';
         }
     });
 
-    // Função para carregar o endereço do Firestore
-    async function carregarEndereco(uid) {
-        try {
-            const userDocRef = db.collection('usuarios').doc(uid);
-            const doc = await userDocRef.get();
+    // Carrega TODOS os dados do perfil (nome, foto, telefone)
+    async function carregarDadosDoUsuario(user) {
+        perfilNome.textContent = `Olá, ${user.displayName || 'Cliente'}`;
+        
+        // Carrega a foto de perfil do usuário (se existir)
+        if (user.photoURL) {
+            perfilFoto.src = user.photoURL;
+        }
 
-            if (doc.exists && doc.data().endereco) {
-                const endereco = doc.data().endereco;
-                inputCep.value = endereco.cep || '';
-                inputRua.value = endereco.rua || '';
-                inputNumero.value = endereco.numero || '';
-                inputBairro.value = endereco.bairro || '';
-                inputComplemento.value = endereco.complemento || '';
-                inputCidade.value = endereco.cidade || '';
+        // Carrega o telefone do Firestore
+        try {
+            const userDoc = await db.collection('usuarios').doc(user.uid).get();
+            if (userDoc.exists && userDoc.data().telefone) {
+                perfilTelefone.textContent = userDoc.data().telefone;
             } else {
-                console.log("Nenhum endereço encontrado para este usuário.");
+                perfilTelefone.textContent = 'Adicionar telefone';
             }
         } catch (error) {
-            console.error("Erro ao carregar endereço: ", error);
+            console.error("Erro ao carregar dados do usuário:", error);
+            perfilTelefone.textContent = 'Não foi possível carregar';
+        }
+    }
+    
+    // --- LÓGICA DO TELEFONE ---
+    btnEditarTelefone.addEventListener('click', async () => {
+        const telefoneAtual = perfilTelefone.textContent.includes('Adicionar') 
+            ? '' 
+            : perfilTelefone.textContent;
+
+        const { value: novoTelefone } = await Swal.fire({
+            title: 'Qual é o seu telefone?',
+            input: 'tel',
+            inputLabel: 'Seu número de telefone com DDD',
+            inputValue: telefoneAtual,
+            inputPlaceholder: '(99) 99999-9999',
+            confirmButtonText: 'Salvar',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Você precisa digitar um número!'
+                }
+            }
+        });
+
+        if (novoTelefone) {
+            salvarTelefone(novoTelefone);
+        }
+    });
+
+    async function salvarTelefone(telefone) {
+        if (!currentUser) return;
+        try {
+            await db.collection('usuarios').doc(currentUser.uid).set({
+                telefone: telefone
+            }, { merge: true });
+            perfilTelefone.textContent = telefone;
+            Swal.fire('Sucesso!', 'Seu telefone foi salvo.', 'success');
+        } catch (error) {
+            console.error("Erro ao salvar telefone:", error);
+            Swal.fire('Ops!', 'Não foi possível salvar seu telefone.', 'error');
         }
     }
 
-    // Listener para salvar o endereço
-    formEndereco.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!currentUser) {
-            alert("Erro: Nenhum usuário logado.");
-            return;
+    // --- LÓGICA DA FOTO DE PERFIL ---
+    avatarEditIcon.addEventListener('click', () => {
+        uploadFotoInput.click();
+    });
+
+    uploadFotoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            uploadFotoDePerfil(file);
         }
+    });
 
-        const enderecoData = {
-            cep: inputCep.value,
-            rua: inputRua.value,
-            numero: inputNumero.value,
-            bairro: inputBairro.value,
-            complemento: inputComplemento.value,
-            cidade: inputCidade.value,
-        };
-
+    async function uploadFotoDePerfil(file) {
+        if (!currentUser) return;
+        const filePath = `fotosDePerfil/${currentUser.uid}/${Date.now()}-${file.name}`;
+        const storageRef = storage.ref(filePath);
         try {
-            const userDocRef = db.collection('usuarios').doc(currentUser.uid);
-            // Usamos .set com { merge: true } para criar ou atualizar o documento sem apagar outros campos
-            await userDocRef.set({
-                endereco: enderecoData
-            }, { merge: true });
-            alert("Endereço salvo com sucesso!");
+            const snapshot = await storageRef.put(file);
+            const downloadURL = await snapshot.ref.getDownloadURL();
+            await currentUser.updateProfile({ photoURL: downloadURL });
+            await db.collection('usuarios').doc(currentUser.uid).set({ photoURL: downloadURL }, { merge: true });
+            perfilFoto.src = downloadURL;
+            Swal.fire('Sucesso!', 'Foto de perfil atualizada.', 'success');
         } catch (error) {
-            console.error("Erro ao salvar endereço: ", error);
-            alert("Ocorreu um erro ao salvar o endereço. Tente novamente.");
+            console.error("Erro ao fazer upload da foto: ", error);
+            Swal.fire('Ops!', 'Ocorreu um erro ao enviar sua foto.', 'error');
         }
+    }
+
+    // --- LÓGICA DE ALTERAR SENHA ---
+    btnAlterarSenha.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!currentUser) return;
+        Swal.fire({
+            title: 'Alterar Senha?',
+            text: `Enviaremos um e-mail para ${currentUser.email} com as instruções.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, enviar e-mail',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                auth.sendPasswordResetEmail(currentUser.email)
+                    .then(() => {
+                        Swal.fire('E-mail Enviado!', 'Verifique sua caixa de entrada para redefinir sua senha.', 'success');
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao enviar e-mail de redefinição:", error);
+                        Swal.fire('Ops!', 'Ocorreu um erro. Tente novamente.', 'error');
+                    });
+            }
+        });
     });
 });

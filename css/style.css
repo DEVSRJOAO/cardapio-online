@@ -97,6 +97,94 @@ header {
 }
 
 /* ================================================= */
+/* NOVA ESTILIZAÇÃO DA LOGO E NOME DA LOJA           */
+/* ================================================= */
+
+header {
+    display: flex; /* Garante que os itens dentro do header se alinhem */
+    justify-content: space-between; /* Espalha os itens para as pontas */
+    align-items: center; /* Centraliza verticalmente */
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre o ícone do menu e a logo/texto */
+}
+
+.brand-logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* Remove sublinhado do link */
+    color: inherit; /* Mantém a cor do texto padrão */
+}
+
+.logo {
+    height: 60px; /* Diminui a altura da logo */
+    width: auto;
+    margin-right: 10px; /* Espaçamento entre a imagem da logo e o texto */
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1; /* Ajusta o espaçamento entre as linhas */
+}
+
+.brand-name {
+    font-family: 'Playfair Display', serif; /* Fonte para Niquinho Doceria */
+    font-size: 1.6em; /* Tamanho da fonte */
+    font-weight: 700;
+    color: #2c91e4f1; /* Cor escura para destaque */
+}
+
+.brand-tagline {
+    font-family: 'Quicksand', sans-serif; /* Fonte para Doces Artesanais */
+    font-size: 0.9em; /* Tamanho da fonte */
+    font-weight: 500;
+    color: #666; /* Cor mais suave */
+    margin-top: 2px;
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 1023px) {
+    /* Esconde os ícones do header, exceto se você quiser mostrar o menu-icon */
+    header .menu-icon,
+    header .header-direita {
+        display: none;
+    }
+
+    .header-left {
+        width: 100%; /* Ocupa toda a largura disponível no mobile */
+        justify-content: center; /* Centraliza a logo e o texto no mobile */
+        gap: 5px; /* Diminui o gap em telas pequenas */
+    }
+
+    .logo {
+        height: 45px; /* Diminui ainda mais a logo no mobile */
+        margin-right: 8px;
+    }
+
+    .brand-name {
+        font-size: 1.3em; /* Ajusta tamanho no mobile */
+    }
+
+    .brand-tagline {
+        font-size: 0.8em; /* Ajusta tamanho no mobile */
+    }
+
+    /* Se você ainda quiser o menu-icon no mobile, pode sobrescrever: */
+    /* header .menu-icon { display: block; } */
+    /* .header-left { justify-content: flex-start; } */
+}
+
+/* ================================================= */
 /* CONTEÚDO PRINCIPAL (MAIN)                         */
 /* ================================================= */
 main {
@@ -497,4 +585,261 @@ footer {
         width: 100%;
         height: 180px;
     }
+}
+/* ================================================= */
+/* NOVA BARRA DE NAVEGAÇÃO INFERIOR (MOBILE)         */
+/* ================================================= */
+.bottom-nav {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: #ffffff;
+    border-top: 1px solid #f0f0f0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    text-decoration: none;
+    color: #aaa;
+    font-size: 0.7em;
+    gap: 4px;
+}
+
+.nav-item i {
+    font-size: 1.4em;
+}
+
+.nav-item.active {
+    color: var(--cor-primaria); /* Usando a cor primária para o item ativo */
+}
+
+/* ================================================= */
+/* AJUSTES DE RESPONSIVIDADE                         */
+/* ================================================= */
+
+/* Regras para Celulares e Tablets (até 1023px) */
+@media (max-width: 1023px) {
+    .bottom-nav {
+        display: flex; /* Mostra a barra de navegação */
+    }
+
+    header .menu-icon,
+    header .header-direita {
+        display: none; /* Esconde os ícones antigos do cabeçalho */
+    }
+
+    .logo {
+        margin: 0; /* Alinha a logo à esquerda, já que os ícones sumiram */
+    }
+}
+
+/* ================================================= */
+/* ESTILOS DA NOVA PÁGINA DE PERFIL                  */
+/* ================================================= */
+.main-perfil-novo {
+    padding: 0;
+    padding-bottom: 80px; /* Espaço para a barra de navegação inferior */
+}
+
+.perfil-header {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 20px;
+    padding-bottom: 60px; /* Espaço para o avatar "vazar" para baixo */
+    position: relative;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.voltar-link-perfil {
+    color: white;
+    font-size: 1.5em;
+}
+
+.perfil-avatar {
+    position: absolute;
+    left: 50%;
+    bottom: -40px; /* Metade para fora do header */
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.perfil-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cor-texto-escuro);
+    cursor: pointer;
+}
+
+.perfil-info {
+    text-align: center;
+    margin-top: 60px; /* Espaço para o avatar */
+    padding: 0 20px;
+}
+
+.perfil-info h2 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.perfil-info p {
+    color: #777;
+    margin: 5px 0;
+}
+
+.perfil-menu {
+    margin: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.perfil-menu-item {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--cor-texto-escuro);
+    font-weight: 500;
+}
+
+.perfil-menu-item i {
+    font-size: 1.2em;
+    color: var(--cor-primaria);
+    width: 40px; /* Alinhamento dos ícones */
+}
+
+.perfil-menu-item span {
+    flex-grow: 1;
+}
+
+/* Estilo para o Toggle Switch (Notificações) */
+.toggle-switch input { display: none; }
+.toggle-switch label {
+    cursor: pointer;
+    width: 45px;
+    height: 25px;
+    background: #ccc;
+    display: block;
+    border-radius: 25px;
+    position: relative;
+}
+.toggle-switch label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+.toggle-switch input:checked + label { background: #28a745; }
+.toggle-switch input:checked + label:after { left: calc(100% - 2.5px); transform: translateX(-100%); }
+
+/* ================================================= */
+/* ESTILOS DA NOVA PÁGINA DE ENDEREÇOS               */
+/* ================================================= */
+.btn-adicionar-endereco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 1.1em;
+    font-weight: 500;
+    border: 1px dashed var(--cor-primaria);
+    color: var(--cor-primaria);
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.endereco-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.endereco-card-info h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.endereco-card-info p {
+    margin: 4px 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.btn-excluir-endereco {
+    background: none;
+    border: none;
+    font-size: 1.3em;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+/* ================================================= */
+/* ESTILOS DO CAMPO DE TELEFONE EDITÁVEL NO PERFIL    */
+/* ================================================= */
+
+.perfil-campo-editavel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #777;
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.perfil-campo-editavel .edit-icon {
+    cursor: pointer;
+    color: var(--cor-primaria);
+    opacity: 0.5; /* Ícone fica sutil */
+    transition: opacity 0.3s;
+}
+
+.perfil-campo-editavel:hover .edit-icon {
+    opacity: 1; /* Ícone aparece ao passar o mouse */
 }
