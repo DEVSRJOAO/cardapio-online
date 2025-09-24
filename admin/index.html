@@ -13,15 +13,20 @@
 
 </head>
 <script>
-    // Script de verificação de autenticação
-    // Este script é síncrono para rodar o mais rápido possível
-    const adminLogado = sessionStorage.getItem('firebase:authUser:' + 'AIzaSyBBIbAegrafXZS9_CKez0HfmYyqj_zDLtM' + ':doceria-niquinho');
-    
-    if (!adminLogado) {
-        // Se não encontrar um usuário logado no cache da sessão,
-        // redireciona imediatamente para a página de login.
-        window.location.href = 'index.html';
-    }
+  // Evita redirecionamento em loop
+  if (!window.__redirecting) {
+    window.__redirecting = true;
+
+    // Checa autenticação usando o Firebase Auth
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user || user.uid !== "xi9zN0AXQ8PQ137iv71uiL3bhjA3") {
+        // Redireciona apenas se realmente não for admin
+        if (!window.location.pathname.endsWith("index.html")) {
+          window.location.href = "../index.html";
+        }
+      }
+    });
+  }
 </script>
 <body>
     <header class="admin-header">
