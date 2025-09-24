@@ -1,0 +1,94 @@
+/* Fundo geral */
+.auth-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f5f7fa; /* cinza bem clarinho */
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+/* Container do formulário */
+.auth-container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Logo */
+.auth-container .logo {
+    max-width: 120px;
+    margin-bottom: 20px;
+}
+
+/* Títulos */
+.auth-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Inputs */
+.auth-container input {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.auth-container input:focus {
+    border-color: #4db6e5; /* azul clarinho */
+}
+
+/* Botão */
+.auth-container button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #4db6e5;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-container button:hover {
+    background: #3aa0cc;
+}
+
+/* Links alternativos */
+.auth-switch {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.auth-switch a {
+    color: #4db6e5;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagem de erro ou sucesso */
+#auth-mensagem {
+    margin-top: 15px;
+    font-size: 14px;
+    color: red;
+}
