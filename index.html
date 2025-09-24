@@ -3,185 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doceria Niquinho - Doces Artesanais</title>
+    <title>Meu Perfil - Doceria Niquinho</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loja.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="icon" type="image/png" href="imagens/favicon.png">
-
 </head>
+<body class="body-perfil">
 
-<body>
-    <header>
-   <div class="header-left">
-        <a href="index.html" class="brand-logo-container">
-            <img src="imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo">
-            <div class="brand-text">
-                <span class="brand-name">Niquinho Doceria</span>
-                <span class="brand-tagline">Doces Artesanais</span>
-            </div>
+   <div class="perfil-header-container">
+    <div class="perfil-header">
+        <a href="../index.html" class="voltar-link-perfil" style="font-size: 1.2em; top: 20px; left: 20px;">
+            <i class="fa fa-home"></i>
         </a>
     </div>
-        </div>
-    <div class="header-direita">
-        <div id="user-info">
-        </div>
-        <div id="icone-carrinho" class="icone-carrinho">
-            <i class="fa fa-shopping-cart"></i>
-            <span id="contador-carrinho" class="contador-carrinho">0</span>
-        </div>
-    </div>
-    </header>
-
-    <main>
-        <div id="filtros-categoria" class="filtros-container">
-            <button class="filtro-btn active" data-categoria="todos">Todos</button>
-            <button class="filtro-btn" data-categoria="promocao">Promoção do dia</button>
-            <button class="filtro-btn" data-categoria="combo">Combos</button>
-            <button class="filtro-btn" data-categoria="doce">Doces</button>
-            <button class="filtro-btn" data-categoria="salgado">Salgados</button>
-            <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
-        </div>
-        
-        <h2 id="titulo-categoria">Todos</h2>
-
-        <div id="lista-doces" class="lista-doces">
-            </div>
-    </main>
-    
-   <div id="modal-produto" class="modal">
-    <div class="modal-content">
-        <div class="modal-header-image" id="modal-imagem-fundo">
-            <div class="modal-fechar-novo"><i class="fa fa-arrow-left"></i></div>
-        </div>
-        
-        <div class="info-loja-flutuante">
-            <img src="imagens/logo-doceria.png" alt="Logo da Loja">
-            <div>
-                <strong>Niquinho Doceria</strong>
-                </div>
-        </div>
-
-        <div class="modal-body-content">
-            <h2 id="modal-nome">Nome do Produto</h2>
-            <p id="modal-descricao">Descrição detalhada do produto...</p>
-            <p id="modal-serve">Serve 1 pessoa</p>
-            <p id="modal-preco" class="preco">R$ 0.00</p>
-
-            <div class="campo-observacao">
-                <h4>Alguma observação?</h4>
-                <textarea id="modal-observacao" placeholder="Ex: tirar algum ingrediente, embalar para presente, etc." maxlength="140"></textarea>
-            </div>
-        </div>
-
-        <div class="modal-footer-actions">
-            <div class="quantidade-stepper">
-                <button id="modal-diminuir-qtd">-</button>
-                <span id="modal-quantidade">1</span>
-                <button id="modal-aumentar-qtd">+</button>
-            </div>
-            <button id="btn-modal-adicionar" class="btn-adicionar-grande">
-                <span>Adicionar</span>
-                <span id="modal-add-preco">R$ 0,00</span>
-            </button>
-        </div>
+    <div class="perfil-avatar">
+        <img id="perfil-foto" src="../imagens/avatar-placeholder.png" alt="Foto do perfil">
+        <input type="file" id="upload-foto" accept="image/*" style="display: none;">
+        <div class="avatar-edit-icon"><i class="fa fa-camera"></i></div>
     </div>
 </div>
 
-    <aside class="carrinho">
-        <div class="carrinho-header">
-            <h2><i class="fa fa-shopping-cart"></i> Meu Carrinho</h2>
-            <span class="carrinho-fechar">&times;</span>
-        </div>
-        <div id="itens-carrinho">
-            <p>Seu carrinho está vazio.</p>
-        </div>
-        <div class="total-carrinho">
-            <h3>Total: R$ <span id="total-preco">0.00</span></h3>
-        </div>
-         <div id="checkout-options">
-        <hr>
-        <div class="checkout-section">
-            <h4>Opção de Entrega</h4>
-            <div class="delivery-options">
-                <label>
-                    <input type="radio" name="entrega" value="retirar" checked> Retirar no local
-                </label>
-                <label>
-                    <input type="radio" name="entrega" value="delivery"> Entrega
-                </label>
+    <main class="main-perfil-novo">
+        <div class="perfil-info-topo">
+            <h2 id="perfil-nome">Carregando...</h2>
+            <div id="telefone-container" class="perfil-campo-editavel">
+                <i class="fa fa-phone"></i>
+                <span id="perfil-telefone">Adicionar telefone</span>
+                <i id="btn-editar-telefone" class="fa fa-pencil-alt edit-icon"></i>
             </div>
-            <div id="display-endereco" class="endereco-box">
-                </div>
+            <div id="email-container" class="perfil-campo-editavel">
+                <i class="fa fa-envelope"></i>
+                <span id="perfil-email">carregando...</span>
+                <i id="btn-editar-email" class="fa fa-pencil-alt edit-icon"></i>
+        </div>
         </div>
 
-        <div class="checkout-section">
-            <h4>Forma de Pagamento</h4>
-            <div class="payment-options">
-                <label>
-                    <input type="radio" name="pagamento" value="Pix" checked> Pix
-                </label>
-                <label>
-                    <input type="radio" name="pagamento" value="Cartão"> Cartão
-                </label>
-                <label>
-                    <input type="radio" name="pagamento" value="Dinheiro"> Dinheiro
-                </label>
-            </div>
+        <div class="perfil-menu">
+    <a href="endereco.html" class="perfil-menu-item">
+        <i class="fa fa-map-marker-alt"></i>
+        <span>Endereços</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="#" class="perfil-menu-item" id="btn-alterar-senha">
+        <i class="fa fa-key"></i>
+        <span>Alterar minha senha</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <div class="perfil-menu-item">
+        <i class="fa fa-bell"></i>
+        <span>Notificações</span>
+        <div class="toggle-switch">
+            <input type="checkbox" id="notificacoes-toggle">
+            <label for="notificacoes-toggle"></label>
         </div>
     </div>
-        <button id="esvaziar-carrinho" class="btn-esvaziar">Esvaziar Carrinho</button>
-        <button id="finalizar-pedido" class="btn-finalizar">Finalizar Pedido via WhatsApp</button>
-    </aside>
-    
-    <div id="overlay-geral" class="overlay"></div>
+    <a href="https://wa.me/559999863486?text=Olá! Preciso de ajuda." target="_blank" class="perfil-menu-item">
+        <i class="fa fa-comment-dots"></i>
+        <span>Meus chats</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="https://wa.me/559999863486?text=Olá! Preciso de suporte." target="_blank" class="perfil-menu-item">
+        <i class="fa fa-question-circle"></i>
+        <span>Nosso suporte</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="../auth-cliente/login.html" class="perfil-menu-item" id="btn-logout">
+        <i class="fa fa-sign-out-alt"></i>
+        <span>Sair da minha conta</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
 
-    <footer class="page-footer">
-        <p>&copy; 2025 Doceria Niquinho. Todos os direitos reservados.</p>
-        <a href="admin/login.html" class="admin-login-link"><i class="fa fa-user-shield"></i> Login Administrador</a>
-    </footer>
+</div>
+    </main>
 
     <nav class="bottom-nav">
-    <a href="index.html" class="nav-item active">
+    <a href="../index.html" class="nav-item">
         <i class="fa fa-home"></i>
         <span>Início</span>
     </a>
-    <a href="#" class="nav-item"> <i class="fa fa-heart"></i>
+    <a href="#" class="nav-item">
+        <i class="fa fa-heart"></i>
         <span>Favoritos</span>
     </a>
-    <a href="#" class="nav-item" id="nav-carrinho-btn"> <i class="fa fa-shopping-cart"></i>
+    <a href="#" class="nav-item" id="nav-carrinho-btn-perfil">
+        <i class="fa fa-shopping-cart"></i>
         <span>Carrinho</span>
     </a>
-    <a href="#" class="nav-item"> <i class="fa fa-receipt"></i>
+    <a href="#" class="nav-item">
+        <i class="fa fa-receipt"></i>
         <span>Pedidos</span>
     </a>
-    <a href="perfil/" class="nav-item">
+    <a href="index.html" class="nav-item active">
         <i class="fa fa-user"></i>
         <span>Perfil</span>
     </a>
 </nav>
-
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <aside class="carrinho"></aside>
+    <div id="overlay-geral" class="overlay"></div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
-    <script src="js/firebase-config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/script.js"></script>
-    <script>
-  firebase.auth().onAuthStateChanged((user) => {
-    if (!user) {
-      // Se não estiver logado, manda para o login
-      if (!window.location.pathname.endsWith("login.html") &&
-          !window.location.pathname.endsWith("cadastro.html")) {
-        window.location.href = "auth-cliente/login.html";
-      }
-    } else {
-      console.log("Usuário logado:", user.email);
-    }
-  });
-</script>
-    
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/perfil.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>
