@@ -9,7 +9,14 @@
     <link rel="stylesheet" href="css/loja.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="icon" type="image/png" href="imagens/favicon.png">
+    <script>
+  // Redireciona automaticamente para a página de login
+  if (!window.location.pathname.endsWith("login.html")) {
+    window.location.href = "./login.html";
+  }
+</script>
 </head>
+
 <body>
     <header>
    <div class="header-left">
