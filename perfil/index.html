@@ -5,68 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Doceria Niquinho</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body class="body-perfil">
 
-    <main class="main-perfil-novo">
-        <div class="perfil-header">
-            <a href="../index.html" class="voltar-link-perfil"><i class="fa fa-arrow-left"></i></a>
-            <div class="perfil-avatar">
-    <img id="perfil-foto" src="../imagens/avatar-placeholder.png" alt="Foto do Perfil">
-    <div class="avatar-edit-icon">
-        <i class="fa fa-camera"></i>
+   <div class="perfil-header-container">
+    <div class="perfil-header">
+        <a href="../index.html" class="voltar-link-perfil" style="font-size: 1.2em; top: 20px; left: 20px;">
+            <i class="fa fa-home"></i>
+        </a>
     </div>
-    <input type="file" id="upload-foto" accept="image/*" style="display: none;">
+    <div class="perfil-avatar">
+        <img id="perfil-foto" src="../imagens/avatar-placeholder.png" alt="Foto do perfil">
+        <input type="file" id="upload-foto" accept="image/*" style="display: none;">
+        <div class="avatar-edit-icon"><i class="fa fa-camera"></i></div>
+    </div>
 </div>
-            </div>
-        </div>
 
-        <div class="perfil-info">
+    <main class="main-perfil-novo">
+        <div class="perfil-info-topo">
             <h2 id="perfil-nome">Carregando...</h2>
-              <div id="telefone-container" class="perfil-campo-editavel">
-        <i class="fa fa-phone"></i>
-        <span id="perfil-telefone">Adicionar telefone</span>
-        <i id="btn-editar-telefone" class="fa fa-pencil-alt edit-icon"></i>
-    </div>
+            <div id="telefone-container" class="perfil-campo-editavel">
+                <i class="fa fa-phone"></i>
+                <span id="perfil-telefone">Adicionar telefone</span>
+                <i id="btn-editar-telefone" class="fa fa-pencil-alt edit-icon"></i>
+            </div>
+            <div id="email-container" class="perfil-campo-editavel">
+                <i class="fa fa-envelope"></i>
+                <span id="perfil-email">carregando...</span>
+                <i id="btn-editar-email" class="fa fa-pencil-alt edit-icon"></i>
+        </div>
         </div>
 
         <div class="perfil-menu">
-            <a href="endereco.html" class="perfil-menu-item">
-                <i class="fa fa-map-marker-alt"></i>
-                <span>Endereços</span>
-            </a>
-            <a href="#" class="perfil-menu-item" id="btn-alterar-senha">
-                <i class="fa fa-key"></i>
-                <span>Alterar minha senha</span>
-            </a>
-            <div class="perfil-menu-item">
-                <i class="fa fa-bell"></i>
-                <span>Notificações</span>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="notificacoes-toggle">
-                    <label for="notificacoes-toggle"></label>
-                </div>
-            </div>
-            <a href="https://wa.me/559999863486?text=Olá! Preciso de ajuda com meu pedido." target="_blank" class="perfil-menu-item">
-    <i class="fa fa-comment-dots"></i>
-    <span>Meus chats</span>
-</a>
-<a href="https://wa.me/559999863486?text=Olá! Preciso de suporte." target="_blank" class="perfil-menu-item">
-    <i class="fa fa-question-circle"></i>
-    <span>Nosso suporte</span>
-</a>
+    <a href="endereco.html" class="perfil-menu-item">
+        <i class="fa fa-map-marker-alt"></i>
+        <span>Endereços</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="#" class="perfil-menu-item" id="btn-alterar-senha">
+        <i class="fa fa-key"></i>
+        <span>Alterar minha senha</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <div class="perfil-menu-item">
+        <i class="fa fa-bell"></i>
+        <span>Notificações</span>
+        <div class="toggle-switch">
+            <input type="checkbox" id="notificacoes-toggle">
+            <label for="notificacoes-toggle"></label>
         </div>
-   </main>
+    </div>
+    <a href="https://wa.me/559999863486?text=Olá! Preciso de ajuda." target="_blank" class="perfil-menu-item">
+        <i class="fa fa-comment-dots"></i>
+        <span>Meus chats</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="https://wa.me/559999863486?text=Olá! Preciso de suporte." target="_blank" class="perfil-menu-item">
+        <i class="fa fa-question-circle"></i>
+        <span>Nosso suporte</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
+    <a href="#" class="perfil-menu-item" id="btn-logout">
+        <i class="fa fa-sign-out-alt"></i>
+        <span>Sair da minha conta</span>
+        <i class="fa fa-chevron-right"></i>
+    </a>
 
+</div>
+    </main>
+
+    <nav class="bottom-nav">
+    <a href="../index.html" class="nav-item">
+        <i class="fa fa-home"></i>
+        <span>Início</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fa fa-heart"></i>
+        <span>Favoritos</span>
+    </a>
+    <a href="#" class="nav-item" id="nav-carrinho-btn-perfil">
+        <i class="fa fa-shopping-cart"></i>
+        <span>Carrinho</span>
+    </a>
+    <a href="#" class="nav-item">
+        <i class="fa fa-receipt"></i>
+        <span>Pedidos</span>
+    </a>
+    <a href="index.html" class="nav-item active">
+        <i class="fa fa-user"></i>
+        <span>Perfil</span>
+    </a>
+</nav>
+    <aside class="carrinho"></aside>
+    <div id="overlay-geral" class="overlay"></div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    
     <script src="../js/firebase-config.js"></script>
     <script src="../js/perfil.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

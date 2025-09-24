@@ -6,23 +6,22 @@
     <title>Doceria Niquinho - Doces Artesanais</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loja.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link rel="icon" type="image/png" href="imagens/favicon.png">
 </head>
 <body>
     <header>
-    <div class="header-left">
-        <div class="menu-icon">
-            <i class="fa fa-bars"></i>
-        </div>
+   <div class="header-left">
         <a href="index.html" class="brand-logo-container">
-            <img src="imagens/logo-doceria.PNG" alt="Logo Doceria Niquinho" class="logo">
+            <img src="imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo">
             <div class="brand-text">
                 <span class="brand-name">Niquinho Doceria</span>
                 <span class="brand-tagline">Doces Artesanais</span>
             </div>
         </a>
     </div>
+        </div>
     <div class="header-direita">
         <div id="user-info">
         </div>
@@ -43,27 +42,50 @@
             <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
         </div>
         
-        <h2 id="titulo-categoria">Todos</h2> 
+        <h2 id="titulo-categoria">Todos</h2>
 
         <div id="lista-doces" class="lista-doces">
             </div>
     </main>
     
-    <div id="modal-produto" class="modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-content">
-            <span class="modal-fechar">&times;</span>
-            <div id="modal-corpo">
-                <img id="modal-imagem" src="" alt="Imagem do produto">
-                <div class="modal-info">
-                    <h2 id="modal-nome">Nome do Produto</h2>
-                    <p id="modal-descricao">Descrição detalhada do produto...</p>
-                    <p id="modal-preco" class="preco">R$ 0.00</p>
-                    <button id="btn-modal-adicionar" class="btn-adicionar">Adicionar ao Carrinho</button>
+   <div id="modal-produto" class="modal">
+    <div class="modal-content">
+        <div class="modal-header-image" id="modal-imagem-fundo">
+            <div class="modal-fechar-novo"><i class="fa fa-arrow-left"></i></div>
+        </div>
+        
+        <div class="info-loja-flutuante">
+            <img src="imagens/logo-doceria.png" alt="Logo da Loja">
+            <div>
+                <strong>Niquinho Doceria</strong>
                 </div>
+        </div>
+
+        <div class="modal-body-content">
+            <h2 id="modal-nome">Nome do Produto</h2>
+            <p id="modal-descricao">Descrição detalhada do produto...</p>
+            <p id="modal-serve">Serve 1 pessoa</p>
+            <p id="modal-preco" class="preco">R$ 0.00</p>
+
+            <div class="campo-observacao">
+                <h4>Alguma observação?</h4>
+                <textarea id="modal-observacao" placeholder="Ex: tirar algum ingrediente, embalar para presente, etc." maxlength="140"></textarea>
             </div>
         </div>
+
+        <div class="modal-footer-actions">
+            <div class="quantidade-stepper">
+                <button id="modal-diminuir-qtd">-</button>
+                <span id="modal-quantidade">1</span>
+                <button id="modal-aumentar-qtd">+</button>
+            </div>
+            <button id="btn-modal-adicionar" class="btn-adicionar-grande">
+                <span>Adicionar</span>
+                <span id="modal-add-preco">R$ 0,00</span>
+            </button>
+        </div>
     </div>
+</div>
 
     <aside class="carrinho">
         <div class="carrinho-header">
@@ -113,17 +135,11 @@
     
     <div id="overlay-geral" class="overlay"></div>
 
-    <footer>
-        <a href="admin/login.html" class="admin-login-link">Acesso do Administrador</a>
+    <footer class="page-footer">
+        <p>&copy; 2025 Doceria Niquinho. Todos os direitos reservados.</p>
+        <a href="admin/login.html" class="admin-login-link"><i class="fa fa-user-shield"></i> Login Administrador</a>
     </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
-    
-    <script src="js/firebase-config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <nav class="bottom-nav">
     <a href="index.html" class="nav-item active">
         <i class="fa fa-home"></i>
@@ -143,6 +159,13 @@
         <span>Perfil</span>
     </a>
 </nav>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/script.js"></script>
     
 </body>

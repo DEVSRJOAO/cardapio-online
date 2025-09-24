@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Endereços - Doceria Niquinho</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body class="body-perfil">
-    <header>
-        <a href="index.html" class="voltar-link"><i class="fa fa-arrow-left"></i> Voltar ao Perfil</a>
+
+   <header class="page-header">
+    <a href="index.html" class="voltar-link"><i class="fa fa-arrow-left"></i> Voltar ao Perfil</a>
+    <h1>Meus Endereços</h1>
     </header>
 
     <main class="main-perfil">
-        <h1>Meus Endereços</h1>
-        
         <div id="lista-enderecos">
+            <p>Carregando endereços...</p>
             </div>
 
         <button id="btn-abrir-form-endereco" class="btn-adicionar-endereco">
@@ -45,24 +48,27 @@
                     </div>
                 </div>
                 <div class="form-grupo">
-                    <label for="end-complemento">Complemento (opcional)</label>
-                    <input type="text" id="end-complemento" placeholder="Apto, casa, ponto de referência">
+                    <label for="end-complemento">Complemento e Ponto de Referência</label>
+                    <input type="text" id="end-complemento" placeholder="Apto, casa, em frente a...">
                 </div>
                 <div class="form-grupo">
                     <label for="end-cidade">Cidade e Estado</label>
                     <input type="text" id="end-cidade" placeholder="Sua cidade, UF" value="Balsas, Maranhão" required>
                 </div>
                 <button type="submit" class="btn-salvar-perfil">Salvar Endereço</button>
-                <button type="button" id="btn-cancelar-edicao" class="btn-esvaziar" style="display: none; margin-top: 10px;">Cancelar</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
             </form>
         </section>
     </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 Doceria Niquinho. Todos os direitos reservados.</p>
+        <a href="../admin/login.html" class="admin-login-link"><i class="fa fa-user-shield"></i> Login Administrador</a>
+    </footer>
 
-   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="../js/firebase-config.js"></script>
     <script src="../js/endereco.js"></script>
 </body>

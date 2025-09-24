@@ -4,37 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Administrador - Doceria Niquinho</title>
-    <link rel="stylesheet" href="../css/style.css"> <link rel="stylesheet" href="../css/admin.css"> </head>
-<body class="auth-body">
-    <div class="form-section auth-container">
-        <img src="../imagens/logo-doceria.PNG" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
-        <h2>Área do Administrador</h2>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="../imagens/favicon.png"> 
+</head>
+<body class="admin-login-body">
+    <div class="admin-login-container" style="max-width: 400px; margin: 50px auto;">
+        <img src="../imagens/logo-doceria.png" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
+        <h2>Acesso Restrito</h2>
         <form id="form-login-admin">
-            <input type="password" id="senha-admin" placeholder="Digite sua senha">
+            <div class="form-grupo">
+                <label for="admin-email">E-mail</label>
+                <input type="email" id="admin-email" required>
+            </div>
+            <div class="form-grupo">
+                <label for="admin-senha">Senha</label>
+                <input type="password" id="admin-senha" required>
+            </div>
             <button type="submit">Entrar</button>
         </form>
-        <p id="mensagem-erro"></p>
+        <p id="mensagem-erro" style="color: red; margin-top: 15px;"></p>
     </div>
 
-    <script>
-        const formLoginAdmin = document.getElementById('form-login-admin');
-        
-        function fazerLoginAdmin() {
-            const senhaCorreta = "niquinho123"; 
-            const senhaDigitada = document.getElementById('senha-admin').value;
-            const mensagemErro = document.getElementById('mensagem-erro');
-
-            if (senhaDigitada === senhaCorreta) {
-                window.location.href = 'index.html';
-            } else {
-                mensagemErro.textContent = "Senha incorreta!";
-            }
-        }
-        
-        formLoginAdmin.addEventListener('submit', function(event) {
-            event.preventDefault();
-            fazerLoginAdmin();
-        });
-    </script>
-</body>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
+    <script src="../js/firebase-config.js"></script> 
+    <script src="../js/login-admin.js"></script> </body>
 </html>

@@ -1,3 +1,4 @@
+// js/perfil.js (VERSÃO CORRIGIDA E FINAL)
 document.addEventListener('DOMContentLoaded', () => {
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -5,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Elementos da página
     const perfilNome = document.getElementById('perfil-nome');
+    const perfilEmail = document.getElementById('perfil-email');
     const perfilFoto = document.getElementById('perfil-foto');
     const avatarEditIcon = document.querySelector('.avatar-edit-icon');
     const uploadFotoInput = document.getElementById('upload-foto');
@@ -14,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentUser = null;
 
-    // Função principal que roda quando o status de login muda
     auth.onAuthStateChanged((user) => {
         if (user) {
             currentUser = user;
@@ -25,51 +26,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carrega TODOS os dados do perfil (nome, foto, telefone)
+    // CORREÇÃO AQUI: Esta função agora busca TUDO do Firestore
     async function carregarDadosDoUsuario(user) {
+        // O nome podemos pegar direto do Auth, pois é definido no cadastro
         perfilNome.textContent = `Olá, ${user.displayName || 'Cliente'}`;
-        
-        // Carrega a foto de perfil do usuário (se existir)
-        if (user.photoURL) {
-            perfilFoto.src = user.photoURL;
-        }
+        perfilEmail.textContent = user.email;
 
-        // Carrega o telefone do Firestore
         try {
             const userDoc = await db.collection('usuarios').doc(user.uid).get();
-            if (userDoc.exists && userDoc.data().telefone) {
-                perfilTelefone.textContent = userDoc.data().telefone;
+            if (userDoc.exists) {
+                const dados = userDoc.data();
+                
+                // Carrega a foto a partir do Firestore (fonte mais confiável)
+                if (dados.photoURL) {
+                    perfilFoto.src = dados.photoURL;
+                } else {
+                    perfilFoto.src = '../imagens/avatar-placeholder.png';
+                }
+
+                // Carrega o telefone a partir do Firestore
+                if (dados.telefone) {
+                    perfilTelefone.textContent = dados.telefone;
+                } else {
+                    perfilTelefone.textContent = 'Adicionar telefone';
+                }
             } else {
+                // Se o documento no Firestore ainda não existe
+                perfilFoto.src = '../imagens/avatar-placeholder.png';
                 perfilTelefone.textContent = 'Adicionar telefone';
             }
         } catch (error) {
             console.error("Erro ao carregar dados do usuário:", error);
-            perfilTelefone.textContent = 'Não foi possível carregar';
         }
     }
     
     // --- LÓGICA DO TELEFONE ---
     btnEditarTelefone.addEventListener('click', async () => {
-        const telefoneAtual = perfilTelefone.textContent.includes('Adicionar') 
-            ? '' 
-            : perfilTelefone.textContent;
-
+        const telefoneAtual = perfilTelefone.textContent.includes('Adicionar') ? '' : perfilTelefone.textContent;
         const { value: novoTelefone } = await Swal.fire({
-            title: 'Qual é o seu telefone?',
-            input: 'tel',
-            inputLabel: 'Seu número de telefone com DDD',
-            inputValue: telefoneAtual,
-            inputPlaceholder: '(99) 99999-9999',
-            confirmButtonText: 'Salvar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Você precisa digitar um número!'
-                }
-            }
+            title: 'Qual é o seu telefone?', input: 'tel', inputLabel: 'Seu número de telefone com DDD',
+            inputValue: telefoneAtual, confirmButtonText: 'Salvar', showCancelButton: true, cancelButtonText: 'Cancelar',
+            inputValidator: (value) => !value && 'Você precisa digitar um número!'
         });
-
         if (novoTelefone) {
             salvarTelefone(novoTelefone);
         }
@@ -78,9 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function salvarTelefone(telefone) {
         if (!currentUser) return;
         try {
-            await db.collection('usuarios').doc(currentUser.uid).set({
-                telefone: telefone
-            }, { merge: true });
+            await db.collection('usuarios').doc(currentUser.uid).set({ telefone: telefone }, { merge: true });
             perfilTelefone.textContent = telefone;
             Swal.fire('Sucesso!', 'Seu telefone foi salvo.', 'success');
         } catch (error) {
@@ -108,8 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const snapshot = await storageRef.put(file);
             const downloadURL = await snapshot.ref.getDownloadURL();
-            await currentUser.updateProfile({ photoURL: downloadURL });
-            await db.collection('usuarios').doc(currentUser.uid).set({ photoURL: downloadURL }, { merge: true });
+            await currentUser.updateProfile({ photoURL: downloadURL }); // Atualiza no Auth
+            await db.collection('usuarios').doc(currentUser.uid).set({ photoURL: downloadURL }, { merge: true }); // Atualiza no Firestore
             perfilFoto.src = downloadURL;
             Swal.fire('Sucesso!', 'Foto de perfil atualizada.', 'success');
         } catch (error) {
@@ -123,18 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         if (!currentUser) return;
         Swal.fire({
-            title: 'Alterar Senha?',
-            text: `Enviaremos um e-mail para ${currentUser.email} com as instruções.`,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sim, enviar e-mail',
-            cancelButtonText: 'Cancelar'
+            title: 'Alterar Senha?', text: `Enviaremos um e-mail para ${currentUser.email} com as instruções.`,
+            icon: 'question', showCancelButton: true, confirmButtonText: 'Sim, enviar e-mail', cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
                 auth.sendPasswordResetEmail(currentUser.email)
-                    .then(() => {
-                        Swal.fire('E-mail Enviado!', 'Verifique sua caixa de entrada para redefinir sua senha.', 'success');
-                    })
+                    .then(() => { Swal.fire('E-mail Enviado!', 'Verifique sua caixa de entrada para redefinir sua senha.', 'success'); })
                     .catch((error) => {
                         console.error("Erro ao enviar e-mail de redefinição:", error);
                         Swal.fire('Ops!', 'Ocorreu um erro. Tente novamente.', 'error');
