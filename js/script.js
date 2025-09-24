@@ -363,7 +363,7 @@ async function finalizarPedido() {
         }
         const mensagemCodificada = encodeURIComponent(mensagem);
         const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
-        window.open(urlWhatsApp, '_blank');
+        window.location.href = urlWhatsApp; //evita que o iphone intentifique como popup automatico
         
         carrinho = [];
         salvarCarrinho();
@@ -436,4 +436,5 @@ async function finalizarPedido() {
         await carregarDocesDoFirebase();
     }
     renderizarCarrinho();
+
 });
