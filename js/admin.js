@@ -115,6 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            if (!doceNomeInput.value || !docePrecoInput.value) {
+    alert('Nome e preço são obrigatórios.');
+    btnSalvar.disabled = false;
+    btnSalvar.textContent = 'Salvar Doce';
+    return;
+}
+
             const dadosDoce = {
                 nome: doceNomeInput.value,
                 preco: parseFloat(docePrecoInput.value),
@@ -165,6 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    firebase.auth().onAuthStateChanged(async (user) => {
+    if (!user) {
+        window.location.href = '../admin/login.html';
+        return;
+    }
+    const token = await user.getIdTokenResult();
+    if (token.claims.admin !== true && user.email !== 'js2291072@gmail.com') {
+        alert('Sem permissão de administrador.');
+        await firebase.auth().signOut();
+        window.location.href = '../admin/login.html';
+        return;
+    }
+
     // --- INICIALIZAÇÃO ---
     carregarDoces();
+});
 });
