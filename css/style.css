@@ -126,24 +126,6 @@ body {
     padding: 30px 40px;
   }
 
-  .carrinho {
-    display: flex;
-    position: sticky;
-    top: 0;
-    right: 0;
-    flex-shrink: 0;
-    width: 400px;
-    height: 100vh;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.05);
-    border-radius: 0;
-  }
-
-  .carrinho-fechar,
-  .bottom-nav,
-  .menu-icon {
-    display: none;
-  }
-
   .body-loja header {
     width: auto;
   }

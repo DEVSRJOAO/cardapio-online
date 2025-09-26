@@ -64,14 +64,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function abrirCarrinho() {
     if (carrinhoContainer) {
         await renderizarCarrinho();
-        document.body.classList.add('carrinho-ativo'); // Adiciona a trava de rolagem
         carrinhoContainer.classList.add('aberto');
     }
 }
 
 function fecharCarrinho() {
     if (carrinhoContainer) {
-        document.body.classList.remove('carrinho-ativo'); // Remove a trava de rolagem
         carrinhoContainer.classList.remove('aberto');
     }
 }

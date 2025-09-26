@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido - Doceria Niquinho</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/carrinho.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="carrinho-container aberto">
+        <div class="carrinho-conteudo">
+            <header class="carrinho-header-novo">
+                <a href="index.html" class="btn-voltar"><i class="fa fa-arrow-left"></i></a>
+                <h1>Finalizar Pedido</h1>
+            </header>
+            <main class="carrinho-main">
+                <section class="secao-carrinho">
+                    <h2>Como quer pagar seu pedido?</h2>
+                    <div class="opcoes-pagamento" id="opcoes-pagamento">
+                        <label class="opcao-pagamento" data-valor="Dinheiro ou Pix">
+                            <i class="fa fa-money-bill-wave"></i>
+                            <span>Dinheiro ou Pix</span>
+                            <input type="radio" name="pagamento" value="Dinheiro ou Pix" checked>
+                        </label>
+                        <div id="campo-troco" class="campo-troco">
+                            <label for="troco">Troco para:</label>
+                            <input type="text" id="troco" placeholder="Deixe em branco se não precisar">
+                        </div>
+                        <label class="opcao-pagamento" data-valor="Máquina de Cartão">
+                            <i class="fa fa-credit-card"></i>
+                            <span>Máquina de cartão (Débito/Crédito)</span>
+                            <input type="radio" name="pagamento" value="Máquina de Cartão">
+                        </label>
+                    </div>
+                </section>
+
+                <section class="secao-carrinho">
+                    <h2>Observação do pedido</h2>
+                    <textarea id="observacao-pedido" placeholder="Ex: Ponto de referência, tirar algum ingrediente, etc."></textarea>
+                </section>
+            </main>
+
+            <footer class="carrinho-footer-novo">
+                <div class="total-pagamento">
+                    <span>Total a pagar:</span>
+                    <strong id="total-final-pagamento">R$ 0,00</strong>
+                </div>
+                <button id="btn-finalizar-pedido-final" class="btn-continuar">Finalizar Pedido</button>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/pagamento.js"></script> </body>
+</html>
