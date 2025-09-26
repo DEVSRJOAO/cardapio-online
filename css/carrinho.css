@@ -19,7 +19,6 @@ body.carrinho-ativo {
   transform: translateX(100%);
   transition: transform 0.4s ease;
   display: flex;
-  /* Adicionado para garantir o layout interno */
   flex-direction: column;
 }
 
@@ -32,13 +31,11 @@ body.carrinho-ativo {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  /* Garante que o conteúdo não vaze */
 }
 
 /* --- CABEÇALHO --- */
 .carrinho-header-novo {
   flex-shrink: 0;
-  /* Impede que o cabeçalho encolha */
   display: flex;
   align-items: center;
   padding: 15px;
@@ -51,6 +48,7 @@ body.carrinho-ativo {
   margin: 0;
   font-size: 1.2em;
   padding-right: 40px;
+  /* Compensa o botão de voltar */
 }
 
 .btn-voltar {
@@ -63,9 +61,15 @@ body.carrinho-ativo {
 
 /* --- LAYOUTS INTERNOS (CHEIO E VAZIO) --- */
 .carrinho-cheio {
-  display: flex;
+  display: none;
+  /* Começa escondido */
   flex-direction: column;
+  flex-grow: 1;
   overflow: hidden;
+}
+
+.carrinho-cheio.visivel {
+  display: flex;
 }
 
 .carrinho-main {
@@ -76,8 +80,6 @@ body.carrinho-ativo {
   padding: 10px;
   background-color: #f8f9fa;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  /* Melhora a rolagem em iOS */
 }
 
 .carrinho-footer-novo {
@@ -90,12 +92,15 @@ body.carrinho-ativo {
 
 .carrinho-vazio {
   display: none;
+  /* Começa escondido */
   flex-grow: 1;
-  /* Ocupa o espaço se o carrinho estiver vazio */
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: #888;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .carrinho-vazio.visivel {
@@ -108,13 +113,7 @@ body.carrinho-ativo {
   opacity: 0.5;
 }
 
-.icone-vazio {
-  font-size: 4em;
-  margin-bottom: 20px;
-  opacity: 0.5;
-}
-
-/* O resto do seu CSS continua igual... */
+/* --- SEÇÕES E COMPONENTES INTERNOS --- */
 .secao-carrinho {
   background-color: #fff;
   padding: 15px;
@@ -143,6 +142,7 @@ body.carrinho-ativo {
   font-size: 0.9em;
 }
 
+/* TIPO DE PEDIDO */
 .opcoes-toggle {
   display: flex;
   gap: 10px;
@@ -168,6 +168,7 @@ body.carrinho-ativo {
   display: none;
 }
 
+/* SEÇÃO EMPRESA */
 .secao-empresa {
   display: flex;
   align-items: center;
@@ -202,6 +203,7 @@ body.carrinho-ativo {
   text-decoration: none;
 }
 
+/* SLIDER DE ENDEREÇOS */
 .enderecos-slider {
   display: flex;
   overflow-x: auto;
@@ -239,6 +241,7 @@ body.carrinho-ativo {
   line-height: 1.4;
 }
 
+/* VALORES DO PEDIDO */
 .valores-pedido {
   display: flex;
   flex-direction: column;
@@ -261,8 +264,53 @@ hr {
   margin: 5px 0;
 }
 
-.item-carrinho-card .item-body {
+/* ITENS INDIVIDUAIS DO CARRINHO */
+.lista-itens-carrinho {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-carrinho-card {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 15px 0;
+}
+
+.item-carrinho-card:last-child {
+  border-bottom: none;
+  padding-bottom: 5px;
+}
+
+.item-carrinho-card:first-child {
+  padding-top: 5px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.item-nome {
+  font-weight: 600;
+}
+
+.header-direita-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #888;
+}
+
+.item-header .fa-chevron-down {
+  transition: transform 0.3s;
+}
+
+.item-body {
   display: none;
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: 1px dashed #eee;
 }
 
 .item-carrinho-card.expandido .item-body {
@@ -273,6 +321,44 @@ hr {
   transform: rotate(180deg);
 }
 
+.item-obs {
+  font-size: 0.85em;
+  color: #666;
+  margin: 0 0 10px 0;
+}
+
+.item-controles {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-remover-item {
+  background: none;
+  border: 1px solid #ddd;
+  color: var(--cor-erro);
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.item-quantidade {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-qtd-carrinho {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  font-weight: 500;
+  color: var(--cor-primaria);
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+/* BOTÃO PRINCIPAL DO RODAPÉ */
 .btn-continuar {
   width: 100%;
   padding: 18px;
@@ -285,6 +371,7 @@ hr {
   cursor: pointer;
 }
 
+/* ESTILOS DA PÁGINA DE PAGAMENTO */
 .opcoes-pagamento {
   display: flex;
   flex-direction: column;
