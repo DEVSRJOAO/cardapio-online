@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             const dadosVendasSemana = labelsSemana.map(dia => vendasUltimos7Dias[dia]);
-            
+
             const contagemCategorias = {};
             const mapaProdutos = {};
             docesSnapshot.forEach(doc => {
@@ -89,48 +89,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const labelsCategorias = Object.keys(contagemCategorias);
             const dadosCategorias = Object.values(contagemCategorias);
 
-// --- 4. RENDERIZAR OS GRÁFICOS ---
-setTimeout(() => {
-    new Chart(graficoVendasSemanaCtx, {
-        type: 'bar',
-        data: {
-            labels: labelsSemana,
-            datasets: [{
-                label: 'Vendas (R$)',
-                data: dadosVendasSemana,
-                backgroundColor: 'rgba(91, 192, 222, 0.7)',
-                borderColor: 'rgba(91, 192, 222, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
+            // --- 4. RENDERIZAR OS GRÁFICOS ---
+            setTimeout(() => {
+                new Chart(graficoVendasSemanaCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsSemana,
+                        datasets: [{
+                            label: 'Vendas (R$)',
+                            data: dadosVendasSemana,
+                            backgroundColor: 'rgba(91, 192, 222, 0.7)',
+                            borderColor: 'rgba(91, 192, 222, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
 
-    new Chart(graficoCategoriasPizzaCtx, {
-        type: 'doughnut',
-        data: {
-            labels: labelsCategorias,
-            datasets: [{
-                label: 'Itens Vendidos',
-                data: dadosCategorias,
-                backgroundColor: ['rgba(255, 153, 204, 0.7)', 'rgba(91, 192, 222, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)'],
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-}, 0); // O "atraso" de 0 milissegundos é o suficiente
+                new Chart(graficoCategoriasPizzaCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labelsCategorias,
+                        datasets: [{
+                            label: 'Itens Vendidos',
+                            data: dadosCategorias,
+                            backgroundColor: ['rgba(255, 153, 204, 0.7)', 'rgba(91, 192, 222, 0.7)', 'rgba(255, 206, 86, 0.7)', 'rgba(75, 192, 192, 0.7)', 'rgba(153, 102, 255, 0.7)', 'rgba(255, 159, 64, 0.7)'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }, 0); // O "atraso" de 0 milissegundos é o suficiente
 
         } catch (error) {
             console.error("Erro ao carregar dados do dashboard:", error);

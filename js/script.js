@@ -1,30 +1,38 @@
 document.addEventListener('DOMContentLoaded', async () => {
 
     // --- ELEMENTOS DO DOM ---
-    const carrinhoPainel = document.querySelector('.carrinho');
-    const itensCarrinho = document.getElementById('itens-carrinho');
-    const totalPreco = document.getElementById('total-preco');
-    const btnFinalizar = document.getElementById('finalizar-pedido');
-    const btnEsvaziar = document.getElementById('esvaziar-carrinho');
-    const userInfoDiv = document.getElementById('user-info');
-    const iconeCarrinho = document.getElementById('icone-carrinho');
-    const contadorCarrinho = document.getElementById('contador-carrinho');
-    const carrinhoFechar = document.querySelector('.carrinho-fechar');
-    const overlay = document.getElementById('overlay-geral');
     const listaDoces = document.getElementById('lista-doces');
     const filtrosContainer = document.getElementById('filtros-categoria');
     const tituloCategoria = document.getElementById('titulo-categoria');
     const modal = document.getElementById('modal-produto');
-    const displayEndereco = document.getElementById('display-endereco');
+    const userInfoDiv = document.getElementById('user-info');
+    const overlay = document.getElementById('overlay-geral');
+    const contadorCarrinhoEl = document.getElementById('contador-carrinho');
 
-    // Elementos do Modal (verificados antes de usar)
-    let modalFecharNovo, modalImagemFundo, modalNome, modalDescricao, modalServe, modalPreco, modalObservacao, modalBtnDiminuir, modalQuantidade, modalBtnAumentar, modalAddPreco, btnModalAdicionar;
+    // Elementos do NOVO Carrinho
+    const carrinhoContainer = document.getElementById('carrinho-container');
+    const btnAbrirCarrinho = document.getElementById('icone-carrinho');
+    const btnAbrirCarrinhoNav = document.getElementById('nav-carrinho-btn');
+    const btnFecharCarrinho = document.getElementById('carrinho-fechar-novo');
+    const carrinhoVazioDiv = document.getElementById('carrinho-vazio');
+    const carrinhoCheioDiv = document.getElementById('carrinho-cheio');
+    const itensCarrinhoNovo = document.getElementById('itens-carrinho-novo');
+    const valorProdutosEl = document.getElementById('valor-produtos');
+    const valorEntregaEl = document.getElementById('valor-entrega');
+    const valorTotalCarrinhoEl = document.getElementById('valor-total-carrinho');
+    const btnFinalizarNovo = document.getElementById('btn-finalizar-novo');
+    const tipoPedidoToggle = document.getElementById('tipo-pedido-toggle');
+    const secaoEnderecoCarrinho = document.getElementById('secao-endereco-carrinho');
+    const enderecosListaHorizontal = document.getElementById('enderecos-lista-horizontal');
+    const voltarLojaBtn = document.getElementById('voltar-loja-btn');
+
+    // Elementos do Modal
+    let modalFecharNovo, modalImagemFundo, modalNome, modalDescricao, modalPreco, modalObservacao, modalBtnDiminuir, modalQuantidade, modalBtnAumentar, modalAddPreco, btnModalAdicionar;
     if (modal) {
         modalFecharNovo = document.querySelector('.modal-fechar-novo');
         modalImagemFundo = document.getElementById('modal-imagem-fundo');
         modalNome = document.getElementById('modal-nome');
         modalDescricao = document.getElementById('modal-descricao');
-        modalServe = document.getElementById('modal-serve');
         modalPreco = document.getElementById('modal-preco');
         modalObservacao = document.getElementById('modal-observacao');
         modalBtnDiminuir = document.getElementById('modal-diminuir-qtd');
@@ -33,10 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalAddPreco = document.getElementById('modal-add-preco');
         btnModalAdicionar = document.getElementById('btn-modal-adicionar');
     }
-    
-    // Elementos da Barra de Navegação Inferior
-    const navCarrinhoBtn = document.getElementById('nav-carrinho-btn');
-    const navCarrinhoBtnPerfil = document.getElementById('nav-carrinho-btn-perfil');
 
     // --- DADOS E VARIÁVEIS GLOBAIS ---
     const db = firebase.firestore();
@@ -44,28 +48,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     const docesCollection = db.collection('doces');
     let doces = [];
     let carrinho = JSON.parse(localStorage.getItem('doceriaCarrinho')) || [];
-    function salvarCarrinho() {
-    localStorage.setItem('doceriaCarrinho', JSON.stringify(carrinho));
-}
     let usuarioLogado = null;
-    let enderecoUsuario = null;
+    let taxaEntregaFixa = 5.00;
+    let tipoPedidoSelecionado = 'Entrega';
+    let enderecoSelecionadoId = null;
     const numeroWhatsApp = '559999863486';
     let quantidadeModal = 1;
     let precoUnitarioModal = 0;
 
     // --- FUNÇÕES DE CONTROLE (GLOBAIS) ---
-    function abrirCarrinho() {
-        if (carrinhoPainel) carrinhoPainel.classList.add('aberto');
-        if (overlay) overlay.classList.add('visible');
+    function salvarCarrinho() {
+        localStorage.setItem('doceriaCarrinho', JSON.stringify(carrinho));
     }
 
-    function fecharCarrinho() {
-        if (carrinhoPainel) carrinhoPainel.classList.remove('aberto');
-        if (!modal || !modal.classList.contains('active')) {
-            if (overlay) overlay.classList.remove('visible');
-        }
+  async function abrirCarrinho() {
+    if (carrinhoContainer) {
+        await renderizarCarrinho();
+        document.body.classList.add('carrinho-ativo'); // Adiciona a trava de rolagem
+        carrinhoContainer.classList.add('aberto');
     }
-    
+}
+
+function fecharCarrinho() {
+    if (carrinhoContainer) {
+        document.body.classList.remove('carrinho-ativo'); // Remove a trava de rolagem
+        carrinhoContainer.classList.remove('aberto');
+    }
+}
     function abrirModal(idDoce) {
         const doce = doces.find(d => d.id === idDoce);
         if (!doce || !modal) return;
@@ -74,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalImagemFundo.style.backgroundImage = `url(${doce.imagem})`;
         modalNome.textContent = doce.nome;
         modalDescricao.textContent = doce.descricao;
-        modalServe.textContent = 'Serve 1 pessoa';
         modalObservacao.value = '';
         atualizarFooterModal();
         btnModalAdicionar.dataset.id = doce.id;
@@ -83,81 +91,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function fecharModal() {
-        if(modal) modal.classList.remove('active');
-        if (!carrinhoPainel || !carrinhoPainel.classList.contains('aberto')) {
-             if (overlay) overlay.classList.remove('visible');
+        if (modal) modal.classList.remove('active');
+        if (!carrinhoContainer || !carrinhoContainer.classList.contains('aberto')) {
+            if (overlay) overlay.classList.remove('visible');
         }
     }
-    
+
     function atualizarFooterModal() {
         if (!modal) return;
         modalQuantidade.textContent = quantidadeModal;
         modalAddPreco.textContent = `R$ ${(precoUnitarioModal * quantidadeModal).toFixed(2)}`;
     }
 
-    // --- FUNÇÕES DE AUTENTICAÇÃO E DADOS DO USUÁRIO (GLOBAIS) ---
-    auth.onAuthStateChanged(async (user) => {
-        if (!userInfoDiv) return; // Só executa se a div de usuário existir
-
+    // --- FUNÇÕES DE AUTENTICAÇÃO E DADOS DO USUÁRIO ---
+    auth.onAuthStateChanged((user) => {
+        usuarioLogado = user;
         if (user) {
-            usuarioLogado = user;
             userInfoDiv.innerHTML = `<a href="perfil/" class="auth-link" title="Meu Perfil"><i class="fa fa-user-circle"></i></a>`;
-            await carregarEnderecoDoUsuario(user.uid);
         } else {
-            usuarioLogado = null;
-            enderecoUsuario = null;
             userInfoDiv.innerHTML = `<a href="auth-cliente/login.html" class="auth-link" title="Login / Cadastrar"><i class="fa fa-user"></i></a>`;
-            if (displayEndereco) {
-                document.querySelector('input[name="entrega"][value="retirar"]').checked = true;
-                displayEndereco.classList.remove('visible');
-            }
         }
+        renderizarCarrinho();
     });
-
- async function carregarEnderecoDoUsuario(uid) {
-    if (!displayEndereco) return;
-    try {
-        // Busca o primeiro endereço na subcoleção de endereços do usuário
-        const enderecosSnapshot = await db.collection('usuarios').doc(uid).collection('enderecos').limit(1).get();
-        
-        if (!enderecosSnapshot.empty) {
-            // Se encontrou, pega os dados do primeiro endereço
-            enderecoUsuario = enderecosSnapshot.docs[0].data(); 
-            const { rua, numero, bairro } = enderecoUsuario;
-            displayEndereco.innerHTML = `<p><strong>Entregar em:</strong></p><p>${rua}, ${numero} - ${bairro}</p><a href="perfil/endereco.html">Alterar ou ver completo</a>`;
-        } else {
-            // Se não encontrou nenhum endereço na subcoleção
-            enderecoUsuario = null;
-            displayEndereco.innerHTML = `<p>Nenhum endereço cadastrado.</p><a href="perfil/endereco.html">Cadastrar endereço no perfil</a>`;
-        }
-    } catch (error) {
-        console.error("Erro ao carregar endereço do usuário:", error);
-        enderecoUsuario = null;
-    }
-}
 
     // --- FUNÇÕES DE CARREGAMENTO E RENDERIZAÇÃO DE PRODUTOS ---
     async function carregarDocesDoFirebase() {
         try {
-            const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('categoria').orderBy('nome').get();
-            doces = [];
-            snapshot.forEach(doc => { doces.push({ id: doc.id, ...doc.data() }); });
+            const snapshot = await docesCollection.where('disponivel', '==', true).orderBy('nome').get();
+            doces = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             renderizarDoces();
         } catch (error) {
             console.error("Erro ao carregar doces: ", error);
-            if (error.code === 'failed-precondition') {
-                alert("O banco de dados precisa de um índice. Por favor, clique no link no console (F12) para criá-lo.");
-            }
         }
     }
-    
+
     function renderizarDoces(categoria = 'todos') {
         if (!listaDoces) return;
         listaDoces.innerHTML = '';
         const docesFiltrados = (categoria === 'todos') ? doces : doces.filter(doce => doce.categoria === categoria);
+
+        if (docesFiltrados.length === 0) {
+            listaDoces.innerHTML = '<p style="text-align: center; color: #888;">Nenhum produto encontrado nesta categoria.</p>';
+            return;
+        }
+
         docesFiltrados.forEach(doce => {
             const doceElement = document.createElement('div');
-            doceElement.classList.add('doce-item', 'doce-clicavel'); 
+            doceElement.classList.add('doce-item', 'doce-clicavel');
             doceElement.dataset.id = doce.id;
             doceElement.innerHTML = `
                 <div class="info-produto">
@@ -171,223 +151,198 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- FUNÇÕES DO CARRINHO (GLOBAIS) ---
+    // --- FUNÇÕES DO CARRINHO ---
     function adicionarAoCarrinho(idDoce, quantidade, observacao) {
         const doceSelecionado = doces.find(doce => doce.id === idDoce);
         if (!doceSelecionado) return;
-        const carrinhoId = idDoce + (observacao || '').trim();
-        const itemExistente = carrinho.find(item => item.carrinhoId === carrinhoId);
-        
-        if (itemExistente) {
-            itemExistente.quantidade += quantidade;
-        } else {
-            carrinho.push({ ...doceSelecionado, quantidade: quantidade, observacao: observacao.trim(), carrinhoId: carrinhoId });
-        }
+        const carrinhoId = Date.now().toString();
+        carrinho.push({ ...doceSelecionado, quantidade: quantidade, observacao: observacao.trim(), carrinhoId: carrinhoId });
         renderizarCarrinho();
-        Swal.fire({ icon: 'success', title: 'Adicionado!', text: `${doceSelecionado.nome} foi colocado no carrinho.`, toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, timerProgressBar: true });
         salvarCarrinho();
+        Swal.fire({ icon: 'success', title: 'Adicionado!', text: `${doceSelecionado.nome} foi colocado no carrinho.`, toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, timerProgressBar: true });
     }
 
-    function renderizarCarrinho() {
-        if (!itensCarrinho) return;
-        if (carrinho.length === 0) {
-            itensCarrinho.innerHTML = '<p>Seu carrinho está vazio.</p>';
-            totalPreco.textContent = '0.00';
-            if (contadorCarrinho) {
-                contadorCarrinho.textContent = '0';
-                contadorCarrinho.classList.remove('visible');
+    async function renderizarCarrinho() {
+        if (!carrinhoContainer) return;
+
+        const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+        if (contadorCarrinhoEl) {
+            if (totalItens > 0) {
+                contadorCarrinhoEl.textContent = totalItens;
+                contadorCarrinhoEl.classList.add('visible');
+            } else {
+                contadorCarrinhoEl.classList.remove('visible');
             }
+        }
+
+        if (carrinho.length === 0) {
+            carrinhoVazioDiv.classList.add('visivel');
+            carrinhoCheioDiv.classList.remove('visivel');
         } else {
-            itensCarrinho.innerHTML = '';
-            let total = 0;
-            let totalItens = 0;
+            carrinhoVazioDiv.classList.remove('visivel');
+            carrinhoCheioDiv.classList.add('visivel');
+            itensCarrinhoNovo.innerHTML = '';
+
             carrinho.forEach(item => {
                 const itemElement = document.createElement('div');
-                itemElement.classList.add('carrinho-item');
-                let obsHTML = item.observacao ? `<span class="obs-item">Obs: ${item.observacao}</span>` : '';
+                itemElement.classList.add('item-carrinho-card');
+                itemElement.dataset.id = item.carrinhoId;
+                let obsHTML = item.observacao ? `<p class="item-obs">Obs: ${item.observacao}</p>` : '';
                 itemElement.innerHTML = `
-                    <div class="carrinho-item-info">
-                        <span>${item.nome}</span>
+                    <div class="item-header">
+                        <span class="item-nome">${item.quantidade}x ${item.nome}</span>
+                        <div class="header-direita-item">
+                            <span class="item-preco-header">R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="item-body">
                         ${obsHTML}
-                        <span class="preco-item">R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                        <div class="item-controles">
+                             <button class="btn-remover-item" data-id="${item.carrinhoId}">Remover</button>
+                            <div class="item-quantidade">
+                                <button class="btn-qtd-carrinho" data-id="${item.carrinhoId}" data-acao="diminuir">-</button>
+                                <span>${item.quantidade}</span>
+                                <button class="btn-qtd-carrinho" data-id="${item.carrinhoId}" data-acao="aumentar">+</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carrinho-item-quantidade">
-                        <span class="btn-qtd" data-id="${item.carrinhoId}" data-acao="diminuir">-</span>
-                        <span class="quantidade">${item.quantidade}</span>
-                        <span class="btn-qtd" data-id="${item.carrinhoId}" data-acao="aumentar">+</span>
-                    </div>
-                    <span class="btn-remover" data-id="${item.carrinhoId}">🗑️</span>
                 `;
-                itensCarrinho.appendChild(itemElement);
-                total += item.preco * item.quantidade;
-                totalItens += item.quantidade;
+                itensCarrinhoNovo.appendChild(itemElement);
             });
-            totalPreco.textContent = total.toFixed(2);
-            if (contadorCarrinho) {
-                contadorCarrinho.textContent = totalItens;
-                contadorCarrinho.classList.add('visible');
-            }
-        }
-    }
-    
-    function manipularCarrinho(evento) {
-        const target = evento.target;
-        if (target.classList.contains('btn-remover')) {
-            removerDoCarrinho(target.getAttribute('data-id'));
-        }
-        if (target.classList.contains('btn-qtd')) {
-            alterarQuantidade(target.getAttribute('data-id'), target.getAttribute('data-acao'));
+            await carregarEnderecosNoCarrinho();
+            atualizarValores();
         }
     }
 
-    function removerDoCarrinho(carrinhoId) {
-        carrinho = carrinho.filter(item => item.carrinhoId !== carrinhoId);
-        renderizarCarrinho();
-        salvarCarrinho();
-    }
-    
-    function alterarQuantidade(carrinhoId, acao) {
-        const item = carrinho.find(item => item.carrinhoId === carrinhoId);
-        if (!item) return;
-        if (acao === 'aumentar') {
-            item.quantidade++;
-        } else if (acao === 'diminuir') {
-            if (item.quantidade > 1) {
-                item.quantidade--;
-            } else {
-                removerDoCarrinho(carrinhoId);
-            }
-        }
-        renderizarCarrinho();
-        salvarCarrinho();
-    }
-
-    function esvaziarCarrinho() {
-        if (carrinho.length === 0) { return; }
-        Swal.fire({ title: 'Tem certeza?', text: "Todos os itens serão removidos.", icon: 'warning', showCancelButton: true, confirmButtonColor: '#d33', cancelButtonColor: '#3085d6', confirmButtonText: 'Sim, esvaziar!', cancelButtonText: 'Cancelar' }).then((result) => {
-            if (result.isConfirmed) {
-                carrinho = [];
-                renderizarCarrinho();
-                salvarCarrinho();
-                Swal.fire('Carrinho Vazio!', 'Seus itens foram removidos.', 'success');
-            }
-        });
-    }
-
-async function finalizarPedido() {
-    if (carrinho.length === 0) {
-        Swal.fire('Carrinho Vazio', 'Adicione alguns itens antes de finalizar.', 'warning');
-        return;
-    }
-
-    const { value: formaPagamento } = await Swal.fire({ title: 'Forma de Pagamento', input: 'radio', inputOptions: { 'Pix': 'Pix', 'Cartão': 'Cartão', 'Dinheiro': 'Dinheiro' }, inputValidator: (value) => !value && 'Você precisa escolher uma opção!', confirmButtonText: 'Próximo &rarr;' });
-    if (!formaPagamento) return;
-
-    const { value: tipoEntregaResult } = await Swal.fire({ title: 'Opção de Entrega', showDenyButton: true, confirmButtonText: 'Receber em casa', denyButtonText: `Retirar no local`, icon: 'question' });
-    
-    let tipoEntrega = '';
-    let detalhesEntrega = '';
-
-    if (tipoEntregaResult === true) { // Quer entrega em casa
-        tipoEntrega = 'Entrega';
-        if (usuarioLogado) {
-            
-            // --- LÓGICA CORRIGIDA AQUI ---
-            // Busca o endereço mais recente na subcoleção de endereços do usuário
-            const enderecosSnapshot = await db.collection('usuarios').doc(usuarioLogado.uid).collection('enderecos').limit(1).get();
-
-            if (!enderecosSnapshot.empty) {
-                // Se encontrou, pega os dados do primeiro endereço
-                const primeiroEndereco = enderecosSnapshot.docs[0].data();
-                const { rua, numero, bairro, cidade, complemento } = primeiroEndereco;
-                detalhesEntrega = `${rua}, ${numero} - ${bairro}, ${cidade || ''}. ${complemento || ''}`;
-            } else {
-                // Se não encontrou, manda o usuário cadastrar
-                Swal.fire('Endereço Faltando', 'Vá ao seu perfil para cadastrar um endereço.', 'info').then(() => { 
-                    if (window.location.pathname.includes('perfil')) { 
-                        window.location.href = "endereco.html"; 
-                    } else { 
-                        window.location.href = "perfil/endereco.html";
-                    } 
-                });
-                return;
-            }
-        } else {
-            Swal.fire('Login Necessário', 'Para pedir entrega, você precisa estar logado.', 'info').then(() => { window.location.href = "auth-cliente/login.html"; });
+    async function carregarEnderecosNoCarrinho() {
+        if (!usuarioLogado) {
+            secaoEnderecoCarrinho.style.display = 'none';
             return;
         }
-    } else if (tipoEntregaResult === false) { // Quer retirar no local
-        tipoEntrega = 'Retirada';
-        detalhesEntrega = 'Retirar no local';
-    } else { // Fechou o pop-up
-        return; 
-    }
-
-    try {
-        let totalPedido = 0;
-        const itensPedido = carrinho.map(item => {
-            totalPedido += item.preco * item.quantidade;
-            return {
-                id: item.id,
-                nome: item.nome,
-                quantidade: item.quantidade,
-                precoUnitario: item.preco,
-                observacao: item.observacao || ''
-            };
-        });
-
-        const novoPedido = {
-            clienteId: usuarioLogado ? usuarioLogado.uid : null,
-            clienteNome: usuarioLogado ? usuarioLogado.displayName : 'Cliente não logado',
-            itens: itensPedido,
-            total: totalPedido,
-            formaPagamento: formaPagamento,
-            tipoEntrega: tipoEntrega,
-            detalhesEntrega: detalhesEntrega,
-            data: firebase.firestore.FieldValue.serverTimestamp(),
-            status: 'Pendente'
-        };
-
-        await db.collection('pedidos').add(novoPedido);
-        
-        let mensagem = 'Olá! Gostaria de fazer o seguinte pedido:\n\n';
-        carrinho.forEach(item => {
-            let obsTexto = item.observacao ? `\n  (Obs: ${item.observacao})` : '';
-            mensagem += `*${item.quantidade}x* ${item.nome}${obsTexto} - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
-        });
-        mensagem += `\n*Total do Pedido: R$ ${totalPedido.toFixed(2)}*`;
-        mensagem += `\n\n*Forma de Pagamento:* ${formaPagamento}`;
-        mensagem += `\n*Opção de Entrega:* ${detalhesEntrega}`;
-        if (usuarioLogado && usuarioLogado.displayName) {
-             mensagem += `\n\n*Cliente:* ${usuarioLogado.displayName}`;
+        secaoEnderecoCarrinho.style.display = 'block';
+        enderecosListaHorizontal.innerHTML = '';
+        const enderecosSnapshot = await db.collection('usuarios').doc(usuarioLogado.uid).collection('enderecos').get();
+        if (enderecosSnapshot.empty) {
+            enderecosListaHorizontal.innerHTML = `<p>Nenhum endereço cadastrado.</p>`;
+        } else {
+            enderecosSnapshot.forEach(doc => {
+                const endereco = doc.data();
+                const id = doc.id;
+                const card = document.createElement('div');
+                card.classList.add('endereco-card-carrinho');
+                card.dataset.id = id;
+                card.innerHTML = `
+                    <strong><i class="fa fa-map-marker-alt"></i> ${endereco.apelido}</strong>
+                    <p>${endereco.rua}, ${endereco.numero}</p>
+                `;
+                if (id === enderecoSelecionadoId) {
+                    card.classList.add('selecionado');
+                }
+                enderecosListaHorizontal.appendChild(card);
+            });
         }
-        const mensagemCodificada = encodeURIComponent(mensagem);
-        const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
-        window.location.href = urlWhatsApp; //evita que o iphone intentifique como popup automatico
-        
-        carrinho = [];
-        salvarCarrinho();
-        renderizarCarrinho();
-        fecharCarrinho();
-
-    } catch (error) {
-        console.error("Erro ao salvar o pedido no Firestore: ", error);
-        Swal.fire('Ops!', 'Não foi possível registrar seu pedido no sistema. Por favor, tente novamente.', 'error');
     }
-}
-    // --- EVENT LISTENERS ---
-    
-    // Listeners Globais
-    if (iconeCarrinho) iconeCarrinho.addEventListener('click', abrirCarrinho);
-    if (carrinhoFechar) carrinhoFechar.addEventListener('click', fecharCarrinho);
-    if (overlay) overlay.addEventListener('click', () => { fecharModal(); fecharCarrinho(); });
-    if (btnFinalizar) btnFinalizar.addEventListener('click', finalizarPedido);
-    if (itensCarrinho) itensCarrinho.addEventListener('click', manipularCarrinho);
-    if (btnEsvaziar) btnEsvaziar.addEventListener('click', esvaziarCarrinho);
-    if (navCarrinhoBtn) navCarrinhoBtn.addEventListener('click', (e) => { e.preventDefault(); abrirCarrinho(); });
-    if (navCarrinhoBtnPerfil) navCarrinhoBtnPerfil.addEventListener('click', (e) => { e.preventDefault(); abrirCarrinho(); });
 
-    // Listeners Específicos da Página Principal
+    function atualizarValores() {
+        const subtotal = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
+        let entrega = 0;
+        if (tipoPedidoSelecionado === 'Entrega' && enderecoSelecionadoId) {
+            entrega = taxaEntregaFixa;
+        }
+        const total = subtotal + entrega;
+        valorProdutosEl.textContent = `R$ ${subtotal.toFixed(2)}`;
+        valorEntregaEl.textContent = `R$ ${entrega.toFixed(2)}`;
+        valorTotalCarrinhoEl.textContent = `R$ ${total.toFixed(2)}`;
+    }
+
+    function alterarQuantidade(carrinhoId, acao) {
+        const itemIndex = carrinho.findIndex(item => item.carrinhoId === carrinhoId);
+        if (itemIndex === -1) return;
+
+        if (acao === 'aumentar') {
+            carrinho[itemIndex].quantidade++;
+        } else if (acao === 'diminuir') {
+            if (carrinho[itemIndex].quantidade > 1) {
+                carrinho[itemIndex].quantidade--;
+            } else {
+                carrinho.splice(itemIndex, 1);
+            }
+        }
+        renderizarCarrinho();
+        salvarCarrinho();
+    }
+
+    async function finalizarPedido() {
+        if (carrinho.length === 0) return Swal.fire('Carrinho Vazio', 'Adicione itens para continuar.', 'warning');
+        if (tipoPedidoSelecionado === 'Entrega' && !enderecoSelecionadoId) return Swal.fire('Endereço Necessário', 'Por favor, selecione um endereço para entrega.', 'warning');
+
+        // A lógica de salvar e enviar para o WhatsApp será a Fase 4 do nosso plano.
+        // Por enquanto, vamos simular a navegação para a página de pagamento.
+        localStorage.setItem('doceriaPedidoFinal', JSON.stringify({
+            carrinho: carrinho,
+            tipoEntrega: tipoPedidoSelecionado,
+            enderecoId: enderecoSelecionadoId,
+            taxaEntrega: (tipoPedidoSelecionado === 'Entrega' && enderecoSelecionadoId) ? taxaEntregaFixa : 0
+        }));
+        window.location.href = 'pagamento.html'; // Vamos criar esta página na próxima fase
+    }
+
+    // --- EVENT LISTENERS ---
+    if (btnAbrirCarrinho) btnAbrirCarrinho.addEventListener('click', abrirCarrinho);
+    if (btnAbrirCarrinhoNav) btnAbrirCarrinhoNav.addEventListener('click', abrirCarrinho);
+    if (btnFecharCarrinho) btnFecharCarrinho.addEventListener('click', fecharCarrinho);
+    if (voltarLojaBtn) voltarLojaBtn.addEventListener('click', fecharCarrinho);
+    if (btnFinalizarNovo) btnFinalizarNovo.addEventListener('click', finalizarPedido);
+
+    itensCarrinhoNovo.addEventListener('click', (e) => {
+        const target = e.target;
+        const card = target.closest('.item-carrinho-card');
+        if (!card) return;
+
+        if (target.closest('.item-header')) {
+            card.classList.toggle('expandido');
+        }
+        if (target.classList.contains('btn-qtd-carrinho')) {
+            const id = target.dataset.id;
+            const acao = target.dataset.acao;
+            alterarQuantidade(id, acao);
+        }
+        if (target.classList.contains('btn-remover-item')) {
+            const id = target.dataset.id;
+            carrinho = carrinho.filter(i => i.carrinhoId !== id);
+            renderizarCarrinho();
+            salvarCarrinho();
+        }
+    });
+
+    tipoPedidoToggle.addEventListener('click', (e) => {
+        const label = e.target.closest('.toggle-label');
+        if (!label) return;
+        tipoPedidoToggle.querySelector('.active').classList.remove('active');
+        label.classList.add('active');
+        tipoPedidoSelecionado = label.dataset.valor;
+        if (tipoPedidoSelecionado === 'Retirada') {
+            secaoEnderecoCarrinho.style.display = 'none';
+            enderecoSelecionadoId = null;
+            const selecionado = enderecosListaHorizontal.querySelector('.selecionado');
+            if (selecionado) selecionado.classList.remove('selecionado');
+        } else {
+            secaoEnderecoCarrinho.style.display = 'block';
+        }
+        atualizarValores();
+    });
+
+    enderecosListaHorizontal.addEventListener('click', (e) => {
+        const card = e.target.closest('.endereco-card-carrinho');
+        if (!card) return;
+        const selecionadoAnterior = enderecosListaHorizontal.querySelector('.selecionado');
+        if (selecionadoAnterior) selecionadoAnterior.classList.remove('selecionado');
+        card.classList.add('selecionado');
+        enderecoSelecionadoId = card.dataset.id;
+        atualizarValores();
+    });
+
     if (listaDoces) {
         listaDoces.addEventListener('click', (e) => {
             const doceClicado = e.target.closest('.doce-clicavel');
@@ -395,6 +350,9 @@ async function finalizarPedido() {
                 abrirModal(doceClicado.dataset.id);
             }
         });
+    }
+
+    if (filtrosContainer) {
         filtrosContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('filtro-btn')) {
                 filtrosContainer.querySelector('.active').classList.remove('active');
@@ -403,6 +361,9 @@ async function finalizarPedido() {
                 renderizarDoces(e.target.dataset.categoria);
             }
         });
+    }
+
+    if (modal) {
         modalFecharNovo.addEventListener('click', fecharModal);
         btnModalAdicionar.addEventListener('click', () => {
             adicionarAoCarrinho(btnModalAdicionar.dataset.id, quantidadeModal, modalObservacao.value);
@@ -419,22 +380,12 @@ async function finalizarPedido() {
             }
         });
     }
-    if (displayEndereco) {
-        document.querySelectorAll('input[name="entrega"]').forEach(radio => {
-            radio.addEventListener('change', (evento) => {
-                if (evento.target.value === 'delivery') {
-                    displayEndereco.classList.add('visible');
-                } else {
-                    displayEndereco.classList.remove('visible');
-                }
-            });
-        });
-    }
+
+    if (overlay) overlay.addEventListener('click', () => { fecharModal(); });
 
     // --- INICIALIZAÇÃO ---
     if (listaDoces) {
         await carregarDocesDoFirebase();
     }
     renderizarCarrinho();
-
 });

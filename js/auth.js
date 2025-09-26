@@ -10,16 +10,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('cadastro-email').value;
             const senha = document.getElementById('cadastro-senha').value;
             const mensagem = document.getElementById('auth-mensagem');
+            const db = firebase.firestore(); // Adiciona referência ao DB
 
             try {
-                // Cria o usuário com e-mail e senha
                 const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
-                // Adiciona o nome ao perfil do usuário
-                await userCredential.user.updateProfile({
-                    displayName: nome
-                });
+                const user = userCredential.user;
+
+                // Adiciona o nome ao perfil do Auth
+                await user.updateProfile({ displayName: nome });
+
+                // CRIA o documento do usuário no Firestore
+                await db.collection('usuarios').doc(user.uid).set({
+                    nome: nome,
+                    email: email,
+                    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
                 alert(`Bem-vindo(a), ${nome}! Cadastro realizado com sucesso.`);
-                window.location.href = '../index.html'; // Redireciona para a loja
+                window.location.href = '../index.html';
             } catch (error) {
                 console.error("Erro no cadastro:", error);
                 mensagem.textContent = `Erro: ${error.message}`;

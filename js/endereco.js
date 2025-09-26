@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formTitulo = document.getElementById('form-endereco-titulo');
     const btnAbrirForm = document.getElementById('btn-abrir-form-endereco');
     const btnCancelar = document.getElementById('btn-cancelar-edicao');
-    
+
     // Inputs do formulário
     const inputId = document.getElementById('endereco-id');
     const inputApelido = document.getElementById('end-apelido');
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnAbrirForm.style.display = 'none';
         inputApelido.focus();
     });
-    
+
     // Esconde e limpa o formulário
     function esconderFormulario() {
         formEndereco.reset();
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnCancelar.addEventListener('click', esconderFormulario);
-    
+
     // Preenche o formulário para edição de um endereço existente
     async function preencherFormularioParaEdicao(id) {
         try {
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputBairro.value = endereco.bairro;
                 inputComplemento.value = endereco.complemento;
                 inputCidade.value = endereco.cidade;
-                
+
                 formTitulo.textContent = 'Editar Endereço';
                 btnAbrirForm.style.display = 'none';
                 secaoForm.style.display = 'block';
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Salva um endereço (seja ele novo ou uma edição)
     formEndereco.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const enderecoId = inputId.value; // Pega o ID do campo escondido
         const enderecoData = {
             apelido: inputApelido.value,

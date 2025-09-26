@@ -10,11 +10,13 @@
     <div class="form-section auth-container">
         <img src="../imagens/logo-doceria.png" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
         <h2>Acesse sua Conta</h2>
-        <form id="form-login">
-            <input type="email" id="login-email" placeholder="E-mail" required>
-            <input type="password" id="login-senha" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+      <form id="form-login">
+    <label for="login-email" class="sr-only">E-mail</label>
+    <input type="email" id="login-email" placeholder="E-mail" required>
+    <label for="login-senha" class="sr-only">Senha</label>
+    <input type="password" id="login-senha" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+</form>
         <p class="auth-switch">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
         <p id="auth-mensagem"></p>
     </div>

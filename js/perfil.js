@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const userDoc = await db.collection('usuarios').doc(user.uid).get();
             if (userDoc.exists) {
                 const dados = userDoc.data();
-                
+
                 // Carrega a foto a partir do Firestore (fonte mais confiável)
                 if (dados.photoURL) {
                     perfilFoto.src = dados.photoURL;
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Erro ao carregar dados do usuário:", error);
         }
     }
-    
+
     // --- LÓGICA DO TELEFONE ---
     btnEditarTelefone.addEventListener('click', async () => {
         const telefoneAtual = perfilTelefone.textContent.includes('Adicionar') ? '' : perfilTelefone.textContent;

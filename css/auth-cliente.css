@@ -4,7 +4,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #f5f7fa; /* cinza bem clarinho */
+    background: #f5f7fa;
+    /* cinza bem clarinho */
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
 }
@@ -47,7 +48,8 @@
 }
 
 .auth-container input:focus {
-    border-color: #4db6e5; /* azul clarinho */
+    border-color: #4db6e5;
+    /* azul clarinho */
 }
 
 /* Botão */
@@ -91,4 +93,32 @@
     margin-top: 15px;
     font-size: 14px;
     color: red;
+}
+
+#auth-mensagem.sucesso {
+    color: green;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+        width: 90%;
+    }
+}
+
+/* Correção de alinhamento para a tela de login/cadastro */
+.auth-switch {
+    text-align: center;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
