@@ -229,19 +229,7 @@
     <script src="js/firebase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/script.js"></script>
-    <script>
-        firebase.auth().onAuthStateChanged((user) => {
-            if (!user) {
-                // Se não estiver logado, manda para o login
-                if (!window.location.pathname.endsWith("login.html") &&
-                    !window.location.pathname.endsWith("cadastro.html")) {
-                    window.location.href = "welcome.html";
-                }
-            } else {
-                console.log("Usuário logado:", user.email);
-            }
-        });
-    </script>
+
 
 </body>
 

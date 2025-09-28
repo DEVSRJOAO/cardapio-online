@@ -271,20 +271,40 @@ function fecharCarrinho() {
         salvarCarrinho();
     }
 
-    async function finalizarPedido() {
-        if (carrinho.length === 0) return Swal.fire('Carrinho Vazio', 'Adicione itens para continuar.', 'warning');
-        if (tipoPedidoSelecionado === 'Entrega' && !enderecoSelecionadoId) return Swal.fire('Endereço Necessário', 'Por favor, selecione um endereço para entrega.', 'warning');
-
-        // A lógica de salvar e enviar para o WhatsApp será a Fase 4 do nosso plano.
-        // Por enquanto, vamos simular a navegação para a página de pagamento.
-        localStorage.setItem('doceriaPedidoFinal', JSON.stringify({
-            carrinho: carrinho,
-            tipoEntrega: tipoPedidoSelecionado,
-            enderecoId: enderecoSelecionadoId,
-            taxaEntrega: (tipoPedidoSelecionado === 'Entrega' && enderecoSelecionadoId) ? taxaEntregaFixa : 0
-        }));
-        window.location.href = 'pagamento.html'; // Vamos criar esta página na próxima fase
+ async function finalizarPedido() {
+    // 1. VERIFICA SE O USUÁRIO ESTÁ LOGADO
+    if (!usuarioLogado) {
+        // Se não estiver, avisa e redireciona para o login
+        Swal.fire({
+            title: 'Login Necessário',
+            text: 'Para finalizar o pedido, você precisa fazer o login ou criar uma conta.',
+            icon: 'info',
+            confirmButtonText: 'Fazer Login'
+        }).then(() => {
+            window.location.href = 'auth-cliente/login.html';
+        });
+        return; // Interrompe a função aqui
     }
+
+    // 2. SE ESTIVER LOGADO, CONTINUA COM A LÓGICA QUE JÁ TÍNHAMOS
+    if (carrinho.length === 0) {
+        return Swal.fire('Carrinho Vazio', 'Adicione itens para continuar.', 'warning');
+    }
+    
+    if (tipoPedidoSelecionado === 'Entrega' && !enderecoSelecionadoId) {
+        return Swal.fire('Endereço Necessário', 'Por favor, selecione um endereço para entrega.', 'warning');
+    }
+    
+    // Salva os dados para a próxima página
+    localStorage.setItem('doceriaPedidoFinal', JSON.stringify({
+        carrinho: carrinho,
+        tipoEntrega: tipoPedidoSelecionado,
+        enderecoId: enderecoSelecionadoId,
+        taxaEntrega: (tipoPedidoSelecionado === 'Entrega' && enderecoSelecionadoId) ? taxaEntregaFixa : 0
+    }));
+
+    window.location.href = 'pagamento.html';
+}
 
     // --- EVENT LISTENERS ---
     if (btnAbrirCarrinho) btnAbrirCarrinho.addEventListener('click', abrirCarrinho);
