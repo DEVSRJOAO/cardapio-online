@@ -1,383 +1,254 @@
-/* Cores da Logo */
+/* ================================================= */
+/* CONFIGURAÇÕES GLOBAIS E VARIÁVEIS                 */
+/* ================================================= */
 :root {
-    --cor-primaria: #5bc0de; /* Azul Turquesa da logo */
-    --cor-secundaria: #ff99cc; /* Rosa da logo */
-    --cor-texto-escuro: #4a4a4a;
-    --cor-texto-claro: #ffffff;
-    --cor-fundo-claro: #f0f8ff; /* Um azul bem clarinho para o fundo */
+  --cor-primaria: #5bc0de;
+  --cor-secundaria: #ff99cc;
+  --cor-texto-escuro: #4a4a4a;
+  --cor-texto-claro: #ffffff;
+  --cor-fundo-claro: #ffffff;
+  --cor-fundo-cinza: #f8f9fa;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-/* Importando uma fonte bonita do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--cor-fundo-claro);
-    color: var(--cor-texto-escuro);
-    margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: var(--cor-fundo-claro);
+  color: var(--cor-texto-escuro);
+  margin: 0;
+}
+
+/* ================================================= */
+/* BARRA DE NAVEGAÇÃO INFERIOR (MOBILE)              */
+/* ================================================= */
+.bottom-nav {
+  display: none;
+  /* Começa escondida por padrão */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #ffffff;
+  border-top: 1px solid #f0f0f0;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 0.7em;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-item i {
+  font-size: 1.4em;
+}
+
+.nav-item:hover {
+  color: var(--cor-texto-escuro);
+}
+
+.nav-item.active {
+  color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+/* ================================================= */
+/* RESPONSIVIDADE (MEDIA QUERIES)                    */
+/* ================================================= */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 80px;
+  }
+
+  main {
+    padding: 0 15px;
+  }
+
+  .body-loja .header-left,
+  .body-loja .header-direita,
+  .header-direita {
+    display: none !important;
+    /* Força o elemento a desaparecer */
+  }
+
+  .body-loja header {
+    justify-content: center;
+  }
+
+  .bottom-nav {
     display: flex;
-    flex-wrap: wrap;
+  }
 }
 
-header {
+@media (max-width: 600px) {
+  .modal .modal-content {
+    flex-direction: column;
+    animation: none;
+    /* Pode remover a animação em telas muito pequenas se preferir */
+  }
+
+  #modal-imagem,
+  .modal-info {
     width: 100%;
-    background-color: var(--cor-primaria); /* Azul da logo */
-    color: var(--cor-texto-claro);
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .perfil-container {
+    flex-direction: column;
+  }
 }
 
-.logo { /* Estilo para a imagem da logo */
-    max-width: 200px; /* Ajuste o tamanho conforme desejar */
-    height: auto;
-    margin-bottom: 10px;
-}
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
-main {
-    flex: 3; /* Ocupa 3/4 do espaço */
-    padding: 20px;
-}
+  main {
+    flex-grow: 1;
+    padding: 30px 40px;
+  }
 
-main h2 {
-    color: var(--cor-primaria); /* Azul da logo */
-}
+  .body-loja header {
+    width: auto;
+  }
 
-.lista-doces {
+  .body-loja .header-left,
+  .body-loja .header-direita {
+    display: flex;
+  }
+
+  .header-direita {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 440px;
+  }
+
+  .lista-doces {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
 
-.doce-item {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    text-align: center;
-    transition: transform 0.3s;
-}
+  .doce-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 16px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+  }
 
-.doce-item:hover {
-    transform: translateY(-5px);
-}
-
-.doce-item img {
+  .doce-item .imagem-produto {
     width: 100%;
     height: 180px;
-    object-fit: cover;
+  }
+
+  .modal.active {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .modal .modal-content {
+    width: 90%;
+    max-width: 700px;
+    height: auto;
+    border-radius: 10px;
+    flex-direction: row;
+    animation: none;
+  }
+
+  .modal-header-image {
+    width: 50%;
+    height: auto;
+    min-height: 450px;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .info-loja-flutuante,
+  .modal-fechar-novo {
+    display: none;
+  }
+
+  .modal-body-content {
+    width: 50%;
+  }
+
+  .modal-footer-actions {
+    position: static;
+    flex-direction: column;
+    border-top: none;
+    padding: 0;
+    margin-top: auto;
+  }
+
+  .btn-adicionar-grande {
+    width: auto;
+  }
 }
 
-.doce-item h3 {
-    margin: 15px 0 5px 0;
-    color: var(--cor-texto-escuro);
-}
-
-.doce-item .preco {
-    font-weight: 600;
-    color: var(--cor-secundaria); /* Rosa da logo */
-    font-size: 1.1em;
-}
-
-.btn-adicionar {
-    background-color: var(--cor-secundaria); /* Rosa da logo */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.btn-adicionar:hover {
-    background-color: #e084b9; /* Um tom um pouco mais escuro do rosa */
-}
-
-.carrinho {
-    flex: 1; /* Ocupa 1/4 do espaço */
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-    min-width: 300px;
-    height: 100vh; /* Ocupa a altura toda da tela */
-    position: sticky;
-    top: 0;
-}
-
-.carrinho-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-.total-carrinho {
-    margin-top: 20px;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: right;
-}
-
-.btn-finalizar {
-    width: 100%;
-    background-color: #25d366; /* Cor do WhatsApp (mantive essa padrão) */
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 5px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-}
-
-.btn-finalizar:hover {
-    background-color: #128c7e;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
-    .carrinho {
-        position: relative;
-        width: 100%;
-        height: auto;
-        box-sizing: border-box;
-    }
-}
-
-/* Estilo para o link do admin no rodapé */
+/* ================================================= */
+/* ================================================= */
+/* RODAPÉ (FOOTER)                                   */
+/* ================================================= */
 footer {
-    width: 100%;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #e9ecef;
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  background-color: var(--cor-fundo-cinza);
+  border-top: 1px solid #e9ecef;
 }
 
 .admin-login-link {
-    color: #6c757d; /* Um cinza discreto */
-    text-decoration: none;
-    font-size: 0.9em;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s;
 }
 
 .admin-login-link:hover {
-    color: #343a40; /* Escurece um pouco ao passar o mouse */
+  color: #343a40;
 }
 
-.btn-esvaziar {
-    width: 100%;
-    background-color: #6c757d; /* Cinza */
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.btn-esvaziar:hover {
-    background-color: #5a6268;
-}
-
-/* style.css */
-
-.carrinho-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-.carrinho-item-info {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.btn-remover {
-    cursor: pointer;
-    font-size: 1.1em;
-    padding: 5px;
-
-    /* style.css */
-
-.carrinho-item-info span {
-    display: block; /* Faz o preço ficar embaixo do nome */
-}
-
-.preco-item {
-    font-size: 0.9em;
-    color: #555;
-}
-
-.carrinho-item-quantidade {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-qtd {
-    cursor: pointer;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 0 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    user-select: none; /* Impede que o texto seja selecionado ao clicar rápido */
-}
-.btn-qtd:hover {
-    background-color: #f0f0f0;
-}
-
-.quantidade {
-    font-weight: 500;
-}
-}
-
-.filtros-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.filtro-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--cor-secundaria);
-    border-radius: 20px;
-    background-color: transparent;
-    color: var(--cor-secundaria);
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.filtro-btn:hover {
-    background-color: var(--cor-secundaria);
-    color: white;
-}
-
-.filtro-btn.active {
-    background-color: var(--cor-secundaria);
-    color: white;
-    font-weight: bold;
-}
-
-/* ================================= */
-/* ESTILOS DO MODAL DE PRODUTO       */
-/* ================================= */
-.modal {
-    display: none; /* Escondido por padrão */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal.active {
-    display: flex; /* Mostra o modal quando a classe 'active' é adicionada */
-}
-
-.modal-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Fundo escuro semi-transparente */
-}
-
-.modal-content {
-    background-color: #fff;
-    margin: auto;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    z-index: 1001;
-    width: 90%;
-    max-width: 700px;
-    position: relative;
-    animation: slide-down 0.3s ease-out;
-}
-
-@keyframes slide-down {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.modal-fechar {
-    color: #aaa;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.modal-fechar:hover,
-.modal-fechar:focus {
-    color: black;
-}
-
-#modal-corpo {
-    display: flex;
-    gap: 20px;
-}
-
-#modal-imagem {
-    width: 50%;
-    max-width: 300px;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.modal-info {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-info .preco {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--cor-secundaria);
-    margin-top: auto; /* Empurra o preço e o botão para baixo */
-}
-
-#btn-modal-adicionar {
-    margin: 15px 0 0 0; /* Remove a margem lateral */
-}
-
-/* Responsividade para o modal em telas pequenas */
-@media (max-width: 600px) {
-    #modal-corpo {
-        flex-direction: column;
-    }
-    #modal-imagem, .modal-info {
-        width: 100%;
-    }
+/* ================================================= */
+/* CORREÇÃO PARA O LAYOUT DO DASHBOARD               */
+/* ================================================= */
+.dashboard-body {
+  display: block !important;
+  /* Força o layout a ser o padrão de bloco */
+  padding: 0 !important;
+  /* Remove qualquer padding extra */
+  margin: 0 !important;
+  /* Remove qualquer margem extra */
+  box-sizing: border-box;
+  /* Garante que o box-sizing seja border-box */
+  width: 100% !important;
+  /* Garante que o dashboard ocupe toda a largura disponível */
+  min-height: 100vh;
+  /* Garante que o dashboard ocupe pelo menos a altura total da viewport */
+  background-color: var(--cor-fundo-claro);
+  /* Define a cor de fundo */
+  color: var(--cor-texto-escuro);
+  /* Define a cor do texto */
+  font-family: "Poppins", sans-serif;
+  /* Define a fonte padrão */
+  overflow-x: hidden;
+  /* Evita overflow horizontal */
 }
