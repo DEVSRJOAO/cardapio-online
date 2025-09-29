@@ -1,236 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bem-vindo à Doceria Niquinho</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/welcome.css" />
+    <link rel="icon" type="image/png" href="imagens/favicon.png" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doceria Niquinho - Doces Artesanais</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loja.css">
-    <link rel="stylesheet" href="css/carrinho.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="icon" type="image/png" href="imagens/favicon.png">
+  <body>
+    <div class="welcome-container">
+      <header class="welcome-header">
+        <img
+          src="imagens/logo-doceria.png"
+          alt="Logo Doceria Niquinho"
+          class="logo-principal"
+        />
+      </header>
 
-</head>
-
-<body>
-    <header>
-        <div class="header-left">
-            <a href="index.html" class="brand-logo-container">
-                <img src="imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo">
-                <div class="brand-text">
-                    <span class="brand-name">Niquinho Doceria</span>
-                    <span class="brand-tagline">Doces Artesanais</span>
-                </div>
-            </a>
+      <main class="welcome-main">
+        <p class="frase-loja">
+          Seja Muito Bem-Vindo ao nosso mundo doce, Niquinho Doceria. Aqui a
+          vida é muito mais gostosa! Spoiler: é impossível comer um só! Prove
+          e volte sempre.🩵
+        </p>
+        <div id="status-loja" class="status-container">
+          <span id="status-circulo" class="circulo"></span>
+          <span id="status-texto">Verificando horário...</span>
         </div>
-        <div class="header-direita">
-            <div id="user-info"></div>
-            <div id="icone-carrinho" class="icone-carrinho">
-                <i class="fa fa-shopping-cart"></i>
-                <span id="contador-carrinho" class="contador-carrinho">0</span>
-            </div>
-        </div>
-    </header>
+        <a href="cardapio.html" id="btn-prosseguir" class="btn-principal"
+          >Ver Cardápio</a
+        >
+      </main>
 
-    <main>
-        <div id="filtros-categoria" class="filtros-container">
-            <button class="filtro-btn active" data-categoria="todos">Todos</button>
-            <button class="filtro-btn" data-categoria="promocao">Promoção do dia</button>
-            <button class="filtro-btn" data-categoria="combo">Combos</button>
-            <button class="filtro-btn" data-categoria="doce">Doces</button>
-            <button class="filtro-btn" data-categoria="salgado">Salgados</button>
-            <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
+      <footer class="welcome-footer">
+        <div class="info-loja">
+          <a class="vm">
+            <p>Valor minimo para pedido</p>
+            R$12,00
+          </a>
+          <p class="endereco-loja">Rua 22, 123 - Bairro potosi, Balsas, MA</p>
+          <p class="horario-loja">
+            <strong>Horário:</strong> Ter a Dom, das 14h às 22h
+          </p>
         </div>
-
-        <h2 id="titulo-categoria">Todos</h2>
-
-       <div id="lista-doces" class="lista-doces">
-    <div class="doce-item-skeleton">
-        <div class="info-produto-skeleton">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text-small"></div>
-            <div class="skeleton skeleton-text-medium"></div>
+        <div class="dev-logo">
+          <p>Desenvolvido por: Joao Batista Tech</p>
         </div>
-        <div class="skeleton skeleton-img"></div>
+      </footer>
     </div>
-    <div class="doce-item-skeleton">
-        <div class="info-produto-skeleton">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text-small"></div>
-            <div class="skeleton skeleton-text-medium"></div>
-        </div>
-        <div class="skeleton skeleton-img"></div>
-    </div>
-    <div class="doce-item-skeleton">
-        <div class="info-produto-skeleton">
-            <div class="skeleton skeleton-text"></div>
-            <div class="skeleton skeleton-text-small"></div>
-            <div class="skeleton skeleton-text-medium"></div>
-        </div>
-        <div class="skeleton skeleton-img"></div>
-    </div>
-    </div>
-    </main>
-
-    <div id="modal-produto" class="modal">
-        <div class="modal-content">
-            <div class="modal-header-image" id="modal-imagem-fundo">
-                <div class="modal-fechar-novo"><i class="fa fa-arrow-left"></i></div>
-            </div>
-
-            <div class="info-loja-flutuante">
-                <img src="imagens/logo-doceria.png" alt="Logo da Loja">
-                <div>
-                    <strong>Niquinho Doceria</strong>
-                </div>
-            </div>
-
-            <div class="modal-body-content">
-                <h2 id="modal-nome">Nome do Produto</h2>
-                <p id="modal-descricao">Descrição detalhada do produto...</p>
-                <p id="modal-serve">Serve 1 pessoa</p>
-                <p id="modal-preco" class="preco">R$ 0.00</p>
-
-                <div class="campo-observacao">
-                    <h4>Alguma observação?</h4>
-                    <textarea id="modal-observacao"
-                        placeholder="Ex: tirar algum ingrediente, embalar para presente, etc."
-                        maxlength="140"></textarea>
-                </div>
-            </div>
-
-            <div class="modal-footer-actions">
-                <div class="quantidade-stepper">
-                    <button id="modal-diminuir-qtd">-</button>
-                    <span id="modal-quantidade">1</span>
-                    <button id="modal-aumentar-qtd">+</button>
-                </div>
-                <button id="btn-modal-adicionar" class="btn-adicionar-grande">
-                    <span>Adicionar</span>
-                    <span id="modal-add-preco">R$ 0,00</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div id="carrinho-container" class="carrinho-container">
-        <div class="carrinho-conteudo">
-            <header class="carrinho-header-novo">
-                <button id="carrinho-fechar-novo" class="btn-voltar"><i class="fa fa-arrow-left"></i></button>
-                <h1>Carrinho</h1>
-            </header>
-
-            <div id="carrinho-vazio" class="carrinho-vazio">
-                <div class="icone-vazio"><i class="fa fa-shopping-cart"></i></div>
-                <h2>Carrinho de compras vazio</h2>
-                <p>Adicione produtos para continuar</p>
-            </div>
-
-            <div id="carrinho-cheio" class="carrinho-cheio">
-                <main class="carrinho-main">
-                    <section class="secao-carrinho">
-                        <h2>Tipo do pedido</h2>
-                        <div class="opcoes-toggle" id="tipo-pedido-toggle">
-                            <label class="toggle-label active" data-valor="Entrega"><input type="radio"
-                                    name="tipo-pedido" value="Entrega" checked> Entrega</label>
-                            <label class="toggle-label" data-valor="Retirada"><input type="radio" name="tipo-pedido"
-                                    value="Retirada"> Retirada</label>
-                        </div>
-                    </section>
-
-                    <section class="secao-carrinho">
-                        <h2>Itens do carrinho</h2>
-                        <div id="itens-carrinho-novo" class="lista-itens-carrinho">
-                        </div>
-                    </section>
-
-                    <section class="secao-carrinho secao-empresa">
-                        <img src="imagens/logo-doceria.png" alt="Logo da loja">
-                        <div class="empresa-info">
-                            <strong>Niquinho Doceria</strong>
-                            <span><i class="fa fa-star"></i> 5.0 <i class="fa fa-clock"></i> 30-40 min</span>
-                        </div>
-                        <a href="#" id="voltar-loja-btn" class="btn-voltar-loja">Voltar à loja</a>
-                    </section>
-
-                    <section id="secao-endereco-carrinho" class="secao-carrinho secao-endereco">
-                        <div class="secao-header">
-                            <h2>Endereço</h2>
-                            <a href="perfil/endereco.html" class="btn-link">Adicionar novo endereço</a>
-                        </div>
-                        <div id="enderecos-lista-horizontal" class="enderecos-slider">
-                        </div>
-                    </section>
-
-                    <section class="secao-carrinho valores-pedido">
-                        <h2>Valores do pedido</h2>
-                        <div class="linha-valor">
-                            <span>Valor dos produtos</span>
-                            <span id="valor-produtos">R$ 0,00</span>
-                        </div>
-                        <div class="linha-valor">
-                            <span>Valor da entrega</span>
-                            <span id="valor-entrega">R$ 0,00</span>
-                        </div>
-                        <div class="linha-valor">
-                            <span>Valor do desconto</span>
-                            <a href="#" class="btn-link" id="btn-cupom">Adicionar cupom de desconto</a>
-                        </div>
-                        <hr>
-                        <div class="linha-valor total">
-                            <span>Total do pedido</span>
-                            <span id="valor-total-carrinho">R$ 0,00</span>
-                        </div>
-                    </section>
-                </main>
-
-                <footer class="carrinho-footer-novo">
-                    <button id="btn-finalizar-novo" class="btn-continuar">Continuar</button>
-                </footer>
-            </div>
-        </div>
-    </div>
-
-    <div id="overlay-geral" class="overlay"></div>
-
-    <footer class="page-footer">
-        <p>&copy; 2025 Doceria Niquinho. Todos os direitos reservados.</p>
-        <a href="admin/login.html" class="admin-login-link"><i class="fa fa-user-shield"></i> Login Administrador</a>
-    </footer>
-
-    <nav class="bottom-nav">
-        <a href="index.html" class="nav-item active">
-            <i class="fa fa-home"></i>
-            <span>Início</span>
-        </a>
-        <a href="#" class="nav-item"> <i class="fa fa-heart"></i>
-            <span>Favoritos</span>
-        </a>
-        <a href="#" class="nav-item" id="nav-carrinho-btn"> <i class="fa fa-shopping-cart"></i>
-            <span>Carrinho</span>
-        </a>
-        <a href="#" class="nav-item"> <i class="fa fa-receipt"></i>
-            <span>Pedidos</span>
-        </a>
-        <a href="perfil/" class="nav-item">
-            <i class="fa fa-user"></i>
-            <span>Perfil</span>
-        </a>
-    </nav>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/script.js"></script>
-
-
-</body>
-
+    <script src="js/welcome.js"></script>
+  </body>
 </html>

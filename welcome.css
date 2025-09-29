@@ -1,0 +1,174 @@
+/* css/welcome.css */
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    text-align: center;
+    background-color: #f8f9fa;
+    /* --cor-fundo-cinza */
+}
+
+.welcome-header {
+    padding: 40px 20px 20px 20px;
+}
+
+.logo-principal {
+    max-width: 180px;
+    height: auto;
+}
+
+.welcome-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
+.circulo {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Estilos para LOJA ABERTA */
+.status-aberto {
+    background-color: #e9f7ea;
+    /* Fundo verde claro */
+    color: #28a745;
+    /* --cor-sucesso */
+}
+
+.status-aberto .circulo {
+    background-color: #28a745;
+    /* --cor-sucesso */
+}
+
+/* Estilos para LOJA FECHADA */
+.status-fechado {
+    background-color: #f8d7da;
+    /* Fundo vermelho claro */
+    color: #dc3545;
+    /* --cor-erro */
+}
+
+.status-fechado .circulo {
+    background-color: #dc3545;
+    /* --cor-erro */
+}
+
+.btn-principal {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    padding: 18px;
+    text-decoration: none;
+    color: white;
+    background-color: var(--cor-primaria);
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: #31b0d5;
+}
+
+.welcome-footer {
+    padding: 30px 20px;
+    color: #6c757d;
+    /* Cinza escuro */
+}
+
+.info-loja {
+    margin-bottom: 20px;
+}
+
+.info-loja p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+.dev-logo {
+    font-size: 0.8em;
+}
+
+.dev-logo p {
+    margin: 0;
+}
+
+/* Estilos responsivos */
+@media (min-width: 768px) {
+    .welcome-main {
+        padding: 40px;
+    }
+
+    .btn-principal {
+        font-size: 1.4em;
+        padding: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .welcome-header,
+    .welcome-footer {
+        padding: 40px 60px;
+    }
+
+    .welcome-main {
+        flex-direction: row;
+        gap: 50px;
+        padding: 60px;
+    }
+
+    .logo-principal {
+        max-width: 220px;
+        height: auto;
+    }
+
+    .status-container {
+        font-size: 1.3em;
+        padding: 15px 30px;
+    }
+
+    .btn-principal {
+        max-width: 350px;
+        font-size: 1.5em;
+        padding: 22px;
+    }
+}
+
+.vm {
+    color: var(--cor-primaria);
+    font-weight: 600;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.frase-loja {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 0;
+}

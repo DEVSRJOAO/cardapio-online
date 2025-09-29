@@ -1,0 +1,344 @@
+/* css/perfil.css */
+
+.body-perfil {
+    background-color: #f8f9fa;
+    /* --cor-fundo-cinza */
+}
+
+.body-perfil main {
+    padding: 0;
+}
+
+.main-perfil-novo {
+    padding: 0;
+    padding-bottom: 80px;
+}
+
+.perfil-header-container {
+    position: relative;
+    z-index: 1;
+}
+
+.perfil-header {
+    background-color: #5bc0de;
+    /* --cor-primaria */
+    height: 120px;
+    position: relative;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.voltar-link-perfil {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    font-size: 1.5em;
+    color: #4a4a4a;
+    /* --cor-texto-escuro */
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.perfil-avatar {
+    position: absolute;
+    left: 50%;
+    bottom: -50px;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+}
+
+.perfil-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #f8f9fa;
+    /* --cor-fundo-cinza */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-edit-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: #5bc0de;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.perfil-info-topo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 65px 20px 40px 20px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-info-topo h2 {
+    margin: 0;
+    font-size: 1.6em;
+    font-weight: 600;
+}
+
+.perfil-campo-editavel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #777;
+    margin-top: 5px;
+}
+
+.perfil-campo-editavel .edit-icon {
+    cursor: pointer;
+    color: #5bc0de;
+}
+
+.perfil-menu {
+    margin: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.perfil-menu-item {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #4a4a4a;
+    font-weight: 500;
+    font-size: 1.1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-menu-item i {
+    font-size: 1.2em;
+    color: #5bc0de;
+    width: 25px;
+    text-align: center;
+    margin-right: 15px;
+}
+
+.perfil-menu-item span {
+    flex-grow: 1;
+}
+
+.perfil-menu-item .fa-chevron-right {
+    color: #ccc;
+    margin-right: 0;
+    width: auto;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-switch label {
+    cursor: pointer;
+    width: 45px;
+    height: 25px;
+    background: #ccc;
+    display: block;
+    border-radius: 25px;
+    position: relative;
+    transition: background 0.3s;
+}
+
+.toggle-switch label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 20px;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked+label {
+    background: #28a745;
+}
+
+.toggle-switch input:checked+label:after {
+    left: calc(100% - 2.5px);
+    transform: translateX(-100%);
+}
+
+/* ESTILOS DA PÁGINA DE ENDEREÇOS */
+.page-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.page-header .voltar-link {
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    color: #4a4a4a;
+}
+
+.page-header h1 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    font-size: 1.2em;
+    padding-right: 60px;
+}
+
+.main-perfil {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.main-perfil h1 {
+    text-align: center;
+    color: #5bc0de;
+}
+
+.btn-adicionar-endereco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 1.1em;
+    font-weight: 500;
+    border: 1px dashed #5bc0de;
+    color: #5bc0de;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.endereco-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.endereco-card-info h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.endereco-card-info p {
+    margin: 4px 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.endereco-card-acoes {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-excluir-endereco,
+.btn-editar-endereco {
+    background: none;
+    border: none;
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+.btn-excluir-endereco {
+    color: #dc3545;
+}
+
+.btn-editar-endereco {
+    color: #5bc0de;
+}
+
+.form-grupo {
+    margin-bottom: 15px;
+}
+
+.form-grupo label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-grupo input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-grupo-flex {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-salvar-perfil {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--cor-secundaria);
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-salvar-perfil:hover {
+    background-color: #4cae4c;
+}
+
+.btn-cancelar {
+    width: 100%;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    background-color: #6c757d;
+    /* Cinza */
+    color: white;
+    border: none;
+    font-size: 1.1em;
+}
+
+.btn-cancelar:hover {
+    background-color: #5a6268;
+}

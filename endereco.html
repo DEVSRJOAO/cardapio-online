@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Endereços - Doceria Niquinho</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="body-perfil">
+
+    <header class="page-header">
+        <a href="index.html" class="voltar-link"><i class="fa fa-arrow-left"></i> Voltar ao Perfil</a>
+        <h1>Meus Endereços</h1>
+    </header>
+
+    <main class="main-perfil">
+        <div id="lista-enderecos">
+            <p>Carregando endereços...</p>
+        </div>
+
+        <button id="btn-abrir-form-endereco" class="btn-adicionar-endereco">
+            <i class="fa fa-plus-circle"></i> Adicionar Novo Endereço
+        </button>
+
+        <section id="secao-form-endereco" class="info-endereco" style="display: none;">
+            <h2 id="form-endereco-titulo">Adicionar Novo Endereço</h2>
+            <form id="form-endereco">
+                <input type="hidden" id="endereco-id">
+                <div class="form-grupo">
+                    <label for="end-apelido">Apelido (ex: Casa, Trabalho)</label>
+                    <input type="text" id="end-apelido" placeholder="Casa" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="end-rua">Rua / Avenida</label>
+                    <input type="text" id="end-rua" placeholder="Nome da sua rua" required>
+                </div>
+                <div class="form-grupo form-grupo-flex">
+                    <div style="flex: 2;">
+                        <label for="end-numero">Número</label>
+                        <input type="text" id="end-numero" placeholder="123" required>
+                    </div>
+                    <div style="flex: 3;">
+                        <label for="end-bairro">Bairro</label>
+                        <input type="text" id="end-bairro" placeholder="Seu bairro" required>
+                    </div>
+                </div>
+                <div class="form-grupo">
+                    <label for="end-complemento">Complemento e Ponto de Referência</label>
+                    <input type="text" id="end-complemento" placeholder="Apto, casa, em frente a...">
+                </div>
+                <div class="form-grupo">
+                    <label for="end-cidade">Cidade e Estado</label>
+                    <input type="text" id="end-cidade" placeholder="Sua cidade, UF" value="Balsas, Maranhão" required>
+                </div>
+                <button type="submit" class="btn-salvar-perfil">Salvar Endereço</button>
+                <button type="button" id="btn-cancelar-edicao" class="btn-cancelar">Cancelar</button>
+            </form>
+        </section>
+    </main>
+    <footer class="page-footer">
+        <p>&copy; 2025 Doceria Niquinho. Todos os direitos reservados.</p>
+        <a href="../admin/login.html" class="admin-login-link"><i class="fa fa-user-shield"></i> Login Administrador</a>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/endereco.js"></script>
+</body>
+
+</html>

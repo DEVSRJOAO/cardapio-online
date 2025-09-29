@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Doceria Niquinho</title>
+    <title>Cadastro - Doceria Niquinho</title>
     <link rel="stylesheet" href="../css/auth-cliente.css">
 </head>
 <body class="auth-body">
     <div class="form-section auth-container">
         <img src="../imagens/logo-doceria.png" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
-        <h2>Acesse sua Conta</h2>
-      <form id="form-login">
-    <label for="login-email" class="sr-only">E-mail</label>
-    <input type="email" id="login-email" placeholder="E-mail" required>
-    <label for="login-senha" class="sr-only">Senha</label>
-    <input type="password" id="login-senha" placeholder="Senha" required>
-    <button type="submit">Entrar</button>
+        <h2>Crie sua Conta</h2>
+       <form id="form-cadastro">
+    <label for="cadastro-nome" class="sr-only">Nome Completo</label>
+    <input type="text" id="cadastro-nome" placeholder="Seu nome completo" required>
+    <label for="cadastro-email" class="sr-only">E-mail</label>
+    <input type="email" id="cadastro-email" placeholder="Seu melhor e-mail" required>
+    <label for="cadastro-senha" class="sr-only">Senha</label>
+    <input type="password" id="cadastro-senha" placeholder="Crie uma senha" required>
+    <button type="submit">Cadastrar</button>
 </form>
-        <p class="auth-switch">Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+        <p class="auth-switch">Já tem uma conta? <a href="login.html">Faça login</a></p>
         <p id="auth-mensagem"></p>
     </div>
 
