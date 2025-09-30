@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then((userCredential) => {
                 // Se o login for bem-sucedido, redireciona para o painel
                 console.log('Login de administrador bem-sucedido!');
-                window.location.href = '../admin/index.html';
+                window.location.href = '../admin/dashboard.html';
             })
             .catch((error) => {
                 // Se der erro, mostra uma mensagem amigável

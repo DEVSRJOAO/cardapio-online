@@ -1,44 +1,53 @@
-// Aguarda o carregamento completo da página para executar o script
+// SUBSTITUA TODO O CONTEÚDO DE js/welcome.js POR ISTO:
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicialize o Firebase (se ainda não estiver em firebase-config.js)
+    // Se firebase-config.js já inicializa, esta parte pode ser mais simples.
+    // Presumindo que firebase-config.js já foi carregado no HTML de boas-vindas.
+    
+    // Adicione os scripts do Firebase e a configuração no seu welcome.html
+    // <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    // <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    // <script src="js/firebase-config.js"></script>
+    // <script src="js/welcome.js"></script>
+    
+    // É crucial que seu welcome.html (agora index.html) tenha os scripts acima no final do <body>
+    // para que a variável 'firebase' exista aqui.
 
-    // --- CONFIGURAÇÕES DA LOJA (CORRIGIDO) ---
-    // Dias da semana (0 = Domingo, 1 = Segunda, 2 = Terça, ..., 6 = Sábado)
-    const diasDeFuncionamento = [2, 3, 4, 5, 6, 0]; // Terça a Domingo
-    const horaAbertura = 14; // 14h
-    const horaFechamento = 22; // 22h
+    const db = firebase.firestore();
 
-    // --- ELEMENTOS DA PÁGINA ---
     const statusContainer = document.getElementById('status-loja');
-    const statusCirculo = document.getElementById('status-circulo');
     const statusTexto = document.getElementById('status-texto');
     const btnProsseguir = document.getElementById('btn-prosseguir');
 
-    // --- LÓGICA DE VERIFICAÇÃO ---
     function verificarStatusLoja() {
-        const agora = new Date();
-        const diaDaSemana = agora.getDay();
-        const horaAtual = agora.getHours();
+        const configRef = db.collection('configuracoes').doc('loja');
 
-        const hojeFunciona = diasDeFuncionamento.includes(diaDaSemana);
-        const estaNoHorario = horaAtual >= horaAbertura && horaAtual < horaFechamento;
+        // Usa onSnapshot para ouvir em tempo real
+        configRef.onSnapshot((doc) => {
+            let lojaEstaAberta = false;
+            if (doc.exists && doc.data().aberta === true) {
+                lojaEstaAberta = true;
+            }
+            atualizarTela(lojaEstaAberta);
+        }, (error) => {
+            console.error("Erro ao buscar status da loja:", error);
+            // Em caso de erro, assume que a loja está fechada.
+            atualizarTela(false);
+        });
+    }
 
-        if (hojeFunciona && estaNoHorario) {
-            // LOJA ABERTA
+    function atualizarTela(lojaEstaAberta) {
+        if (lojaEstaAberta) {
             statusTexto.textContent = 'Estamos Abertos!';
-            statusContainer.classList.add('status-aberto');
-            statusContainer.classList.remove('status-fechado');
+            statusContainer.className = 'status-container status-aberto';
             btnProsseguir.textContent = 'Ver Cardápio e Pedir';
         } else {
-            // LOJA FECHADA
             statusTexto.textContent = 'Estamos Fechados!';
-            statusContainer.classList.add('status-fechado');
-            statusContainer.classList.remove('status-aberto');
+            statusContainer.className = 'status-container status-fechado';
             btnProsseguir.textContent = 'Ver Cardápio';
-            // Futuramente, aqui desabilitaremos o botão de finalizar pedido no carrinho
         }
     }
 
-    // Executa a função assim que a página carrega
+    // Inicia a verificação
     verificarStatusLoja();
-
-}); // A chave extra no final foi removida
+});

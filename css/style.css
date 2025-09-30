@@ -116,11 +116,11 @@ body {
 }
 
 @media (min-width: 1024px) {
-  body {
+  /* Aplica o layout flex apenas no body da loja/cardápio */
+  .body-loja {
     display: flex;
     flex-wrap: nowrap;
   }
-
   main {
     flex-grow: 1;
     padding: 30px 40px;
@@ -140,26 +140,6 @@ body {
     top: 50%;
     transform: translateY(-50%);
     right: 440px;
-  }
-
-  .lista-doces {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-
-  .doce-item {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    padding: 16px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-  }
-
-  .doce-item .imagem-produto {
-    width: 100%;
-    height: 180px;
   }
 
   .modal.active {
@@ -227,28 +207,86 @@ footer {
   color: #343a40;
 }
 
+/* ESTILO PARA O AVISO DE LOJA FECHADA */
+.aviso-loja {
+    background-color: #f8d7da; /* Vermelho bem claro */
+    color: #721c24; /* Vermelho escuro para o texto */
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border: 1px solid #f5c6cb;
+    line-height: 1.5;
+}
+
+.aviso-loja p {
+    margin: 0;
+}
+
+/* Estilo para desabilitar botões */
+button:disabled {
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
+    opacity: 0.7;
+}
+
 /* ================================================= */
-/* CORREÇÃO PARA O LAYOUT DO DASHBOARD               */
+/* PADRONIZAÇÃO DE BOTÕES (ADICIONAR EM style.css)   */
 /* ================================================= */
-.dashboard-body {
-  display: block !important;
-  /* Força o layout a ser o padrão de bloco */
-  padding: 0 !important;
-  /* Remove qualquer padding extra */
-  margin: 0 !important;
-  /* Remove qualquer margem extra */
-  box-sizing: border-box;
-  /* Garante que o box-sizing seja border-box */
-  width: 100% !important;
-  /* Garante que o dashboard ocupe toda a largura disponível */
-  min-height: 100vh;
-  /* Garante que o dashboard ocupe pelo menos a altura total da viewport */
-  background-color: var(--cor-fundo-claro);
-  /* Define a cor de fundo */
-  color: var(--cor-texto-escuro);
-  /* Define a cor do texto */
-  font-family: "Poppins", sans-serif;
-  /* Define a fonte padrão */
-  overflow-x: hidden;
-  /* Evita overflow horizontal */
+
+/* --- BOTÃO PRINCIPAL (Para Ações Positivas) --- */
+.btn-principal {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+    
+    background-color: var(--cor-primaria); /* Nosso azul padrão */
+    color: white;
+    
+    font-size: 1.1em;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.btn-principal:hover {
+    filter: brightness(90%); /* Escurece um pouco ao passar o mouse */
+}
+
+/* --- BOTÃO SECUNDÁRIO (Para Ações de Cancelar) --- */
+.btn-secundario {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+    background-color: #6c757d; /* Um cinza neutro */
+    color: white;
+    
+    font-size: 1.1em;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+.btn-secundario:hover {
+    filter: brightness(90%);
+}
+
+/* --- Pequeno ajuste para o botão do modal (que tem 2 textos) --- */
+#btn-modal-adicionar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

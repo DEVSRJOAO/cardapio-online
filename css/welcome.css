@@ -172,3 +172,48 @@ body {
     font-weight: 500;
     margin: 0;
 }
+/* ================================================================ */
+/* AJUSTES DE DESIGN PARA A TELA DE BOAS-VINDAS (TABLET E DESKTOP) */
+/* ================================================================ */
+
+@media (min-width: 768px) {
+  .welcome-main {
+    /* Força o alinhamento vertical e centraliza os itens */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px; /* Aumenta o espaçamento entre os itens */
+    padding: 40px;
+  }
+
+  .logo-principal {
+    max-width: 220px; /* Aumenta um pouco o tamanho da logo */
+    margin-bottom: 15px;
+  }
+
+  .frase-loja {
+    font-size: 1.2em; /* Aumenta o texto de boas-vindas */
+    max-width: 550px; /* Evita que o texto fique muito largo e quebre a linha */
+    line-height: 1.6;
+    margin: 0;
+    color: #555;
+  }
+
+  .status-container {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin: 10px 0; /* Ajusta a margem */
+  }
+
+  .btn-principal {
+    font-size: 1.3em;
+    padding: 20px;
+    max-width: 350px; /* Garante um bom tamanho para o botão */
+    margin-top: 10px;
+  }
+
+  .welcome-footer {
+    padding-bottom: 40px;
+    font-size: 1.1em;
+  }
+}

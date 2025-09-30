@@ -6,13 +6,11 @@
     <title>Login Administrador - Doceria Niquinho</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="icon" type="image/png" href="../imagens/favicon.png"> 
 </head>
 <body class="admin-login-body">
-    <div class="admin-login-container" style="max-width: 400px; margin: 50px auto;">
-        <img src="../imagens/logo-doceria.png" alt="Logo" class="logo" style="max-width: 150px; margin-bottom: 20px;">
+    <div class="admin-login-container">
+        <img src="../imagens/logo-doceria.png" alt="Logo" class="logo">
         <h2>Acesso Restrito</h2>
         <form id="form-login-admin">
             <div class="form-grupo">
@@ -25,13 +23,11 @@
             </div>
             <button type="submit">Entrar</button>
         </form>
-        <p id="mensagem-erro" style="color: red; margin-top: 15px;"></p>
+        <p id="mensagem-erro"></p>
     </div>
-
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
     <script src="../js/firebase-config.js"></script> 
-    <script src="../js/login-admin.js"></script> </body>
+    <script src="../js/login-admin.js"></script>
+</body>
 </html>

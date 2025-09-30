@@ -5,78 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Controle - Doceria Niquinho</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/loja.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="icon" type="image/png" href="../imagens/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 </head>
-<script>
-  // Evita redirecionamento em loop
-  if (!window.__redirecting) {
-    window.__redirecting = true;
-
-    // Checa autenticação usando o Firebase Auth
-    firebase.auth().onAuthStateChanged(user => {
-      if (!user || user.uid !== "xi9zN0AXQ8PQ137iv71uiL3bhjA3") {
-        // Redireciona apenas se realmente não for admin
-        if (!window.location.pathname.endsWith("index.html")) {
-          window.location.href = "../index.html";
-        }
-      }
-    });
-  }
-</script>
 <body>
     <header class="admin-header">
         <img src="../imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo">
         <h1>Painel de Controle</h1>
     </header>
-    <nav class="dashboard-nav" style="padding: 10px 30px; background-color: #e9ecef; border-bottom: 1px solid #ddd;">
-    <a href="dashboard.html" style="text-decoration: none; color: #4a4a4a; font-weight: 500; padding: 10px 15px; border-radius: 5px;">Dashboard</a>
-    <a href="index.html" style="text-decoration: none; color: white; font-weight: 500; padding: 10px 15px; border-radius: 5px; background-color: #5bc0de;">Gerenciar Produtos</a>
-</nav>
-
+    <nav class="dashboard-nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="index.html" class="active">Gerenciar Produtos</a>
+    </nav>
     <main class="admin-main">
         <section class="form-section">
             <h2 id="form-titulo">Adicionar Novo Doce</h2>
             <form id="form-doce">
                 <input type="hidden" id="doce-id">
-                <input type="text" id="doce-nome" placeholder="Nome do doce" required>
-                <input type="number" id="doce-preco" placeholder="Preço (ex: 3.50)" step="0.01" required>
-                <select id="doce-categoria" required>
-                    <option value="" disabled selected>-- Selecione uma Categoria --</option>
-                    <option value="promocao">Promoção do dia</option>
-                    <option value="combo">Combos</option>
-                    <option value="doce">Doces</option>
-                    <option value="salgado">Salgados</option>
-                    <option value="bebida">Bebidas</option>
-                </select>
-                <label for="doce-imagem">Imagem do Produto:</label>
-                <input type="file" id="doce-imagem" accept="image/*">
-                <textarea id="doce-descricao" placeholder="Descrição do doce"></textarea>
-                <div class="disponivel-container">
-                    <label for="doce-disponivel">Disponível para venda?</label>
-                    <input type="checkbox" id="doce-disponivel" checked>
-                </div>
-                <button type="submit" id="btn-salvar">Salvar Doce</button>
-                <button type="button" id="btn-cancelar" class="btn-cancelar" style="display:none;">Cancelar Edição</button>
+                <div class="form-grupo"><label for="doce-nome">Nome do doce</label><input type="text" id="doce-nome" required></div>
+                <div class="form-grupo"><label for="doce-preco">Preço</label><input type="number" id="doce-preco" step="0.01" required></div>
+                <div class="form-grupo"><label for="doce-categoria">Categoria</label><select id="doce-categoria" required><option value="" disabled selected>-- Selecione --</option><option value="promocao">Promoção</option><option value="combo">Combo</option><option value="doce">Doce</option><option value="salgado">Salgado</option><option value="bebida">Bebida</option></select></div>
+                <div class="form-grupo"><label for="doce-imagem">Imagem do Produto</label><input type="file" id="doce-imagem" accept="image/*"></div>
+                <div class="form-grupo"><label for="doce-descricao">Descrição</label><textarea id="doce-descricao"></textarea></div>
+                <div class="disponivel-container"><label for="doce-disponivel">Disponível para venda?</label><input type="checkbox" id="doce-disponivel" checked></div>
+                <button type="submit" id="btn-salvar" class="btn-principal">Salvar Doce</button>
+                <button type="button" id="btn-cancelar" class="btn-secundario" style="display:none;">Cancelar Edição</button>
             </form>
         </section>
-
         <section class="lista-section">
             <h2>Doces Cadastrados</h2>
-            <div id="lista-doces-admin">
-                </div>
+            <div id="lista-doces-admin"></div>
         </section>
     </main>
-    
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-storage-compat.js"></script>
-    
     <script src="../js/firebase-config.js"></script>
     <script src="../js/admin.js"></script>
 </body>

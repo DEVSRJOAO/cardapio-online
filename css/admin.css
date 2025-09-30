@@ -1,323 +1,526 @@
-/* css/admin.css - Estilos Finais para o Painel de Controle */
-
+/* css/admin.css - VERSÃO FINAL E CENTRALIZADA */
 :root {
-    --cor-primaria: #5bc0de;
-    --cor-secundaria: #ff99cc;
-    --cor-sucesso: #28a745;
-    --cor-erro: #dc3545;
-    --cor-fundo-cinza: #f8f9fa;
-    --cor-texto-escuro: #4a4a4a;
+  --cor-primaria: #5bc0de;
+  --cor-secundaria: #ff99cc;
+  --cor-sucesso: #28a745;
+  --cor-erro: #dc3545;
+  --cor-fundo-cinza: #f8f9fa;
+  --cor-texto-escuro: #4a4a4a;
 }
-
 body {
-    background-color: var(--cor-fundo-cinza);
-    color: var(--cor-texto-escuro);
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
+  background-color: var(--cor-fundo-cinza);
+  color: var(--cor-texto-escuro);
+  font-family: "Poppins", sans-serif;
+  margin: 0;
 }
-
-/* CABEÇALHO */
 .admin-header {
-    background-color: white;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .admin-header .logo {
-    height: 50px;
+  height: 50px;
 }
-
 .admin-header h1 {
-    margin: 0;
-    font-size: 1.8em;
+  margin: 0;
+  font-size: 1.8em;
 }
-
-/* CONTEÚDO PRINCIPAL */
 .admin-main {
-    display: flex;
-    gap: 30px;
-    padding: 30px;
-    align-items: flex-start;
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  align-items: flex-start;
 }
-
-
-/* SEÇÃO DO FORMULÁRIO */
 .form-section {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    flex-basis: 400px;
-    flex-shrink: 0;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  flex-basis: 400px;
+  flex-shrink: 0;
 }
-
 .form-section h2 {
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
 }
-
 #form-doce {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-
 #form-doce input[type="text"],
 #form-doce input[type="number"],
 #form-doce select,
 #form-doce textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 1em;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
 }
-
 #form-doce textarea {
-    min-height: 80px;
-    resize: vertical;
+  min-height: 80px;
+  resize: vertical;
 }
-
 #form-doce label {
-    font-weight: 500;
-    margin-bottom: -10px;
+  font-weight: 500;
+  margin-bottom: -10px;
+}
+.disponivel-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+#btn-salvar {
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--cor-primaria);
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#btn-salvar:hover {
+  background-color: #31b0d5;
+}
+.btn-cancelar {
+  background-color: #6c757d;
+}
+.btn-cancelar:hover {
+  background-color: #5a6268;
+}
+.lista-section {
+  flex-grow: 1;
+}
+.lista-section h2 {
+  margin-top: 0;
+}
+#lista-doces-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+.doce-item-admin {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.doce-item-admin img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+.doce-info {
+  padding: 15px;
+  flex-grow: 1;
+}
+.doce-info h4 {
+  margin: 0 0 5px;
+  font-size: 1.2em;
+}
+.doce-info p {
+  margin: 0 0 10px;
+  color: #666;
+  font-size: 0.9em;
+}
+.doce-status {
+  padding: 5px 15px;
+  font-weight: 700;
+  text-align: center;
+}
+.status-disponivel {
+  background-color: #e9f7ea;
+  color: var(--cor-sucesso);
+}
+.status-indisponivel {
+  background-color: #f8d7da;
+  color: var(--cor-erro);
+}
+.doce-acoes {
+  display: flex;
+  background-color: #f0f0f0;
+}
+.doce-acoes button {
+  flex-grow: 1;
+  background: 0 0;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.2s;
+}
+.doce-acoes button:hover {
+  background-color: #ddd;
+}
+.btn-editar {
+  border-right: 1px solid #ccc;
+}
+.admin-login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--cor-fundo-cinza);
+}
+.admin-login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.admin-login-container .logo {
+  max-width: 120px;
+  margin-bottom: 20px;
+}
+.admin-login-container h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: var(--cor-texto-escuro);
+}
+.admin-login-container .form-grupo {
+  text-align: left;
+  margin-bottom: 15px;
+}
+.admin-login-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.admin-login-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+.admin-login-container button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--cor-primaria);
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+.admin-login-container button:hover {
+  background-color: #31b0d5;
+}
+.dashboard-nav {
+  display: flex;
+  padding: 10px 30px;
+  background-color: #e9ecef;
+  border-bottom: 1px solid #ddd;
+  gap: 10px;
+  position: relative;
+  z-index: 10;
+}
+.dashboard-nav a {
+  text-decoration: none;
+  color: var(--cor-texto-escuro);
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+.dashboard-nav a.active {
+  background-color: var(--cor-primaria);
+  color: #fff;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.stat-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+.stat-card h3 {
+  margin: 0 0 10px;
+  font-size: 1em;
+  color: #666;
+}
+.stat-card p {
+  margin: 0;
+  font-size: 2em;
+  font-weight: 600;
+}
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  width: 100%;
+}
+@media (max-width: 900px) {
+  .admin-main {
+    flex-direction: column;
+  }
+  .form-section {
+    flex-basis: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* COLE ESTE CÓDIGO NO FINAL DE css/admin.css */
+
+.store-status-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.disponivel-container {
+.store-status-section h2 {
+    margin-top: 0;
+    font-size: 1.3em;
+    color: #333;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-weight: 500;
 }
 
-#btn-salvar {
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--cor-primaria);
-    color: white;
+.status-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.status-control p {
+    margin: 0;
     font-size: 1.1em;
+}
+
+#status-texto {
     font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Estilos do Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
     cursor: pointer;
-    transition: background-color 0.3s;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
 }
 
-#btn-salvar:hover {
-    background-color: #31b0d5;
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
 }
 
-.btn-cancelar {
-    background-color: #6c757d;
+input:checked + .slider {
+    background-color: #28a745; /* Verde */
 }
 
-.btn-cancelar:hover {
-    background-color: #5a6268;
+input:checked + .slider:before {
+    transform: translateX(26px);
 }
 
-/* SEÇÃO DA LISTA DE DOCES */
-.lista-section {
-    flex-grow: 1;
+.slider.round {
+    border-radius: 34px;
 }
 
-.lista-section h2 {
-    margin-top: 0;
+.slider.round:before {
+    border-radius: 50%;
 }
 
-#lista-doces-admin {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+/* ADICIONAR ESTE CÓDIGO NO FINAL DE admin.css */
+
+.chart-container {
+  position: relative; /* Necessário para o Chart.js funcionar bem */
+  height: 400px;      /* Define uma altura fixa de 400 pixels */
 }
 
-.doce-item-admin {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
+/* Ajuste para telas menores para evitar que fique apertado */
+@media (max-width: 900px) {
+  .chart-container {
+    height: 300px; /* Uma altura menor para celulares */
+  }
+}
+
+/* ESTILOS PARA A PÁGINA DE GERENCIAR PEDIDOS */
+#lista-pedidos-admin {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 15px;
 }
-
-.doce-item-admin img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
-.doce-info {
+.pedido-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-left: 5px solid #ffc107; /* Amarelo para Pendente */
     padding: 15px;
-    flex-grow: 1;
+}
+.pedido-card.status-confirmado {
+    border-left-color: #28a745; /* Verde para Confirmado */
+}
+.pedido-card.status-cancelado {
+    border-left-color: #dc3545; /* Vermelho para Cancelado */
+    opacity: 0.7;
+}
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.pedido-body ul {
+    list-style: none;
+    padding: 0;
+}
+.pedido-body .status-texto {
+    font-weight: bold;
+}
+.pedido-acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+.pedido-acoes button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+.btn-confirmar {
+    background-color: var(--cor-sucesso);
+}
+.btn-cancelar-pedido {
+    background-color: var(--cor-erro);
+}
+
+/* ESTILOS PARA OS FILTROS DO DASHBOARD */
+.filtro-vendas-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.filtro-botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+.filtro-btn-vendas {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.filtro-btn-vendas.active {
+    background-color: var(--cor-primaria);
+    color: #fff;
+    border-color: var(--cor-primaria);
+}
+
+/* ================================================= */
+/* REFINAMENTO VISUAL DO PAINEL DE ADMIN             */
+/* (Adicionar no final de css/admin.css)             */
+/* ================================================= */
+
+/* --- Melhorias nos Cards de Produto --- */
+
+.doce-item-admin {
+    /* Adiciona uma transição suave para os efeitos */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.doce-item-admin:hover {
+    /* Efeito de "levantar" o card ao passar o mouse */
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
 }
 
 .doce-info h4 {
-    margin: 0 0 5px 0;
-    font-size: 1.2em;
+    /* Dando mais destaque ao nome do produto */
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
 }
 
 .doce-info p {
-    margin: 0 0 10px 0;
-    color: #666;
-    font-size: 0.9em;
+    font-size: 1em; /* Aumentando um pouco a fonte da descrição e preço */
 }
 
-.doce-status {
-    padding: 5px 15px;
-    font-weight: bold;
-    text-align: center;
+
+/* --- Melhorias nos Cards de Pedido --- */
+
+.pedido-card {
+    transition: box-shadow 0.3s ease;
 }
 
-.status-disponivel {
-    background-color: #e9f7ea;
-    color: var(--cor-sucesso);
+.pedido-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
 }
 
-.status-indisponivel {
-    background-color: #f8d7da;
-    color: var(--cor-erro);
+.pedido-header strong, .pedido-body strong {
+    color: #333; /* Deixa os textos em negrito mais escuros e legíveis */
 }
 
-.doce-acoes {
-    display: flex;
-    background-color: #f0f0f0;
+.pedido-acoes button {
+    transition: filter 0.2s ease;
 }
 
-.doce-acoes button {
-    flex-grow: 1;
-    background: none;
-    border: none;
-    padding: 12px;
-    cursor: pointer;
-    font-size: 1.2em;
-    transition: background-color 0.2s;
-}
-
-.doce-acoes button:hover {
-    background-color: #ddd;
-}
-
-.btn-editar {
-    border-right: 1px solid #ccc;
-}
-
-/* ESTILOS DA PÁGINA DE LOGIN DO ADMIN */
-.admin-login-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--cor-fundo-cinza);
-}
-
-.admin-login-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.admin-login-container .logo {
-    max-width: 120px;
-    margin-bottom: 20px;
-}
-
-.admin-login-container h2 {
-    margin-top: 0;
-    margin-bottom: 25px;
-    color: var(--cor-texto-escuro);
-}
-
-.admin-login-container .form-grupo {
-    text-align: left;
-    margin-bottom: 15px;
-}
-
-.admin-login-container label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.admin-login-container input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 1em;
-}
-
-.admin-login-container button {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    background-color: var(--cor-primaria);
-    color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.admin-login-container button:hover {
-    background-color: #31b0d5;
-}
-
-/* ESTILOS E CORREÇÕES DO DASHBOARD */
-.dashboard-nav {
-    display: flex;
-    padding: 10px 30px;
-    background-color: #e9ecef;
-    border-bottom: 1px solid #ddd;
-    gap: 10px;
-    position: relative;
-    z-index: 10;
-}
-
-.dashboard-nav a {
-    text-decoration: none;
-    color: var(--cor-texto-escuro);
-    font-weight: 500;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-.dashboard-nav a.active {
-    background-color: var(--cor-primaria);
-    color: white;
-}
-
-.charts-grid {
-    display: block;
-    width: 100%;
-}
-
-.chart-container {
-    position: relative;
-    height: 400px;
-    width: 100%;
-    margin-bottom: 30px;
-}
-
-/* RESPONSIVIDADE GERAL DO PAINEL ADMIN */
-@media (max-width: 900px) {
-    .admin-main {
-        flex-direction: column;
-    }
-
-    .form-section {
-        flex-basis: auto;
-        width: 100%;
-        box-sizing: border-box;
-    }
+.pedido-acoes button:hover {
+    filter: brightness(90%); /* Escurece o botão ao passar o mouse */
 }

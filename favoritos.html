@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Favoritos - Doceria Niquinho</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/loja.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body class="body-loja">
+    <header>
+        <div class="header-left">
+            <a href="cardapio.html" class="brand-logo-container">
+                <img src="imagens/logo-doceria.png" alt="Logo Doceria Niquinho" class="logo"/>
+                <div class="brand-text">
+                    <span class="brand-name">Niquinho Doceria</span>
+                    <span class="brand-tagline">Doces Artesanais</span>
+                </div>
+            </a>
+        </div>
+        <div class="header-direita">
+            <div id="user-info"></div>
+            <div id="icone-carrinho" class="icone-carrinho">
+                <i class="fa fa-shopping-cart"></i>
+                <span id="contador-carrinho" class="contador-carrinho">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h2 id="titulo-categoria">Meus Favoritos</h2>
+        <div id="lista-favoritos" class="lista-doces">
+            </div>
+    </main>
+    
+    <nav class="bottom-nav">
+        <a href="cardapio.html" class="nav-item">
+            <i class="fa fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="favoritos.html" class="nav-item active">
+            <i class="fa fa-heart"></i>
+            <span>Favoritos</span>
+        </a>
+        <a href="#" class="nav-item" id="nav-carrinho-btn">
+            <i class="fa fa-shopping-cart"></i>
+            <span>Carrinho</span>
+        </a>
+        <a href="pedidos.html" class="nav-item">
+            <i class="fa fa-receipt"></i>
+            <span>Pedidos</span>
+        </a>
+        <a href="perfil/" class="nav-item">
+            <i class="fa fa-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/favoritos.js"></script> <script src="js/script.js"></script> </body>
+</html>

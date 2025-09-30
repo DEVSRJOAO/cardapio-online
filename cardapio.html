@@ -31,7 +31,7 @@
     <meta name="twitter:url" content="https://doceria-niquinho.vercel.app/" />
   </head>
 
-  <body>
+  <body class="body-loja">
     <header>
       <div class="header-left">
         <a href="cardapio.html" class="brand-logo-container">
@@ -56,15 +56,35 @@
     </header>
     
     <main>
-      <div id="filtros-categoria" class="filtros-container">
-        <button class="filtro-btn active" data-categoria="todos">Todos</button>
-        <button class="filtro-btn" data-categoria="promocao">
-          Promoção do dia
-        </button>
-        <button class="filtro-btn" data-categoria="combo">Combos</button>
-        <button class="filtro-btn" data-categoria="doce">Doces</button>
-        <button class="filtro-btn" data-categoria="salgado">Salgados</button>
-        <button class="filtro-btn" data-categoria="bebida">Bebidas</button>
+      <div id="aviso-loja-fechada" class="aviso-loja" style="display: none;">
+        <p><strong>LOJA FECHADA</strong><br>Você pode visualizar nosso cardápio, mas não estamos aceitando pedidos no momento.</p>
+      </div>
+
+       <div id="filtros-categoria" class="filtros-container-novo">
+        <a href="#" class="filtro-chip active" data-categoria="todos">
+          <i class="fa fa-utensils"></i>
+          <span>Todos</span>
+        </a>
+        <a href="#" class="filtro-chip" data-categoria="promocao">
+          <i class="fa fa-star"></i>
+          <span>Promoção</span>
+        </a>
+        <a href="#" class="filtro-chip" data-categoria="combo">
+          <i class="fa fa-box-open"></i>
+          <span>Combos</span>
+        </a>
+        <a href="#" class="filtro-chip" data-categoria="doce">
+          <i class="fa fa-ice-cream"></i>
+          <span>Doces</span>
+        </a>
+        <a href="#" class="filtro-chip" data-categoria="salgado">
+          <i class="fa fa-cookie-bite"></i>
+          <span>Salgados</span>
+        </a>
+        <a href="#" class="filtro-chip" data-categoria="bebida">
+          <i class="fa fa-wine-glass"></i>
+          <span>Bebidas</span>
+        </a>
       </div>
 
       <h2 id="titulo-categoria">Todos</h2>
@@ -132,7 +152,7 @@
             <span id="modal-quantidade">1</span>
             <button id="modal-aumentar-qtd">+</button>
           </div>
-          <button id="btn-modal-adicionar" class="btn-adicionar-grande">
+          <button id="btn-modal-adicionar" class="btn-principal">
             <span>Adicionar</span>
             <span id="modal-add-preco">R$ 0,00</span>
           </button>
@@ -236,7 +256,7 @@
           </main>
 
           <footer class="carrinho-footer-novo">
-            <button id="btn-finalizar-novo" class="btn-continuar">
+            <button id="btn-finalizar-novo" class="btn-principal">
               Continuar
             </button>
           </footer>
@@ -258,7 +278,7 @@
         <i class="fa fa-home"></i>
         <span>Início</span>
       </a>
-      <a href="#" class="nav-item">
+      <a href="favoritos.html" class="nav-item">
         <i class="fa fa-heart"></i>
         <span>Favoritos</span>
       </a>
